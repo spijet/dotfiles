@@ -1,0 +1,76 @@
+[options]
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+visible_bell = false
+mouse_autohide = true
+allow_bold = false
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = Tewi 9
+scrollback_lines = 1000
+search_wrap = true
+#icon_name = terminal
+#geometry = 640x480
+window_border = false
+# 0.0: opaque, 1.0: transparent
+transparency = 0.0
+pseudo_transparency = false
+
+# "system", "on" or "off"
+cursor_blink = off
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default
+browser = firefox
+
+# word characters used for word selection
+# (default if unset: all graphic non-punctuation/space characters)
+#word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+# set size hints for the window
+#size_hints = false
+
+[colors]
+foreground_bold = #ffffff
+background = #111111
+foreground = #dcdccc
+#foreground_dim = #888888
+cursor = #dcdccc
+
+# if unset, will reverse foreground and background
+# highlight = #2f2f2f
+
+# colors from color0 to color254 can be set
+
+color0 =     #000000
+color1 =     #9e1828
+color2 =     #aece92
+color3 =     #968a38
+color4 =     #414171
+color5 =     #963c59
+color6 =     #418179
+color7 =     #bebebe
+color8 =     #666666
+color9 =     #cf6171
+color10 =    #c5f779
+color11 =    #fff796
+color12 =    #4186be
+color13 =    #cf9ebe
+color14 =    #71bebe
+color15 =    #ffffff
+
+[hints]
+#font = Source Code Pro 9
+foreground = #dcdccc
+background = #3f3f3f
+padding = 2
+border = #3f3f3f
+border_width = 0.5
+roundness = 2.0
+
+# vim: ft=dosini cms=#%s

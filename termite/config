@@ -1,0 +1,94 @@
+[options]
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+visible_bell = false
+mouse_autohide = true
+allow_bold = false
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+#font = Monaco 9
+#font = Dejavu Sans Mono 10.5
+#font = Meslo LG S for Powerline 10
+#font = Tewi 9
+font = Iosevka 11
+scrollback_lines = 5000
+search_wrap = true
+#icon_name = terminal
+window_border = false
+
+# "system", "on" or "off"
+cursor_blink = on
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default
+browser = firefox
+
+# word characters used for word selection
+# (default if unset: all graphic non-punctuation/space characters)
+word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+# set size hints for the window
+size_hints = false
+
+[colors]
+foreground_bold = #ffffff
+#background = #111111
+background = rgba(17, 17, 17, 0.95)
+foreground = #dcdccc
+#foreground_dim = #888888
+cursor = #657b83
+
+# if unset, will reverse foreground and background
+highlight = #2f2f2f
+
+# colors from color0 to color254 can be set
+
+#color0 =     #1E2320
+#color1 =     #705050
+#color2 =     #60b48a
+#color3 =     #dfaf8f
+#color4 =     #506070
+#color5 =     #dc8cc3
+#color6 =     #8cd0d3
+#color7 =     #dcdccc
+#color8 =     #709080
+#color9 =     #dca3a3
+#color10 =    #c3bf9f
+#color11 =    #f0dfaf
+#color12 =    #94bff3
+#color13 =    #ec93d3
+#color14 =    #93e0e3
+#color15 =    #ffffff
+
+color0 =     #000000
+color1 =     #9e1828
+color2 =     #aece92
+color3 =     #968a38
+color4 =     #414171
+color5 =     #963c59
+color6 =     #418179
+color7 =     #bebebe
+color8 =     #666666
+color9 =     #cf6171
+color10 =    #c5f779
+color11 =    #fff796
+color12 =    #4186be
+color13 =    #cf9ebe
+color14 =    #71bebe
+color15 =    #ffffff
+
+[hints]
+font = Meslo LG S for Powerline 10
+#foreground = #dcdccc
+#background = #3f3f3f
+#padding = 2
+#border = #3f3f3f
+#border_width = 0.5
+#roundness = 2.0
+
+# vim: ft=dosini cms=#%s
