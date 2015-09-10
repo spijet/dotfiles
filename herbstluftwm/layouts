@@ -1,0 +1,9 @@
+tag_layouts=( \
+( ) \ 
+( ) \
+(split horizontal:0.600000:0 (split horizontal:0.250000:1 (clients vertical:0 0x1a00061 0x1e0001b) (clients vertical:1 0x2400005 0x2600005)) (clients vertical:1 0x1e00043 0x1a003f6)) \
+( ) \
+( ) \
+( ) \
+( ) \
+)
