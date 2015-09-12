@@ -67,6 +67,8 @@ fi
 # Find a keybind file and source it
 [[ -f ~/.zsh/options/keys.sh ]] && source ~/.zsh/options/keys.sh
 
+# Enable lesspipe
+[[ -f ~/.zsh/options/less.sh ]] && source ~/.zsh/options/less.sh
 
 # Setup zsh-autosuggestions
 source $HOME/.zsh/plugins/autosuggestions/autosuggestions.zsh
