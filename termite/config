@@ -9,14 +9,10 @@ allow_bold = false
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-#font = Monaco 9
-#font = Dejavu Sans Mono 10.5
-#font = Meslo LG S for Powerline 10
-#font = Tewi 9
 font = Iosevka 11
 scrollback_lines = 5000
 search_wrap = true
-#icon_name = terminal
+icon_name = terminal
 window_border = false
 
 # "system", "on" or "off"
@@ -83,7 +79,7 @@ color14 =    #71bebe
 color15 =    #ffffff
 
 [hints]
-font = Meslo LG S for Powerline 10
+font = Iosevka 11
 #foreground = #dcdccc
 #background = #3f3f3f
 #padding = 2
