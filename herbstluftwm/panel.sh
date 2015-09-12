@@ -7,13 +7,20 @@ if [ -z "$geometry" ] ;then
     echo "Invalid monitor $monitor"
     exit 1
 fi
+
+# Get fancy tag names here, since herbstluftwm has problems using these fancy chars internally.
 tagnames=( $(grep tag_alias= ~/.config/herbstluftwm/autostart | sed 's/.*(\([^)]*\))/\1/g') )
+
 # geometry has the format W H X Y
 x=${geometry[0]}
 y=${geometry[1]}
 panel_width=${geometry[2]}
 panel_height=14
 
+# Setting up fonts.
+# $font is used for panel text as well as for some decorations.
+# $glyphfont is used for fancy tag names and stuff like that,
+# which somehow is not present in Tewi.
 font="-*-tewi-medium-*-*-*-11-*-*-*-*-*-*-*"
 glyphfont="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
 
@@ -60,7 +67,6 @@ fi
 hc pad $monitor $panel_height
 
 volume_widget() {
-    dzen_icons="/home/chancez/Pictures/dzen_icons"
     curr_volume=$(echo $volume | cut -d " " -f2)
     if [ "$1" == "toggle" ] && [ "$curr_volume" != "Mute" ]; then
         volume="Mute"
@@ -83,18 +89,20 @@ volume_widget() {
     while true ; do
         # "date" output is checked once a second, but an event is only
         # generated if the output changed compared to the previous run.
+        # Also formatted for some dzen2 love.
         date +$'date\t^fg(#efefef)%H:%M^fg(#909090), %Y-%m-^fg(#efefef)%d'
         sleep 1 || break
     done > >(uniq_linebuffered) &
     while true ; do
-        # "weather" output is checked once a minute, but an event is only
-        # generated if the output changed compared to the previous run.
+        # We update weather every 600 seconds, since my weather api provider is greedy
         weatherdata="$(~/bin/rubyweather.rb)"
         echo -e "weather\t^fg(#efefef)$weatherdata"
         sleep 600 || break
     done > >(uniq_linebuffered) &
     while true ; do
         # Battery Widget
+        # Script output already contains font reset,
+        # so we only need to enable glyph font before sending $bat_data.
         bat_data="$(~/bin/rubybat.rb)"
         echo -e "battery\t^fg(#efefef)^fn($glyphfont)$bat_data"
         sleep 5 || break
@@ -182,12 +190,12 @@ volume_widget() {
                 #echo "reloading weather" >&2
                 weather="${cmd[@]:1}"
                 ;;
-	    volume)
-                echo "Got volume update!" >&2
+	        volume)
+                #echo "Got volume update!" >&2
                 volume=$(volume_widget)
                 ;;
             volume_toggle)
-                echo "Got volume update!" >&2
+                #echo "Got volume update!" >&2
                 volume=$(volume_widget toggle)
                 ;;
             battery)
