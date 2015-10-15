@@ -6,16 +6,22 @@ hc() {
     herbstclient "$@"
 }
 
+run_once() {
+	[ ! pgrep "$1" >/dev/null 2>&1 ] && exec $@
+}
+
 hc emit_hook reload
 
 xrandr -r 48
 sudo intel_reg write 0xC8254 0x7d007d
-#xsetroot -solid '#5A8E3A'
-nitrogen --restore
-compton &
-kbdd &
-dunst &
-rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
+run_once nitrogen --restore
+run_once compton &
+run_once kbdd &
+run_once dunst &
+run_once rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab -hide-scrollbar &
+run_once trayer --edge top --align center --widthtype request --heighttype pixel --height 14 --transparent true --alpha 0 --tint 0x101010 --align right --distancefrom right --distance 310 &
+run_once nm_applet
+run_once redshift-gtk
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -30,6 +36,8 @@ hc keybind $Mod-Return spawn termite
 hc keybind XF86AudioLowerVolume spawn ~/.config/herbstluftwm/volume.sh down
 hc keybind XF86AudioRaiseVolume spawn ~/.config/herbstluftwm/volume.sh up
 hc keybind XF86AudioMute spawn ~/.config/herbstluftwm/volume.sh mute
+hc keybind XF86MonBrightnessDown spawn ~/.config/herbstluftwm/light.sh down
+hc keybind XF86MonBrightnessUp spawn ~/.config/herbstluftwm/light.sh up
 
 # basic movement
 # focusing clients
