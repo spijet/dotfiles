@@ -37,7 +37,6 @@ export LANG=ru_RU.UTF-8
 # Show hostname if invoked over SSH.
  if [[ -n $SSH_CONNECTION ]]; then
    export PROMPT="(%m)$PROMPT"
- else
  fi
 
 # VTE Fixes for Termite
