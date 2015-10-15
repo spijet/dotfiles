@@ -7,21 +7,18 @@ hc() {
 }
 
 run_once() {
-	[ ! pgrep "$1" >/dev/null 2>&1 ] && exec $@
+	pgrep $@ > /dev/null || ($@ &)
 }
 
 hc emit_hook reload
 
 xrandr -r 48
-sudo intel_reg write 0xC8254 0x7d007d
-run_once nitrogen --restore
-run_once compton &
-run_once kbdd &
-run_once dunst &
-run_once rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab -hide-scrollbar &
-run_once trayer --edge top --align center --widthtype request --heighttype pixel --height 14 --transparent true --alpha 0 --tint 0x101010 --align right --distancefrom right --distance 310 &
-run_once nm_applet
-run_once redshift-gtk
+#sudo intel_reg write 0xC8254 0x7d007d
+nitrogen --restore
+run_once compton
+run_once kbdd
+run_once dunst
+rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -177,4 +174,5 @@ panel=~/.config/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
+    ~/.config/herbstluftwm/deferredtray.sh &
 done
