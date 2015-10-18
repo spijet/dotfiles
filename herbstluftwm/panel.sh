@@ -68,7 +68,7 @@ hc pad $monitor $panel_height
 
 volume_widget() {
     curr_volume=$(echo $volume | cut -d " " -f2)
-    if [ "$1" == "toggle" ] && [ "$curr_volume" != "Mute" ]; then
+    if ([ "$1" == "toggle" ] && [ "$curr_volume" != "Mute" ]) | [ "$curr_volume" = "Mute" ]; then
         volume="Mute"
         vol_icon=""
     else
