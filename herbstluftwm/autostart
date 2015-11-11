@@ -6,15 +6,18 @@ hc() {
     herbstclient "$@"
 }
 
+run_once() {
+	pgrep $@ > /dev/null || ($@ &)
+}
+
 hc emit_hook reload
 
 xrandr -r 48
-sudo intel_reg write 0xC8254 0x7d007d
-#xsetroot -solid '#5A8E3A'
+#sudo intel_reg write 0xC8254 0x7d007d
 nitrogen --restore
-compton &
-kbdd &
-dunst &
+run_once compton
+run_once kbdd
+run_once dunst
 rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
 
 # remove all existing keybindings
@@ -30,6 +33,8 @@ hc keybind $Mod-Return spawn termite
 hc keybind XF86AudioLowerVolume spawn ~/.config/herbstluftwm/volume.sh down
 hc keybind XF86AudioRaiseVolume spawn ~/.config/herbstluftwm/volume.sh up
 hc keybind XF86AudioMute spawn ~/.config/herbstluftwm/volume.sh mute
+hc keybind XF86MonBrightnessDown spawn ~/.config/herbstluftwm/light.sh down
+hc keybind XF86MonBrightnessUp spawn ~/.config/herbstluftwm/light.sh up
 
 # basic movement
 # focusing clients
@@ -169,4 +174,5 @@ panel=~/.config/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
+    ~/.config/herbstluftwm/deferredtray.sh &
 done
