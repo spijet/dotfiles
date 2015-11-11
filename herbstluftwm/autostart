@@ -6,18 +6,19 @@ hc() {
     herbstclient "$@"
 }
 
-run_once() {
-	pgrep $@ > /dev/null || ($@ &)
-}
-
 hc emit_hook reload
 
 xrandr -r 48
 #sudo intel_reg write 0xC8254 0x7d007d
 nitrogen --restore
-run_once compton
-run_once kbdd
-run_once dunst
+
+# New hlwm function that allows making cleaner version of run_once.
+if hc silent new_attr bool my_not_first_autostart ; then
+    compton &
+    kbdd &
+    dunst &
+fi
+
 rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
 
 # remove all existing keybindings
