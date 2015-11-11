@@ -29,7 +29,7 @@ plugins=(git ruby rails bundler zsh-syntax-hilighting history-substring-search c
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export PATH=$HOME/.gem/ruby/2.2.0/bin:$HOME/bin:/usr/local/bin:$PATH
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
 # You may need to manually set your language environment
 export LANG=ru_RU.UTF-8
@@ -72,6 +72,9 @@ export LANG=ru_RU.UTF-8
 # Enable lesspipe
  [[ -f ~/.zsh/options/less.sh ]] && source ~/.zsh/options/less.sh
 
+# Load Ruby extras
+ [[ -f ~/.zsh/options/ruby.sh ]] && source ~/.zsh/options/ruby.sh
+ 
 # Setup zsh-autosuggestions
  source $HOME/.zsh/plugins/autosuggestions/autosuggestions.zsh
 
