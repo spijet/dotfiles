@@ -19,7 +19,7 @@ if hc silent new_attr bool my_not_first_autostart ; then
     dunst &
 fi
 
-rofi -font "Monaco 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
+rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -31,11 +31,13 @@ hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn termite
-hc keybind XF86AudioLowerVolume spawn ~/.config/herbstluftwm/volume.sh down
-hc keybind XF86AudioRaiseVolume spawn ~/.config/herbstluftwm/volume.sh up
-hc keybind XF86AudioMute spawn ~/.config/herbstluftwm/volume.sh mute
-hc keybind XF86MonBrightnessDown spawn ~/.config/herbstluftwm/light.sh down
-hc keybind XF86MonBrightnessUp spawn ~/.config/herbstluftwm/light.sh up
+if grep -q laptop ~/.zsh/options/platform.sh
+    hc keybind XF86AudioLowerVolume spawn ~/.config/herbstluftwm/volume.sh down
+    hc keybind XF86AudioRaiseVolume spawn ~/.config/herbstluftwm/volume.sh up
+    hc keybind XF86AudioMute spawn ~/.config/herbstluftwm/volume.sh mute
+    hc keybind XF86MonBrightnessDown spawn ~/.config/herbstluftwm/light.sh down
+    hc keybind XF86MonBrightnessUp spawn ~/.config/herbstluftwm/light.sh up
+fi
 
 # basic movement
 # focusing clients
@@ -170,7 +172,12 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 hc detect_monitors
 
 # find the panel
-panel=~/.config/herbstluftwm/panel.sh
+if grep -q laptop ~/.zsh/options/platform.sh
+    panel=~/.config/herbstluftwm/panel_laptop.sh
+else
+    panel=~/.config/herbstluftwm/panel_desktop.sh
+fi
+
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
