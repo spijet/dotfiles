@@ -31,7 +31,7 @@ hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn termite
-if grep -q laptop ~/.zsh/options/platform.sh
+if grep -q laptop ~/.zsh/options/platform.sh; then
     hc keybind XF86AudioLowerVolume spawn ~/.config/herbstluftwm/volume.sh down
     hc keybind XF86AudioRaiseVolume spawn ~/.config/herbstluftwm/volume.sh up
     hc keybind XF86AudioMute spawn ~/.config/herbstluftwm/volume.sh mute
@@ -172,7 +172,7 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 hc detect_monitors
 
 # find the panel
-if grep -q laptop ~/.zsh/options/platform.sh
+if grep -q laptop ~/.zsh/options/platform.sh; then
     panel=~/.config/herbstluftwm/panel_laptop.sh
 else
     panel=~/.config/herbstluftwm/panel_desktop.sh
