@@ -7,13 +7,20 @@ if [ -z "$geometry" ] ;then
     echo "Invalid monitor $monitor"
     exit 1
 fi
-tagnames=( $(grep tag_names= ~/.config/herbstluftwm/autostart | sed 's/.*(\([^)]*\))/\1/g') )
+
+# Get fancy tag names here, since herbstluftwm has problems using these fancy chars internally.
+tagnames=( $(grep tag_alias= ~/.config/herbstluftwm/autostart | sed 's/.*(\([^)]*\))/\1/g') )
+
 # geometry has the format W H X Y
 x=${geometry[0]}
 y=${geometry[1]}
 panel_width=${geometry[2]}
 panel_height=14
 
+# Setting up fonts.
+# $font is used for panel text as well as for some decorations.
+# $glyphfont is used for fancy tag names and stuff like that,
+# which somehow is not present in Tewi.
 font="-*-tewi-medium-*-*-*-11-*-*-*-*-*-*-*"
 glyphfont="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
 

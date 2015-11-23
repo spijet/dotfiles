@@ -17,9 +17,9 @@ if hc silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
     dunst &
+    rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
 fi
 
-rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -key-run mod4+r -key-window mod4+Tab &
 
 # remove all existing keybindings
 hc keyunbind --all
