@@ -77,6 +77,9 @@ export LANG=ru_RU.UTF-8
 # Setup zsh-autosuggestions
  source $HOME/.zsh/plugins/autosuggestions/autosuggestions.zsh
 
+# Enable TheFuck alias
+which thefuck > /dev/null && eval $(thefuck --alias)
+
 # Enable autosuggestions automatically
  zle-line-init() {
    zle autosuggest-start
