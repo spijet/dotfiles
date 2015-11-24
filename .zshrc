@@ -24,7 +24,7 @@ unsetopt INC_APPEND_HISTORY
 ENABLE_CORRECTION="true"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ruby rails bundler zsh-syntax-hilighting history-substring-search command-not-found sudo archlinux)
+plugins=(git ruby rails bundler colored-man-pages zsh-syntax-hilighting history-substring-search command-not-found sudo archlinux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -73,7 +73,7 @@ export LANG=ru_RU.UTF-8
 
 # Load Ruby extras
  [[ -f ~/.zsh/options/ruby.sh ]] && source ~/.zsh/options/ruby.sh
- 
+
 # Setup zsh-autosuggestions
  source $HOME/.zsh/plugins/autosuggestions/autosuggestions.zsh
 
