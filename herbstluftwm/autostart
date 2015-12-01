@@ -104,6 +104,11 @@ hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
+# layout saving
+savestate = ~/.config/herbstluftwm/layouts
+hc keybind $Mod-Shift-s spawn /usr/share/doc/herbstluftwm/examples/loadstate.sh > "$savestate"
+
+
 # mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
@@ -177,6 +182,9 @@ if grep -q laptop ~/.zsh/options/platform.sh; then
 else
     panel=~/.config/herbstluftwm/panel_desktop.sh
 fi
+
+
+[ -f "$savestate" ] && /usr/share/doc/herbstluftwm/examples/loadstate.sh < "$savestate"
 
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
