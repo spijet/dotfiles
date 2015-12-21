@@ -13,6 +13,9 @@ Plugin 'gmarik/Vundle.vim'
 " Vim Airline
 Plugin 'bling/vim-airline'
 
+" Vim Git Plugin
+Plugin 'tpope/vim-fugitive'
+
 " L9 Library, I dunno why I need it lol
 Plugin 'L9'
 
