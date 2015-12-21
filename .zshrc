@@ -3,7 +3,7 @@ export ZSH=$HOME/.zsh/plugins/oh-my-zsh
 
 # Platform options, like libva/vdpau settings and stuff, go here.
 # Don't forget to create the file!
-[[ -f ~/.zsh/options/platform.sh ]] && source ~/.zsh/options/platform.sh
+[[ -f ~/.zsh/options/platform.sh ]] && . ~/.zsh/options/platform.sh
 
 ZSH_THEME="robbyrussell"
 
