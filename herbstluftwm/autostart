@@ -105,7 +105,7 @@ hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
 # layout saving
-savestate = ~/.config/herbstluftwm/layouts
+savestate = "${HOME}/.config/herbstluftwm/layouts"
 hc keybind $Mod-Shift-s spawn /usr/share/doc/herbstluftwm/examples/loadstate.sh > "$savestate"
 
 
