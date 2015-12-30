@@ -74,6 +74,9 @@ export LANG=ru_RU.UTF-8
 # Load Ruby extras
  [[ -f ~/.zsh/options/ruby.sh ]] && source ~/.zsh/options/ruby.sh
 
+# Set up Perl environment if there's one
+ [[ -f ~/.zsh/options/perl.sh ]] && source ~/.zsh/options/perl.sh
+
 # Setup zsh-autosuggestions
  source $HOME/.zsh/plugins/autosuggestions/autosuggestions.zsh
 
