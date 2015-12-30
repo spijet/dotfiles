@@ -1,6 +1,5 @@
 # I moved my oh-my-zsh installation, because I can.
 export ZSH=$HOME/.zsh/plugins/oh-my-zsh
-
 # Platform options, like libva/vdpau settings and stuff, go here.
 # Don't forget to create the file!
 [[ -f ~/.zsh/options/platform.sh ]] && . ~/.zsh/options/platform.sh
@@ -29,7 +28,7 @@ plugins=(git ruby rails bundler colored-man-pages zsh-syntax-hilighting history-
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export PATH="$HOME/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # You may need to manually set your language environment
 export LANG=ru_RU.UTF-8
@@ -72,10 +71,10 @@ export LANG=ru_RU.UTF-8
  [[ -f ~/.zsh/options/less.sh ]] && source ~/.zsh/options/less.sh
 
 # Load Ruby extras
- [[ -f ~/.zsh/options/ruby.sh ]] && source ~/.zsh/options/ruby.sh
+ which ruby > /dev/null && [[ -f ~/.zsh/options/ruby.sh ]] && source ~/.zsh/options/ruby.sh
 
 # Set up Perl environment if there's one
- [[ -f ~/.zsh/options/perl.sh ]] && source ~/.zsh/options/perl.sh
+ which perl > /dev/null && [[ -f ~/.zsh/options/perl.sh ]] && source ~/.zsh/options/perl.sh
 
 # Setup zsh-autosuggestions
  source $HOME/.zsh/plugins/autosuggestions/autosuggestions.zsh
@@ -88,3 +87,6 @@ which thefuck > /dev/null && eval $(thefuck --alias)
    zle autosuggest-start
  }
  zle -N zle-line-init
+
+ # Dedup PATH entries
+  typeset -U PATH
