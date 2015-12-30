@@ -8,6 +8,8 @@ hc() {
 
 hc emit_hook reload
 
+CFGDIR=$HOME/.config/herbstluftwm
+
 xrandr -r 48
 #sudo intel_reg write 0xC8254 0x7d007d
 nitrogen --restore
@@ -32,11 +34,11 @@ hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn termite
 if grep -q laptop ~/.zsh/options/platform.sh; then
-    hc keybind XF86AudioLowerVolume spawn ~/.config/herbstluftwm/volume.sh down
-    hc keybind XF86AudioRaiseVolume spawn ~/.config/herbstluftwm/volume.sh up
-    hc keybind XF86AudioMute spawn ~/.config/herbstluftwm/volume.sh mute
-    hc keybind XF86MonBrightnessDown spawn ~/.config/herbstluftwm/light.sh down
-    hc keybind XF86MonBrightnessUp spawn ~/.config/herbstluftwm/light.sh up
+    hc keybind XF86AudioLowerVolume spawn $CFGDIR/volume.sh down
+    hc keybind XF86AudioRaiseVolume spawn $CFGDIR/volume.sh up
+    hc keybind XF86AudioMute spawn $CFGDIR/volume.sh mute
+    hc keybind XF86MonBrightnessDown spawn $CFGDIR/light.sh down
+    hc keybind XF86MonBrightnessUp spawn $CFGDIR/light.sh up
 fi
 
 # basic movement
@@ -105,7 +107,7 @@ hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
 # layout saving
-savestate = "${HOME}/.config/herbstluftwm/layouts"
+savestate = ${CFGDIR}/layouts
 hc keybind $Mod-Shift-s spawn /usr/share/doc/herbstluftwm/examples/loadstate.sh > "$savestate"
 
 
@@ -178,9 +180,9 @@ hc detect_monitors
 
 # find the panel
 if grep -q laptop ~/.zsh/options/platform.sh; then
-    panel=~/.config/herbstluftwm/panel_laptop.sh
+    panel=$CFGDIR/panel_laptop.sh
 else
-    panel=~/.config/herbstluftwm/panel_desktop.sh
+    panel=$CFGDIR/panel_desktop.sh
 fi
 
 
@@ -191,6 +193,6 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
     if grep -q laptop ~/.zsh/options/platform.sh; then
-        ~/.config/herbstluftwm/deferredtray.sh &
+        $CFGDIR/deferredtray.sh &
     fi
 done
