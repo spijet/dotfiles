@@ -1,0 +1,27 @@
+# Herbstluft-conky for lemonbar
+
+# conky settings
+
+background no
+update_interval 1
+cpu_avg_samples 1
+total_run_times 0
+override_utf8_locale yes
+short_units yes
+pad_percents 2
+uppercase no
+out_to_console yes
+out_to_x no
+
+
+TEXT
+# Line header, for panel script
+conky	\
+# Align stuff to right
+%{r} \
+# MPD Status
+${if_mpd_playing}%{F\#9fbc00}♪%{F-} %{F\#909090}${mpd_artist} - %{F-}${mpd_title}${endif} \
+# Time and Date
+%{F\#9fbc00}|%{F-} ${time %H:%M}%{F\#909090}, ${time %Y-%m-}%{F\#efefef}${time %d} \
+# Weather script
+%{F\#9fbc00}|%{F-} ${execi 600 ~/bin/rubyweather.rb} \

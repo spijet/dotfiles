@@ -8,11 +8,10 @@ if [ -z "$geometry" ] ;then
     exit 1
 fi
 
-trap 'jobs -p' EXIT
-
+CFGDIR=$HOME/.config/herbstluftwm
 
 # Get fancy tag names here, since herbstluftwm has problems using these fancy chars internally.
-tagnames=( $(grep tag_alias= ~/.config/herbstluftwm/autostart | sed 's/.*(\([^)]*\))/\1/g') )
+tagnames=( $(grep tag_alias= $CFGDIR/autostart | sed 's/.*(\([^)]*\))/\1/g') )
 
 # geometry has the format W H X Y
 x=${geometry[0]}
@@ -41,7 +40,7 @@ hc pad $monitor $panel_height
     # based on different input data (mpc, date, hlwm hooks, ...) this generates events, formed like this:
     #   <eventname>\t<data> [...]
     #   date    ^fg(#efefef)18:33^fg(#909090), 2013-10-^fg(#efefef)29
-    conky -c ~/conkyrc 2>&1 &
+    conky -c "${CFGDIR}/conkyrc" 2>&1 &
     #mpc idleloop player &
     childpid=$!
     hc --idle
@@ -139,9 +138,9 @@ hc pad $monitor $panel_height
         esac
     done
 
-    ### dzen2 ###
+    ### bar ###
     # After the data is gathered and processed, the output of the previous block
-    # gets piped to dzen2.
+    # gets piped to (lemon)bar.
 
 } 2> /dev/null | lemonbar -g ${panel_width}x${panel_height}+${x}+${y} -f "Tewi" -f "$glyphfont" \
     -B "$bgcolor" -F '#efefef'
