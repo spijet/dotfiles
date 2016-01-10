@@ -3,7 +3,7 @@
 # conky settings
 
 background no
-update_interval 1
+update_interval 2
 cpu_avg_samples 1
 total_run_times 0
 override_utf8_locale yes
@@ -20,7 +20,9 @@ conky	\
 # Align stuff to right
 %{r} \
 # MPD Status
-${if_mpd_playing}%{F\#9fbc00}♪%{F-} %{F\#909090}${mpd_artist} - %{F-}${mpd_title}${endif} \
+# ${if_mpd_playing}%{F\#9fbc00}♪%{F-} %{F\#909090}${mpd_artist} - %{F-}${mpd_title}${endif} \
+# Battery
+${if_existing /sys/class/power_supply/BAT1/status}${battery_short BAT1}:${execi 10 bc <<< "scale=2; `cat /sys/class/power_supply/BAT1/power_now` / 1000000"}W ${endif}\
 # Time and Date
 %{F\#9fbc00}|%{F-} ${time %H:%M}%{F\#909090}, ${time %Y-%m-}%{F\#efefef}${time %d} \
 # Weather script

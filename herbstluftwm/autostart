@@ -108,7 +108,7 @@ hc keybind $Mod-p pseudotile toggle
 
 # layout saving
 savestate = ${CFGDIR}/layouts
-hc keybind $Mod-Shift-s spawn /usr/share/doc/herbstluftwm/examples/loadstate.sh > "$savestate"
+hc keybind $Mod-Shift-s spawn ${CFGDIR}/loadstate.sh > "$savestate"
 
 
 # mouse
@@ -179,14 +179,11 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 hc detect_monitors
 
 # find the panel
-if grep -q laptop ~/.zsh/options/platform.sh; then
-    panel=$CFGDIR/panel_laptop.sh
-else
-    panel=$CFGDIR/panel_desktop.sh
-fi
+# the panel is universal as for now, WiFi stuff is managed by Conky
+panel=$CFGDIR/panel_desktop.sh
 
 
-[ -f "$savestate" ] && /usr/share/doc/herbstluftwm/examples/loadstate.sh < "$savestate"
+[ -f "$savestate" ] && ${CFGDIR}/loadstate.sh < "$savestate"
 
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
