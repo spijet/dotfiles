@@ -19,7 +19,7 @@ if hc silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
     dunst &
-    rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -modi "run,window" -hide-scrollbar -key-run SuperL+r -key-window SuperL+Tab &
+    rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -ssh-command "{terminal} -e \"{ssh-client} {host}\"" -modi "run,window,ssh" -hide-scrollbar -key-run SuperL+r -key-window SuperL+Tab -key-ssh SuperL+e &
 fi
 
 

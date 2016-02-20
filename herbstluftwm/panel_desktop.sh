@@ -80,7 +80,7 @@ hc pad $monitor $panel_height
             echo -n "%{A:herbstclient focus_monitor \"$monitor\" && herbstclient use \"${tags[i]:1}\":} %{T2}${tagnames[i]}%{T1} %{A}"
         done
         echo -n "$separator"
-        echo -n "%{B-}%{F-} ${windowtitle//^/^^}"
+        echo -n "%{B-}%{F-} ${windowtitle//%/}"
         echo -n "$conky"
         echo
 
@@ -104,10 +104,10 @@ hc pad $monitor $panel_height
                 #echo "resetting date" >&2
                 conky="${cmd[@]:1}"
                 ;;
-            weather)
-                #echo "reloading weather" >&2
-                weather="${cmd[@]:1}"
-                ;;
+            # weather)
+            #     #echo "reloading weather" >&2
+            #     weather="${cmd[@]:1}"
+            #     ;;
             quit_panel)
                 exit
                 ;;
