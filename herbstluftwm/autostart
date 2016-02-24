@@ -107,7 +107,7 @@ hc keybind $Mod-p pseudotile toggle
 
 # layout saving
 savestate = ${CFGDIR}/layouts
-hc keybind $Mod-Shift-s spawn ${CFGDIR}/savestate.sh > "$savestate"
+hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" > "$savestate"
 
 
 # mouse
@@ -161,7 +161,7 @@ hc rule focus=on # normally focus new clients
 #hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' manage=off focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 # unlock, just to be sure

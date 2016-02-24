@@ -143,5 +143,5 @@ hc pad $monitor $panel_height
     # gets piped to (lemon)bar.
 
 } 2> /dev/null | lemonbar -g ${panel_width}x${panel_height}+${x}+${y} -f "Tewi" -f "$glyphfont" \
-    -B "$bgcolor" -F '#efefef'
+                          -B "$bgcolor" -F '#efefef' | while read line; do eval "$line"; done
 
