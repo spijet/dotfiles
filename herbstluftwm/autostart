@@ -1,21 +1,20 @@
 #!/bin/bash
 
-# this is a simple config for herbstluftwm
-
+# Add up all commands into a chain.
 hc() {
-    herbstclient "$@"
+    cmds="$cmds , $@"
 }
 
 hc emit_hook reload
 
-CFGDIR=$HOME/.config/herbstluftwm
+CFGDIR="${HOME}/.config/herbstluftwm"
 
 xrandr -r 48
 #sudo intel_reg write 0xC8254 0x7d007d
 nitrogen --restore
 
 # New hlwm function that allows making cleaner version of run_once.
-if hc silent new_attr bool my_not_first_autostart ; then
+if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
     dunst &
@@ -108,7 +107,7 @@ hc keybind $Mod-p pseudotile toggle
 
 # layout saving
 savestate = ${CFGDIR}/layouts
-hc keybind $Mod-Shift-s spawn ${CFGDIR}/loadstate.sh > "$savestate"
+hc keybind $Mod-Shift-s spawn ${CFGDIR}/savestate.sh > "$savestate"
 
 
 # mouse
@@ -119,8 +118,6 @@ hc mousebind $Mod-Button3 resize
 
 # focus
 hc keybind $Mod-BackSpace   cycle_monitor
-#hc keybind $Mod-Tab         cycle_all +1
-#hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
 
@@ -172,10 +169,11 @@ hc unlock
 
 herbstclient set tree_style '╾│ ├└╼─┐'
 
-# do multi monitor setup here, e.g.:
-# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
-# or simply:
+# do multi monitor setup here:
 hc detect_monitors
+
+# Load up all the settings.
+herbstclient chain $cmds&
 
 # find the panel
 # the panel is universal as for now, WiFi stuff is managed by Conky
