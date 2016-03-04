@@ -23,8 +23,8 @@ panel_height=14
 # $font is used for panel text as well as for some decorations.
 # $glyphfont is used for fancy tag names and stuff like that,
 # which somehow is not present in Tewi.
-font="Tewi"
-glyphfont="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
+font="-lucy-tewi-medium-*-normal-*-11-*-*-*-*-*-*-*"
+glyphfont="-wuncon-siji-medium-r-normal-*-10-100-75-75-c-80-iso10646-1"
 
 
 bgcolor=$(hc get frame_border_normal_color)
@@ -40,7 +40,7 @@ hc pad $monitor $panel_height
     # based on different input data (mpc, date, hlwm hooks, ...) this generates events, formed like this:
     #   <eventname>\t<data> [...]
     #   date    ^fg(#efefef)18:33^fg(#909090), 2013-10-^fg(#efefef)29
-    conky -c "${CFGDIR}/conkyrc" 2>&1 &
+    conky -c "${CFGDIR}/conkyrc" 2>/dev/null &
     #mpc idleloop player &
     childpid=$!
     hc --idle
@@ -101,32 +101,11 @@ hc pad $monitor $panel_height
                 IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
                 ;;
             conky)
-                #echo "resetting date" >&2
+                #echo "Getting Conky input" >&2
                 conky="${cmd[@]:1}"
                 ;;
-            # weather)
-            #     #echo "reloading weather" >&2
-            #     weather="${cmd[@]:1}"
-            #     ;;
             quit_panel)
                 exit
-                ;;
-            togglehidepanel)
-                currentmonidx=$(hc list_monitors | sed -n '/\[FOCUS\]$/s/:.*//p')
-                if [ "${cmd[1]}" -ne "$monitor" ] ; then
-                    continue
-                fi
-                if [ "${cmd[1]}" = "current" ] && [ "$currentmonidx" -ne "$monitor" ] ; then
-                    continue
-                fi
-                echo "^togglehide()"
-                if $visible ; then
-                    visible=false
-                    hc pad $monitor 0
-                else
-                    visible=true
-                    hc pad $monitor $panel_height
-                fi
                 ;;
             reload)
                 kill $$
@@ -142,6 +121,6 @@ hc pad $monitor $panel_height
     # After the data is gathered and processed, the output of the previous block
     # gets piped to (lemon)bar.
 
-} 2> /dev/null | lemonbar -g ${panel_width}x${panel_height}+${x}+${y} -f "Tewi" -f "$glyphfont" \
+} 2> /dev/null | lemonbar -g ${panel_width}x${panel_height}+${x}+${y} -f "$font" -f "$glyphfont" \
                           -B "$bgcolor" -F '#efefef' | while read line; do eval "$line"; done
 
