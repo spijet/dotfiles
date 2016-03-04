@@ -32,13 +32,11 @@ hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn termite
-if grep -q laptop ~/.zsh/options/platform.sh; then
-    hc keybind XF86AudioLowerVolume spawn $CFGDIR/volume.sh down
-    hc keybind XF86AudioRaiseVolume spawn $CFGDIR/volume.sh up
-    hc keybind XF86AudioMute spawn $CFGDIR/volume.sh mute
-    hc keybind XF86MonBrightnessDown spawn $CFGDIR/light.sh down
-    hc keybind XF86MonBrightnessUp spawn $CFGDIR/light.sh up
-fi
+hc keybind XF86AudioLowerVolume spawn $CFGDIR/volume.sh down
+hc keybind XF86AudioRaiseVolume spawn $CFGDIR/volume.sh up
+hc keybind XF86AudioMute spawn $CFGDIR/volume.sh mute
+hc keybind XF86MonBrightnessDown spawn $CFGDIR/light.sh down
+hc keybind XF86MonBrightnessUp spawn $CFGDIR/light.sh up
 
 # basic movement
 # focusing clients
