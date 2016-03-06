@@ -2,11 +2,11 @@
 
 case $1 in
     down)
-        xbacklight - 3
+        xbacklight - 5
         #herbstclient emit_hook volume
         ;;
     up)
-        xbacklight + 3
+        xbacklight + 5
         #herbstclient emit_hook volume
         ;;
 esac

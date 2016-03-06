@@ -1,9 +1,11 @@
 #!/bin/sh
 BASEFILE="${0}"
-BASEDIR=`dirname "${BASEFILE}"`
+BASEDIR="$(pwd $(dirname ${BASEFILE}))"
 BCP_DIR="$HOME/.old-dotfiles"
 echo "Creating a backup directory..."
   mkdir $BCP_DIR
+
+echo "Base dir is ${BASEDIR}"
 
 echo "Installing ZSH stuff..."
   if [ -f $HOME/.zshrc ]
@@ -16,7 +18,7 @@ echo "Installing ZSH stuff..."
   if [ -d $HOME/.zsh ]
     then
     mv $HOME/.zsh $BCP_DIR/.zsh
-    echo "Older .zsh directory detected! Will be moved to $BCP_DIR/.zsh ."
+    echo "Older .zsh directory detected! Will be moved to ${BCP_DIR}/.zsh ."
   fi
    ln -s $BASEDIR/zsh $HOME/.zsh
   mkdir $HOME/.zsh/plugins

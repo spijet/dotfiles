@@ -175,7 +175,7 @@ herbstclient chain $cmds&
 
 # find the panel
 # the panel is universal as for now, WiFi stuff is managed by Conky
-panel=$CFGDIR/panel_desktop.sh
+panel=$CFGDIR/panel.sh
 
 
 [ -f "$savestate" ] && ${CFGDIR}/loadstate.sh < "$savestate"
