@@ -35,10 +35,7 @@ highlight StatusLine color: #AAABAD; background: #222326; font-family: "Iosevka"
 highlight Title color: #ebecee;
 highlight WarningMsg color: #AAABAD;
 map x :stylish<Space>toggle<Return>
-map J gt
-map K gT
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
 set "titlestring=Mozilla Firefox"
-set toolbars=noaddons,nobookmarks,nomenu,nonavigation,tabs
 
 " vim: set ft=vimperator:
