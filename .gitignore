@@ -1,7 +1,7 @@
 zsh/history
 zsh/plugins/autosuggestions
-zsh/plugins/oh-my-zsh
 zsh/aliases/private.sh
 zsh/options/platform.sh
 vim/.vim/bundle
+vimperator/.vimperator/info
 *.swp

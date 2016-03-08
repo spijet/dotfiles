@@ -40,8 +40,6 @@ export LANG=ru_RU.UTF-8
 
 # VTE Fixes for Termite
  if [[ $TERM == xterm-termite ]]; then
-   . /etc/profile.d/vte.sh
-   __vte_osc7
    eval $(dircolors ~/.dircolors)
    alias ssh="TERM=xterm ssh -C"
  fi

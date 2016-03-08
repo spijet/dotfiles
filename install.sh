@@ -1,7 +1,9 @@
 #!/bin/sh
+set -x
 BASEFILE="${0}"
-BASEDIR="$(pwd $(dirname ${BASEFILE}))"
+BASEDIR="$(dirname ${BASEFILE})"
 BCP_DIR="$HOME/.old-dotfiles"
+read foo
 echo "Creating a backup directory..."
   mkdir $BCP_DIR
 
@@ -20,7 +22,7 @@ echo "Installing ZSH stuff..."
     mv $HOME/.zsh $BCP_DIR/.zsh
     echo "Older .zsh directory detected! Will be moved to ${BCP_DIR}/.zsh ."
   fi
-   ln -s $BASEDIR/zsh $HOME/.zsh
+  ln -s $BASEDIR/zsh $HOME/.zsh
   mkdir $HOME/.zsh/plugins
   git clone https://github.com/robbyrussell/oh-my-zsh.git $HOME/.zsh/plugins/oh-my-zsh
   git clone https://github.com/tarruda/zsh-autosuggestions $HOME/.zsh/plugins/autosuggestions
