@@ -3,5 +3,6 @@ zsh/plugins/autosuggestions
 zsh/aliases/private.sh
 zsh/options/platform.sh
 vim/.vim/bundle
+!vim/.vim/bundle/.Vundle.vim
 vimperator/.vimperator/info
 *.swp

@@ -1,3 +1,9 @@
 [submodule "zsh/plugins/oh-my-zsh"]
 	path = zsh/plugins/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "zsh/plugins/autosuggestions"]
+	path = zsh/plugins/autosuggestions
+	url = https://github.com/tarruda/zsh-autosuggestions
+[submodule "vim/.vim/bundle/Vundle.vim"]
+	path = vim/.vim/bundle/Vundle.vim
+	url = https://github.com/gmarik/vundle.git
