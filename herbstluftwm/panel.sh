@@ -34,21 +34,14 @@ selfg='#101010'
 ####
 
 hc pad $monitor $panel_height
-
 {
-    ### Event generator ###
-    # based on different input data (mpc, date, hlwm hooks, ...) this generates events, formed like this:
-    #   <eventname>\t<data> [...]
-    #   date    ^fg(#efefef)18:33^fg(#909090), 2013-10-^fg(#efefef)29
-    conky -c "${CFGDIR}/conkyrc" 2>/dev/null &
-    #mpc idleloop player &
-    childpid=$!
+    conky -c ${CFGDIR}/conkyrc &
     hc --idle
-    kill $childpid
 } 2> /dev/null | {
     IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
     visible=true
     conky=""
+    layout="$(skb -1)"
     windowtitle="Welcome home."
     while true ; do
 
@@ -80,7 +73,8 @@ hc pad $monitor $panel_height
             echo -n "%{A:herbstclient focus_monitor \"$monitor\" && herbstclient use \"${tags[i]:1}\":} %{T2}${tagnames[i]}%{T1} %{A}"
         done
         echo -n "$separator"
-        echo -n "%{B-}%{F-} ${windowtitle//%/}"
+        echo -n "%{B-}%{F-} ${windowtitle//%{/% {}"
+        echo -n "%{r} $layout $separator"
         echo -n "$conky"
         echo
 
@@ -113,6 +107,9 @@ hc pad $monitor $panel_height
                 ;;
             focus_changed|window_title_changed)
                 windowtitle="${cmd[@]:2}"
+                ;;
+            layout)
+                layout="${cmd[@]:1}"
                 ;;
         esac
     done
