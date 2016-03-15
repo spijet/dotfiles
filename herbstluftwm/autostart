@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# '##::::'##:'##:::::::'##:::::'##:'##::::'##:
+#  ##:::: ##: ##::::::: ##:'##: ##: ###::'###:
+#  ##:::: ##: ##::::::: ##: ##: ##: ####'####:
+#  #########: ##::::::: ##: ##: ##: ## ### ##:
+#  ##.... ##: ##::::::: ##: ##: ##: ##. #: ##:
+#  ##:::: ##: ##::::::: ##: ##: ##: ##:.:: ##:
+#  ##:::: ##: ########:. ###. ###:: ##:::: ##:
+# ..:::::..::........:::...::...:::..:::::..::
+
 # Add up all commands into a chain.
 hc() {
     cmds="$cmds , $@"
@@ -9,8 +18,11 @@ hc emit_hook reload
 
 CFGDIR="${HOME}/.config/herbstluftwm"
 
-xrandr -r 48
-#sudo intel_reg write 0xC8254 0x7d007d
+if [[ ${PEKO} -eq "laptop" ]]
+then
+    xrandr -r 48
+    #sudo intel_reg write 0xC8254 0x7d007d
+fi
 nitrogen --restore
 
 # New hlwm function that allows making cleaner version of run_once.
@@ -170,21 +182,19 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # do multi monitor setup here:
 hc detect_monitors
 
-# Load up all the settings.
+# Send the commandchain to hlwm in one command,
+# because we're fast!
 herbstclient chain $cmds&
 
-# find the panel
+# Find the panel:
 # the panel is universal as for now, WiFi stuff is managed by Conky
 panel=$CFGDIR/panel.sh
 
+[[ -f "$savestate" ]] && ${CFGDIR}/loadstate.sh < "$savestate"
 
-[ -f "$savestate" ] && ${CFGDIR}/loadstate.sh < "$savestate"
-
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
+[[ -x "$panel" ]] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
-    if grep -q laptop ~/.zsh/options/platform.sh; then
-        $CFGDIR/deferredtray.sh &
-    fi
+    [[ ${PEKO} -eq "laptop" ]] && $CFGDIR/deferredtray.sh &
 done
