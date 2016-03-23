@@ -118,7 +118,7 @@ hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
 # layout saving
-savestate = ${CFGDIR}/layouts
+savestate=${CFGDIR}/layouts
 hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" > "$savestate"
 
 
