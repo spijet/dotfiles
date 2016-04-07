@@ -15,13 +15,27 @@ hc() {
 }
 
 hc emit_hook reload
-
 CFGDIR="${HOME}/.config/herbstluftwm"
 
 if [[ ${PEKO} -eq "laptop" ]]
 then
+    #
+    # Set screen refresh rate.
     xrandr -r 48
-    #sudo intel_reg write 0xC8254 0x7d007d
+    #
+    # Set Intel backlight PWM rate to ~500Hz.
+    # This register and value are specific to Lenovo IdeaPad U330p,
+    # don't use it anywhere else unless you want to burn your GPU!
+    # sudo intel_reg write 0xC8254 0x7d007dx
+    #
+    # Add user-fonts to XFLD.
+    xset +fp /home/spijet/.fonts
+    #
+    # Also, Tewi. I love Tewi.
+    xset +fp /usr/share/fonts/tewi-font
+    #
+    # Rehash fontdirs.
+    xset fp rehash
 fi
 nitrogen --restore
 
@@ -29,7 +43,8 @@ nitrogen --restore
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
-    dunst &
+    # Dunst starts up automatically by DBus session, as it seems.
+    # dunst &
     rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -ssh-command "{terminal} -e \"{ssh-client} {host}\"" -modi "run,window,ssh" -hide-scrollbar -key-run SuperL+r -key-window SuperL+Tab -key-ssh SuperL+e &
     $HOME/bin/xkbmon &
 fi
