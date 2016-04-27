@@ -45,7 +45,6 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     kbdd &
     # Dunst starts up automatically by DBus session, as it seems.
     # dunst &
-    rofi -font "Iosevka 11" -bg '#101010' -fg 'gray' -hlbg '#9FBC00' -hlfg '#101010' -fuzzy -width 73 -lines 10 -columns 1 -terminal termite -ssh-command "{terminal} -e \"{ssh-client} {host}\"" -modi "run,window,ssh" -hide-scrollbar -key-run SuperL+r -key-window SuperL+Tab -key-ssh SuperL+e &
     $HOME/bin/xkbmon &
 fi
 
@@ -57,15 +56,23 @@ hc keyunbind --all
 # keybindings
 Mod=Mod4   # Use the super key as the main modifier
 
+# Basic keybinds
+# WM Control
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
+# Terminal
 hc keybind $Mod-Return spawn termite
+# Media keys
 hc keybind XF86AudioLowerVolume spawn $CFGDIR/volume.sh down
 hc keybind XF86AudioRaiseVolume spawn $CFGDIR/volume.sh up
 hc keybind XF86AudioMute spawn $CFGDIR/volume.sh mute
 hc keybind XF86MonBrightnessDown spawn $CFGDIR/light.sh down
 hc keybind XF86MonBrightnessUp spawn $CFGDIR/light.sh up
+# Rofi keys
+hc keybind $Mod-r spawn rofi -show run
+hc keybind $Mod-Tab spawn rofi -show window
+hc keybind $Mod-e spawn rofi -show ssh
 
 # basic movement
 # focusing clients
