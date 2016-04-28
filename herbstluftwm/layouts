@@ -1,0 +1,7 @@
+mail: (clients vertical:0 0x1a0011b)
+web: (clients vertical:0 0x16000bf)
+im: (split horizontal:0.200000:1 (clients vertical:0) (clients vertical:1 0x1800004 0x1c00003))
+term: (clients vertical:0)
+files: (clients vertical:0)
+docs: (clients vertical:0)
+misc: (clients vertical:0)
