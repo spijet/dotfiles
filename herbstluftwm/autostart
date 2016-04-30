@@ -45,8 +45,8 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     kbdd &
     # Dunst starts up automatically by DBus session, as it seems.
     # dunst &
-    $HOME/bin/xkbmon &
-    $HOME/bin/hc-conky &
+    $CFGDIR/helpers/xkbmon &
+    $CFGDIR/helpers/hc-conky &
 fi
 
 
@@ -221,5 +221,5 @@ panel=$CFGDIR/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
-    [[ ${PEKO} -eq "laptop" ]] && $CFGDIR/deferredtray.sh &
+    # [[ ${PEKO} -eq "laptop" ]] && $CFGDIR/deferredtray.sh &
 done
