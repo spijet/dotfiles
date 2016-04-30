@@ -15,11 +15,11 @@ out_to_x no
 
 
 TEXT
-# Battery
-${if_existing /sys/class/power_supply/BAT1/status}${battery_short BAT1}:${execi 10 awk '{watt = $0 / 1000000; print watt}' /sys/class/power_supply/BAT1/power_now }W${endif}\
 # MPD Status
-${if_mpd_playing} %{F\#9fbc00}♪%{F-} %{F\#909090}${mpd_artist} - %{F-}${mpd_title}${endif} \
+${if_mpd_playing}%{F\#9fbc00}♪%{F-} %{F\#909090}${mpd_artist} - %{F-}${mpd_title} %{F\#9fbc00}|%{F-}${endif} \
+# Battery
+${if_existing /sys/class/power_supply/BAT1/status}${battery_short BAT1}:${execi 10 awk '{watt = $0 / 1000000; print watt}' /sys/class/power_supply/BAT1/power_now }W %{F\#9fbc00}|%{F-}${endif}\
 # Time and Date
-%{F\#9fbc00}|%{F-} ${time %H:%M}%{F\#909090}, ${time %Y-%m-}%{F\#efefef}${time %d} \
+ ${time %H:%M}%{F\#909090}, ${time %Y-%m-}%{F\#efefef}${time %d} \
 # Weather script
 %{F\#9fbc00}|%{F-} ${execi 60 cat /tmp/weatherdata}\
