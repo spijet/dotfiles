@@ -74,7 +74,7 @@ hc pad $monitor $panel_height
         echo -n "$separator"
         echo -n "%{B-}%{F-} ${windowtitle//%{/% {}"
         echo -n "%{r} $layout $separator "
-        echo -n "$conky"
+        echo -n "$conky "
         echo
 
         ### Data handling ###
