@@ -46,6 +46,7 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     # Dunst starts up automatically by DBus session, as it seems.
     # dunst &
     $HOME/bin/xkbmon &
+    $HOME/bin/hc-conky &
 fi
 
 

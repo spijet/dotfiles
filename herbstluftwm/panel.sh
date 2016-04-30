@@ -35,7 +35,6 @@ selfg='#101010'
 
 hc pad $monitor $panel_height
 {
-    conky -c ${CFGDIR}/conkyrc &
     hc --idle
 } 2> /dev/null | {
     IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
@@ -120,4 +119,3 @@ hc pad $monitor $panel_height
 
 } 2> /dev/null | lemonbar -g ${panel_width}x${panel_height}+${x}+${y} -f "$font" -f "$glyphfont" \
                           -B "$bgcolor" -F '#efefef' | while read line; do eval "$line"; done
-
