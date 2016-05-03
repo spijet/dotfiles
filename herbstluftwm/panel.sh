@@ -34,9 +34,11 @@ selfg='#101010'
 ####
 
 hc pad $monitor $panel_height
-{
-    hc --idle
-} 2> /dev/null | {
+
+# Now I feed the panel via herbstclient hooks.
+# This way I only need one process to be piped to
+#  the parser and lemonbar.
+hc --idle 2> /dev/null | {
     IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
     visible=true
     conky=""
@@ -45,7 +47,7 @@ hc pad $monitor $panel_height
     while true ; do
 
         ### Output ###
-        # This part prints dzen data based on the _previous_ data handling run,
+        # This part prints panel data based on the _previous_ data handling run,
         # and then waits for the next event to happen.
 
         bordercolor="#26221C"
