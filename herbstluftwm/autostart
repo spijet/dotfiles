@@ -60,9 +60,18 @@ Mod=Mod4   # Use the super key as the main modifier
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
+
 # Terminal
-hc keybind $Mod-Return spawn termite
-hc keybind $Mod-Shift-Return spawn termite -c ~/.config/termite/config.tewi
+# I use Tewi terminal as main one on my work computer.
+if [[ ${PEKO} -eq "workstation" ]]
+then
+    hc keybind $Mod-Return spawn termite -c ~/.config/termite/config.tewi
+    hc keybind $Mod-Shift-Return spawn termite
+else
+    hc keybind $Mod-Return spawn termite
+    hc keybind $Mod-Shift-Return spawn termite -c ~/.config/termite/config.tewi
+fi
+
 # Media keys
 hc keybind XF86AudioLowerVolume spawn $CFGDIR/volume.sh down
 hc keybind XF86AudioRaiseVolume spawn $CFGDIR/volume.sh up
