@@ -43,10 +43,8 @@ nitrogen --restore
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
-    # Dunst starts up automatically by DBus session, as it seems.
-    # dunst &
-    $CFGDIR/helpers/xkbmon &
-    $CFGDIR/helpers/hc-conky &
+    ${CFGDIR}/helpers/xkbmon &
+    ${CFGDIR}/helpers/hc-conky &
 fi
 
 
@@ -64,6 +62,7 @@ hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 # Terminal
 hc keybind $Mod-Return spawn termite
+hc keybind $Mod-Shift-Return spawn termite -c ~/.config/termite/config.tewi
 # Media keys
 hc keybind XF86AudioLowerVolume spawn $CFGDIR/volume.sh down
 hc keybind XF86AudioRaiseVolume spawn $CFGDIR/volume.sh up
