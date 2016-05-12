@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
+hc() { herbstclient "$@" ;}
 
 # prints a machine readable format of all tags and its layouts
 # one tag with its layout per line
@@ -14,4 +14,4 @@ hc complete 1 use |
 while read tag ; do
     echo -n "$tag: "
     hc dump "$tag"
-done
+done > "$1"

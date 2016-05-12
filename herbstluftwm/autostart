@@ -15,9 +15,14 @@ hc() {
 }
 
 hc emit_hook reload
+
+# Set HLWM configs dir
 CFGDIR="${HOME}/.config/herbstluftwm"
 
-if [[ ${PEKO} -eq "laptop" ]]
+# Load platform options if they exist:
+[ -f "${HOME}/.zsh/options/platform.sh" ] && source "${HOME}/.zsh/options/platform.sh"
+
+if [[ ${PEKO} = "laptop" ]]
 then
     #
     # Set screen refresh rate.
@@ -44,7 +49,7 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
     ${CFGDIR}/helpers/xkbmon &
-    ${CFGDIR}/helpers/hc-conky &
+    pgrep conky > /dev/null || ${CFGDIR}/helpers/hc-conky &
 fi
 
 
@@ -63,7 +68,7 @@ hc keybind $Mod-Shift-c close
 
 # Terminal
 # I use Tewi terminal as main one on my work computer.
-if [[ ${PEKO} -eq "workstation" ]]
+if [[ ${PEKO} = "workstation" ]]
 then
     hc keybind $Mod-Return spawn termite -c ~/.config/termite/config.tewi
     hc keybind $Mod-Shift-Return spawn termite
@@ -149,8 +154,8 @@ hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
 # layout saving
-savestate=${CFGDIR}/layouts
-hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" > "$savestate"
+SAVESTATE="${CFGDIR}/layouts"
+hc keybind $Mod-Shift-s spawn ${CFGDIR}/savestate.sh "${SAVESTATE}"
 
 
 # mouse
@@ -223,7 +228,7 @@ herbstclient chain $cmds&
 # the panel is universal as for now, WiFi stuff is managed by Conky
 panel=$CFGDIR/panel.sh
 
-[[ -f "$savestate" ]] && ${CFGDIR}/loadstate.sh < "$savestate"
+[[ -f "${SAVESTATE}" ]] && ${CFGDIR}/loadstate.sh "${SAVESTATE}"
 
 [[ -x "$panel" ]] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
