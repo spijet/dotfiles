@@ -3,9 +3,9 @@ resize_grip = false
 scroll_on_output = false
 scroll_on_keystroke = true
 audible_bell = false
-visible_bell = false
+visible_bell = true
 mouse_autohide = true
-allow_bold = false
+allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
@@ -22,7 +22,7 @@ cursor_blink = on
 cursor_shape = block
 
 # $BROWSER is used by default
-browser = firefox
+browser = xdg-open
 
 # word characters used for word selection
 # (default if unset: all graphic non-punctuation/space characters)
@@ -33,17 +33,14 @@ size_hints = false
 
 [colors]
 foreground_bold = #ffffff
-#background = #111111
-background = rgba(17, 17, 17, 0.95)
+background = #111111
 foreground = #dcdccc
-#foreground_dim = #888888
 cursor = #657b83
 
 # if unset, will reverse foreground and background
 highlight = #2f2f2f
 
 # colors from color0 to color254 can be set
-
 color0 =     #000000
 color1 =     #9e1828
 color2 =     #aece92
