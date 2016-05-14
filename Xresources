@@ -1,0 +1,88 @@
+!-------------------------------------------------------
+! Terminal settings
+!-------------------------------------------------------
+xterm*faceName: xft:Iosevka:size=11
+
+!-------------------------------------------------------
+! Colors
+!-------------------------------------------------------
+*background: #111111
+*foreground: #DCDCCC
+*color0: #000000
+*color1: #9e1828
+*color2: #aece92
+*color3: #968a38
+*color4: #414171
+*color5: #963c59
+*color6: #418179
+*color7: #bebebe
+*color8: #666666
+*color9: #cf6171
+*color10: #c5f779
+*color11: #fff796
+*color12: #4186be
+*color13: #cf9ebe
+*color14: #71bebe
+*color15: #ffffff
+
+!-------------------------------------------------------
+! Rofi Settings
+!-------------------------------------------------------
+! Enabled modi
+rofi.modi:                           window,run,ssh
+! Window opacity
+rofi.opacity:                        100
+! Window width
+rofi.width:                          73
+! Number of lines
+rofi.lines:                          10
+! Number of columns
+rofi.columns:                        1
+! Font to use
+rofi.font:                           Iosevka 11
+! Color scheme for normal row
+rofi.color-normal:                   #101010,gray,#121212,#9fbc00,#101010
+! Color scheme for urgent row
+rofi.color-urgent:                   #fdf6e3,#dc322f,#eee8d5,#dc322f,#fdf6e3
+! Color scheme for active row
+rofi.color-active:                   #fdf6e3,#268bd2,#eee8d5,#268bd2,#fdf6e3
+! Color scheme window
+rofi.color-window:                   #101010,gray
+! Border width
+rofi.bw:                             0
+! Terminal to use
+rofi.terminal:                       termite
+! Ssh command to execute
+rofi.ssh-command:                    {terminal} -e "{ssh-client} {host}"
+! Run command to execute
+rofi.run-command:                    {cmd}
+! Run command to execute that runs in shell
+rofi.run-shell-command:              {terminal} -e {cmd}
+! Use levenshtein sorting
+rofi.levenshtein-sort:               false
+! Set case-sensitivity
+rofi.case-sensitive:                 false
+! Enable auto select mode
+rofi.auto-select:                    false
+! Parse hosts file for ssh mode
+rofi.parse-hosts:                    false
+! Parse known_hosts file for ssh mode
+rofi.parse-known-hosts:              true
+! Set the modi to combine in combi mode
+rofi.combi-modi:                     window,run
+! Do a more fuzzy matching
+rofi.fuzzy:                          true
+! Monitor id to show on
+rofi.m:                              -4
+! Margin between rows
+rofi.line-margin:                    2
+! Hide scroll-bar
+rofi.hide-scrollbar:                 true
+! The display name of this browser
+rofi.display-ssh:                    (ssh)
+! The display name of this browser
+rofi.display-run:                    (run)
+! The display name of this browser
+rofi.display-drun:                   (drun)
+! The display name of this browser
+rofi.display-window:                 (window)
