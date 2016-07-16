@@ -1,0 +1,33 @@
+#!/bin/bash
+
+############################################################
+#
+# PWM frequency fix script for laptops with Intel GPU
+# The settings specified are my personal favourites for
+# Lenovo U330p, your mileage may vary.
+#
+# USE AT YOUR OWN RISK!!
+#
+############################################################
+
+read() {
+    PWMDATA=$(sudo intel_reg read 0xC8254)
+    PWMFREQ="${PWMDATA:67:3}"
+    echo "${PWMFREQ}"
+}
+
+case $1 in
+    read)
+        read
+        ;;
+    fix)
+        sudo intel_reg write 0xC8254 0x7d007d
+        read > /tmp/pwmfreq
+        echo "Done."
+        ;;
+    *)
+        echo "Usage:"
+        echo "\"${0} read\": Get current PWM frequency;"
+        echo "\"${0} fix\": Tune backlight PWM to be good;"
+        ;;
+esac
