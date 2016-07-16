@@ -10,8 +10,12 @@
 #
 ############################################################
 
+# Settings here:
+PWM_REGISTER="0xC8254"
+PWMFIX_VALUE="0x7d007d"
+
 read() {
-    PWMDATA=$(sudo intel_reg read 0xC8254)
+    PWMDATA=$(sudo intel_reg read ${PWM_REGISTER})
     PWMFREQ="${PWMDATA:67:3}"
     echo "${PWMFREQ}"
 }
@@ -21,7 +25,7 @@ case $1 in
         read
         ;;
     fix)
-        sudo intel_reg write 0xC8254 0x7d007d
+        sudo intel_reg write ${PWM_REGISTER} ${PWMFIX_VALUE}
         read > /tmp/pwmfreq
         echo "Done."
         ;;
