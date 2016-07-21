@@ -51,15 +51,6 @@ if [[ -d "${ZDOTDIR}/modules/aliases" ]]; then
     unset file
 fi
 
-#
-# Show hostname if invoked over SSH.
-# Seems like it's not needed with 'pure' prompt.
-#
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export PROMPT="(%m)$PROMPT"
-# fi
-#
-
 # VTE Fixes for Termite:
  if [[ $TERM == xterm-termite ]]; then
    eval $(dircolors ~/.dircolors)
@@ -70,10 +61,3 @@ fi
 # Load ZSH completions:
 autoload -U compinit && compinit
 zstyle ':completion:*' menu select
-
-# Enable autosuggestions automatically
-# zle-line-init() {
-#   zle autosuggest-start
-# }
-# zle -N zle-line-init
-
