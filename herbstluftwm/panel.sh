@@ -10,6 +10,10 @@ fi
 
 CFGDIR=$HOME/.config/herbstluftwm
 
+get_volume() {
+    ${CFGDIR}/volume.sh get
+}
+
 # Get fancy tag names here, since herbstluftwm has problems using these fancy chars internally.
 tagnames=( $(grep tag_alias= $CFGDIR/autostart | sed 's/.*(\([^)]*\))/\1/g') )
 
@@ -44,6 +48,7 @@ hc --idle 2> /dev/null | {
     conky=""
     layout="$(skb -1)"
     windowtitle="Welcome home."
+    volume="$(get_volume)"
     while true ; do
 
         ### Output ###
@@ -75,7 +80,7 @@ hc --idle 2> /dev/null | {
         done
         echo -n "$separator"
         echo -n "%{B-}%{F-} ${windowtitle//%{/% {}"
-        echo -n "%{r} $layout $separator "
+        echo -n "%{r} $layout $separator $volume $separator "
         echo -n "$conky "
         echo
 
@@ -112,6 +117,8 @@ hc --idle 2> /dev/null | {
             layout)
                 layout="${cmd[@]:1}"
                 ;;
+            volume)
+                volume="$(get_volume)"
         esac
     done
 
