@@ -1,0 +1,26 @@
+if [[ -x "$(which cave)" ]]; then
+	#
+	# Paludis Settings
+	#
+	export CAVE_SEARCH_INDEX_FILE=/var/cache/paludis/searchcache
+	export CAVE_RESUME_FILE_OPT=/tmp/cave-resume
+	
+	#
+	# Short aliases for various `cave` (sub)commands
+	#
+	
+	alias cave='sudo cave'
+	alias cs='cave search --index ${CAVE_SEARCH_INDEX_FILE}'
+	alias cm='cave manage-search-index --create ${CAVE_SEARCH_INDEX_FILE}'
+	alias cc='cave contents'
+	alias crp='cave resolve'
+	alias cr='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT}'
+	alias cw='cave show'
+	alias co='cave owner'
+	alias cu='cave uninstall'
+	alias cy='cave sync'
+	alias cz='cave resume -Cs --resume-file ${CAVE_RESUME_FILE_OPT}'
+	alias cfl='cave fix-linkage'
+	alias world-up='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT} -c -km -Km -Cs -P "*/*" -Si -si -Rw --ignore-unable-decisions world'
+	alias system-up='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT} -c -km -Km -Cs -P "*/*" -Si -si -Rn system'
+fi

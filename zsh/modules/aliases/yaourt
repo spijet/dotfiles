@@ -1,0 +1,21 @@
+if [[ -x "$(which yaourt)" ]]; then
+	#
+	# Yaourt aliases for ArchLinux and friends
+	#
+	yaconf='yaourt -C'
+	yain='yaourt -S'
+	yains='yaourt -U'
+	yainsd='yaourt -S --asdeps'
+	yaloc='yaourt -Qi'
+	yalocs='yaourt -Qs'
+	yalst='yaourt -Qe'
+	yamir='yaourt -Syy'
+	yaorph='yaourt -Qtd'
+	yare='yaourt -R'
+	yarem='yaourt -Rns'
+	yarep='yaourt -Si'
+	yareps='yaourt -Ss'
+	yasu='yaourt --sucre'
+	yaupd='yaourt -Sy && sudo abs'
+	yaupg='yaourt -Syua'
+fi

@@ -1,0 +1,4 @@
+# Launch ncmpcpp on Alt+\
+ncmpcppShow() { ncmpcpp <$TTY; zle redisplay; }
+zle -N ncmpcppShow
+bindkey '^[\' ncmpcppShow

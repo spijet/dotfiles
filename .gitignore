@@ -1,7 +1,4 @@
-zsh/history
-zsh/plugins/autosuggestions
-zsh/aliases/private.sh
-zsh/options/platform.sh
+zsh/modules/aliases/local
 vim/.vim/bundle
 !vim/.vim/bundle/.Vundle.vim
 vimperator/.vimperator/info
