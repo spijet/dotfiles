@@ -79,10 +79,10 @@ rofi.line-margin:                    2
 ! Hide scroll-bar
 rofi.hide-scrollbar:                 true
 ! The display name of this browser
-rofi.display-ssh:                    (ssh)
+rofi.display-ssh:                    SSH To
 ! The display name of this browser
-rofi.display-run:                    (run)
+rofi.display-run:                    Run
 ! The display name of this browser
 rofi.display-drun:                   (drun)
 ! The display name of this browser
-rofi.display-window:                 (window)
+rofi.display-window:                 Windows
