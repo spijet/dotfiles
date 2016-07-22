@@ -1,4 +1,5 @@
 zsh/modules/aliases/local
+zsh/.zcompdump
 vim/.vim/bundle
 !vim/.vim/bundle/.Vundle.vim
 vimperator/.vimperator/info
