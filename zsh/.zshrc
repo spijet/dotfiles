@@ -51,6 +51,14 @@ if [[ -d "${ZDOTDIR}/modules/aliases" ]]; then
     unset file
 fi
 
+# Load all the extensions:
+if [[ -d "${ZDOTDIR}/modules/extensions" ]]; then
+    for file in ${ZDOTDIR}/modules/extensions/*; do
+        source $file
+    done
+    unset file
+fi
+
 # VTE Fixes for Termite:
  if [[ $TERM == xterm-termite ]]; then
    eval $(dircolors ~/.dircolors)
