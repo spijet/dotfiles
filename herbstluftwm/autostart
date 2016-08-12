@@ -47,6 +47,7 @@ nitrogen --restore
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
+    /usr/libexec/deja-dup/deja-dup-monitor &
     ${CFGDIR}/helpers/xkbmon &
     pgrep conky > /dev/null || ${CFGDIR}/helpers/hc-conky &
 fi

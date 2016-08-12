@@ -2,6 +2,8 @@
 ! Terminal settings
 !-------------------------------------------------------
 xterm*faceName: xft:Iosevka:size=11
+xterm*faceNameDoublesize: xft:Iosevka:size=11
+URxvt*font: xft:Iosevka Term:size=11,xft:Dejavu Sans Mono:size=11
 
 !-------------------------------------------------------
 ! Colors
@@ -86,3 +88,10 @@ rofi.display-run:                    Run
 rofi.display-drun:                   (drun)
 ! The display name of this browser
 rofi.display-window:                 Windows
+
+!-----------------------------------------------------------
+!    URxvt settings
+!-----------------------------------------------------------
+URxvt.scrollBar: false
+URxvt*termName: rxvt-unicode-256color
+URxvt.letterSpace: 0
