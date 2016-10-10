@@ -6,8 +6,8 @@ HISTFILE="${HOME}/.cache/zsh-history"
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
-unsetopt SHARE_HISTORY
-unsetopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
 
 
 # Set up antibody alias

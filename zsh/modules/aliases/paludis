@@ -4,11 +4,11 @@ if [[ -x "$(which cave)" ]]; then
 	#
 	export CAVE_SEARCH_INDEX_FILE=/var/cache/paludis/searchcache
 	export CAVE_RESUME_FILE_OPT=/tmp/cave-resume
-	
+
 	#
 	# Short aliases for various `cave` (sub)commands
 	#
-	
+
 	alias cave='sudo cave'
 	alias cs='cave search --index ${CAVE_SEARCH_INDEX_FILE}'
 	alias cm='cave manage-search-index --create ${CAVE_SEARCH_INDEX_FILE}'
@@ -21,6 +21,6 @@ if [[ -x "$(which cave)" ]]; then
 	alias cy='cave sync'
 	alias cz='cave resume -Cs --resume-file ${CAVE_RESUME_FILE_OPT}'
 	alias cfl='cave fix-linkage'
-	alias world-up='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT} -c -km -Km -Cs -P "*/*" -Si -si -Rw --ignore-unable-decisions world'
-	alias system-up='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT} -c -km -Km -Cs -P "*/*" -Si -si -Rn system'
+	alias world-up='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT} -c -km -Km -Cs -P "*/*" --ignore-unable-decisions world'
+	alias system-up='cave resolve --resume-file ${CAVE_RESUME_FILE_OPT} -c -km -Km -Cs -P "*/*" system'
 fi

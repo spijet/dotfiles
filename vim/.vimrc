@@ -12,6 +12,8 @@ Plugin 'gmarik/Vundle.vim'
 
 " Vim Airline
 Plugin 'bling/vim-airline'
+" Airline themes
+Plugin 'vim-airline/vim-airline-themes'
 
 " Vim Git Plugin
 Plugin 'tpope/vim-fugitive'
