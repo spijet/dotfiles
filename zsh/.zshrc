@@ -65,6 +65,8 @@ fi
    alias ssh="TERM=xterm ssh -C"
  fi
 
+# Unclutter PATH
+ typeset -U path
 
 # Load ZSH completions:
 autoload -U compinit && compinit
