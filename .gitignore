@@ -3,4 +3,6 @@ zsh/.zcompdump
 vim/.vim/bundle
 !vim/.vim/bundle/.Vundle.vim
 vimperator/.vimperator/info
+spacemacs.d/account-config.el
+spacemacs.d/mu4e-config.el
 *.swp
