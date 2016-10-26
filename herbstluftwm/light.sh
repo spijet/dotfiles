@@ -8,7 +8,7 @@ setmode() {
         BL_DELTA="15"
         BL_CAP="127"
     else
-        BL_DELTA="25"
+        BL_DELTA="55"
         BL_CAP="937"
     fi
 }

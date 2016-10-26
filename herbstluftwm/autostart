@@ -41,7 +41,12 @@ then
     # Rehash fontdirs.
     xset fp rehash
 fi
-nitrogen --restore
+
+if which nitrogen >/dev/null 2>&1; then
+	nitrogen --restore
+else
+	~/.fehbg &
+fi
 
 # New hlwm function that allows making cleaner version of run_once.
 if herbstclient silent new_attr bool my_not_first_autostart ; then
@@ -73,8 +78,8 @@ then
     hc keybind $Mod-Return spawn termite -c ~/.config/termite/config.tewi
     hc keybind $Mod-Shift-Return spawn termite
 else
-    hc keybind $Mod-Return spawn termite
-    hc keybind $Mod-Shift-Return spawn termite -c ~/.config/termite/config.tewi
+    hc keybind $Mod-Return spawn urxvtc
+    hc keybind $Mod-Shift-Return spawn urxvtc -fn 'xft:Tewi:pixelsize=11' -fb 'xft:Tewi:pixelsize=11'
 fi
 
 # Media keys
