@@ -53,7 +53,7 @@ values."
            mu4e-html2text-command "w3m -dump -T text/html"
            mu4e-maildir "~/.mail"
            mu4e-sent-folder "/sent"
-           mu4e-sent-folder "/trash"
+           mu4e-trash-folder "/trash"
            mu4e-update-interval 120
            mu4e-use-fancy-chars nil
            mu4e-view-show-addresses t
