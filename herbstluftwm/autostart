@@ -19,9 +19,6 @@ hc emit_hook reload
 # Set HLWM configs dir
 CFGDIR="${HOME}/.config/herbstluftwm"
 
-# Load platform options if they exist:
-[ -f "${HOME}/.zsh/options/platform.sh" ] && source "${HOME}/.zsh/options/platform.sh"
-
 if [[ ${PEKO} = "laptop" ]]
 then
     #
@@ -52,7 +49,6 @@ fi
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
-    /usr/libexec/deja-dup/deja-dup-monitor &
     ${CFGDIR}/helpers/xkbmon &
     pgrep conky > /dev/null || ${CFGDIR}/helpers/hc-conky &
 fi
