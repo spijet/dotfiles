@@ -4,13 +4,27 @@ set -x
 # Read current PWM frequency and set delta and cap
 setmode() {
     PWMFREQ=$(cat /tmp/pwmfreq)
-    if [ "${PWMFREQ}" = "125" ]; then
-        BL_DELTA="15"
-        BL_CAP="127"
-    else
-        BL_DELTA="55"
-        BL_CAP="937"
-    fi
+    # if [ "${PWMFREQ}" = "125" ]; then
+    #     BL_DELTA="15"
+    #     BL_CAP="127"
+    # else
+    #     BL_DELTA="55"
+    #     BL_CAP="937"
+    # fi
+    case "${PWMFREQ}" in
+        "125")
+            BL_DELTA="15"
+            BL_CAP="127"
+            ;;
+        "2170")
+            BL_DELTA="150"
+            BL_CAP="2170"
+            ;;
+        *)
+            BL_DELTA="55"
+            BL_CAP="937"
+            ;;
+    esac
 }
 
 up() {

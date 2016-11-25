@@ -19,7 +19,7 @@ hc emit_hook reload
 # Set HLWM configs dir
 CFGDIR="${HOME}/.config/herbstluftwm"
 
-if [[ ${PEKO} = "laptop" ]]
+if [[ ${PEKO} = "laptop-home" ]]
 then
     #
     # Set screen refresh rate.
@@ -69,7 +69,7 @@ hc keybind $Mod-Shift-c close
 
 # Terminal
 # I use Tewi terminal as main one on my work computer.
-if [[ ${PEKO} = "workstation" ]]
+if [[ ${PEKO} = "workstation" ]] || [[ ${PEKO} = "laptop-work" ]]
 then
     hc keybind $Mod-Return spawn termite -c ~/.config/termite/config.tewi
     hc keybind $Mod-Shift-Return spawn termite
@@ -238,5 +238,5 @@ panel=$CFGDIR/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
-    [[ ${PEKO} = "laptop" ]] && $CFGDIR/deferredtray.sh &
+    [[ ${PEKO} = "laptop"* ]] && $CFGDIR/deferredtray.sh &
 done
