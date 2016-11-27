@@ -1,0 +1,9 @@
+[Unit]
+Description=Get PWM data
+
+[Timer]
+OnBootSec=5sec
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target

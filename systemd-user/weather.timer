@@ -1,0 +1,9 @@
+[Unit]
+Description=Get weather data
+
+[Timer]
+OnBootSec=30sec
+OnUnitActiveSec=15min
+
+[Install]
+WantedBy=timers.target

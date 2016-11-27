@@ -1,0 +1,6 @@
+[Unit]
+Description=Get PWM data to tmpfs
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c '~/bin/pwmfreq read > /tmp/pwmfreq 2>/dev/null'
