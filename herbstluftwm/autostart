@@ -50,7 +50,7 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
     ${CFGDIR}/helpers/xkbmon &
-    pgrep conky > /dev/null || ${CFGDIR}/helpers/hc-conky &
+    which conky >/dev/null 2>&1 && ${CFGDIR}/helpers/hc-conky &
 fi
 
 

@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-conky -c ${HOME}/.config/herbstluftwm/conkyrc 2>/dev/null | while read line; do herbstclient emit_hook conky $line; done
+CONKY_FILE="/tmp/conky.out"
+[[ -f "${CONKY_FILE}" ]] || echo "" > "${CONKY_FILE}"
+while inotifywait -e close $CONKY_FILE >/dev/null 2>&1; do
+    herbstclient emit_hook conky "$(<${CONKY_FILE})"
+done
