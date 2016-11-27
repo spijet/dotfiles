@@ -1,5 +1,4 @@
 #!/bin/bash
-
 skb | \
     while read line
     do

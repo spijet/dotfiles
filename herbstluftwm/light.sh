@@ -4,13 +4,6 @@ set -x
 # Read current PWM frequency and set delta and cap
 setmode() {
     PWMFREQ=$(cat /tmp/pwmfreq)
-    # if [ "${PWMFREQ}" = "125" ]; then
-    #     BL_DELTA="15"
-    #     BL_CAP="127"
-    # else
-    #     BL_DELTA="55"
-    #     BL_CAP="937"
-    # fi
     case "${PWMFREQ}" in
         "125")
             BL_DELTA="15"
@@ -60,4 +53,4 @@ case $1 in
         ;;
 esac
 
-notify-send "Brightness: $(( NEW_BRIGHT * 100 / BL_CAP))%"
+notify-send -t 500 "Brightness: $(( NEW_BRIGHT * 100 / BL_CAP))%"

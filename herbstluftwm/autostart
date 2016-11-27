@@ -209,6 +209,7 @@ hc set focus_follows_mouse 1
 # rules
 hc unrule -F
 hc rule class=Firefox tag=web # Firefox belongs to 'web' tag.
+hc rule class=telegram-desktop tag=im
 hc rule focus=on # normally focus new clients
 #hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
@@ -226,17 +227,17 @@ hc detect_monitors
 
 # Send the commandchain to hlwm in one command,
 # because we're fast!
-herbstclient $cmds&
+herbstclient $cmds &
 
 # Find the panel:
 # the panel is universal as for now, WiFi stuff is managed by Conky
-panel=$CFGDIR/panel.sh
+panel="${CFGDIR}/panel.sh"
 
-[[ -f "${SAVESTATE}" ]] && ${CFGDIR}/loadstate.sh "${SAVESTATE}"
+[[ -f "${SAVESTATE}" ]] && "${CFGDIR}/loadstate.sh" "${SAVESTATE}"
 
-[[ -x "$panel" ]] || panel=/etc/xdg/herbstluftwm/panel.sh
+[[ -x "$panel" ]] || panel="/etc/xdg/herbstluftwm/panel.sh"
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
-    [[ ${PEKO} = "laptop"* ]] && $CFGDIR/deferredtray.sh &
+    [[ ${PEKO} = "laptop"* ]] && "${CFGDIR}/deferredtray.sh" &
 done
