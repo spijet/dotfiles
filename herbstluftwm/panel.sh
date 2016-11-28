@@ -11,7 +11,7 @@ fi
 CFGDIR=$HOME/.config/herbstluftwm
 
 get_volume() {
-    ${CFGDIR}/volume.sh get
+    ${CFGDIR}/helpers/volume get
 }
 
 # Get fancy tag names here, since herbstluftwm has problems using these fancy chars internally.
