@@ -25,7 +25,7 @@ case $1 in
         read
         ;;
     fix)
-        sudo intel_reg write ${PWM_REGISTER} ${PWMFIX_VALUE}
+        [[ "${PEKO}" = "laptop-home" ]] && sudo intel_reg write ${PWM_REGISTER} ${PWMFIX_VALUE}
         read > /tmp/pwmfreq
         echo "Done."
         ;;
