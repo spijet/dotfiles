@@ -3,4 +3,4 @@ Description=Get weather data to tmpfs
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/bash -c '~/bin/rubyweather.rb > /tmp/weatherdata 2>/dev/null'
+ExecStart=/usr/bin/bash -c '%h/bin/rubyweather.rb > /tmp/weatherdata 2>/dev/null'

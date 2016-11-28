@@ -2,7 +2,7 @@
 Description=Conky system monitor
 
 [Service]
-ExecStart=/usr/bin/conky -c ~/.config/herbstluftwm/conkyrc
+ExecStart=/usr/bin/conky -c %h/.config/herbstluftwm/conkyrc
 Restart=on-failure
 
 [Install]
