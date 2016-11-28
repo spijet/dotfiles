@@ -17,7 +17,7 @@ overwrite_file /tmp/conky.out
 
 TEXT
 # MPD Status
-${if_mpd_playing}%{F\#9fbc00}♪%{F-} %{F\#909090}${mpd_artist} - %{F-}${mpd_title} %{F\#9fbc00}|%{F-} ${endif}\
+${if_mpd_playing}%{F\#9fbc00}♪%{F-} %{F\#909090}%{A:mpc toggle:}${mpd_artist} - %{F-}${mpd_title} %{A}%{F\#9fbc00}|%{F-} ${endif}\
 # Battery
 ${if_existing /sys/class/power_supply/BAT1/status}${battery_short BAT1}:${execi 30 bc <<< "scale=1; $(</sys/class/power_supply/BAT1/power_now)/1000000"}W %{F\#9fbc00}|%{F-}${endif}\
 # Time and Date
