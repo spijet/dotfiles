@@ -15,10 +15,11 @@ CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
 source "${CFGDIR}/global.conf"
 
 
-# Add up all commands into a chain.
-hc() {
-    [ -z "${cmds}" ] && cmds="chain .-. ${@}" || cmds="${cmds} .-. ${@}"
-}
+## Add up all commands into a chain:
+#  Pre-fill chain variable:
+cmds="chain"
+#  Add every herbstclient call to the chain:
+hc() { cmds="${cmds} .-. ${@}" ;}
 
 hc emit_hook reload
 
@@ -42,6 +43,7 @@ then
     xset fp rehash
 fi
 
+## Set the wallpaper(s):
 if type nitrogen ; then
 	nitrogen --restore
 else
@@ -154,8 +156,7 @@ hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
 
 # layout saving
-SAVESTATE="${CFGDIR}/layouts"
-hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" "${savestate}"
+hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" "${SAVESTATE}"
 
 
 # mouse

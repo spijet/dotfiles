@@ -6,6 +6,8 @@ CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
 source "${CFGDIR}/global.conf"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
+get_volume() { "${CFGDIR}/helpers/volume" get ;}
+
 monitor="${1:-0}"
 geometry=( $(herbstclient monitor_rect "$monitor") )
 
@@ -13,10 +15,6 @@ if [[ -z "$geometry" ]] ;then
     echo "Invalid monitor $monitor"
     exit 1
 fi
-
-get_volume() {
-    "${CFGDIR}/helpers/volume" get
-}
 
 # geometry has the format X Y W H
 x="${geometry[0]}"
@@ -46,8 +44,6 @@ hc --idle 2> /dev/null | {
         ### Output ###
         # This part prints panel data based on the _previous_ data handling run,
         # and then waits for the next event to happen.
-
-        bordercolor="#26221C"
         separator="%{B-}%{F$selbg}|%{F-}"
         # draw tags
         for i in "${!tags[@]}" ; do
@@ -83,7 +79,6 @@ hc --idle 2> /dev/null | {
         # name.
         # "Special" events (quit_panel/togglehidepanel/reload) are also handled
         # here.
-
         # wait for next event
         IFS=$'\t' read -ra cmd || break
         # find out event origin
