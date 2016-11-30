@@ -1,43 +1,35 @@
 #!/bin/bash
 
+## Load config file:
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
+source "${CFGDIR}/global.conf"
+
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
-monitor=${1:-0}
+monitor="${1:-0}"
 geometry=( $(herbstclient monitor_rect "$monitor") )
-if [ -z "$geometry" ] ;then
+
+if [[ -z "$geometry" ]] ;then
     echo "Invalid monitor $monitor"
     exit 1
 fi
 
-CFGDIR=$HOME/.config/herbstluftwm
-
 get_volume() {
-    ${CFGDIR}/helpers/volume get
+    "${CFGDIR}/helpers/volume" get
 }
 
-# Get fancy tag names here, since herbstluftwm has problems using these fancy chars internally.
-tagnames=( $(grep tag_alias= $CFGDIR/autostart | sed 's/.*(\([^)]*\))/\1/g') )
+# geometry has the format X Y W H
+x="${geometry[0]}"
+y="${geometry[1]}"
+panel_width="${geometry[2]}"
+panel_height="14"
 
-# geometry has the format W H X Y
-x=${geometry[0]}
-y=${geometry[1]}
-panel_width=${geometry[2]}
-panel_height=14
-
-# Setting up fonts.
-# $font is used for panel text as well as for some decorations.
-# $glyphfont is used for fancy tag names and stuff like that,
-# which somehow is not present in Tewi.
-font="-lucy-tewi-medium-*-normal-*-11-*-*-*-*-*-*-*"
-glyphfont="-wuncon-siji-medium-r-normal-*-10-100-75-75-c-80-iso10646-1"
-
-
-bgcolor=$(hc get frame_border_normal_color)
-selbg=$(hc get window_border_active_color)
+bgcolor="$(hc get frame_border_normal_color)"
+selbg="$(hc get window_border_active_color)"
 selfg='#101010'
 
-####
-
-hc pad $monitor $panel_height
+# Pad the screen to panel height:
+hc pad "$monitor" "$panel_height"
 
 # Now I feed the panel via herbstclient hooks.
 # This way I only need one process to be piped to
@@ -59,7 +51,7 @@ hc --idle 2> /dev/null | {
         separator="%{B-}%{F$selbg}|%{F-}"
         # draw tags
         for i in "${!tags[@]}" ; do
-            case ${tags[i]:0:1} in
+            case "${tags[i]:0:1}" in
                 '#')
                     echo -n "%{B$selbg}%{F$selfg}"
                     ;;
@@ -76,9 +68,9 @@ hc --idle 2> /dev/null | {
                     echo -n "%{B-}%{F#ababab}"
                     ;;
             esac
-            echo -n "%{A:herbstclient focus_monitor \"$monitor\" && herbstclient use \"${tags[i]:1}\":} %{T2}${tagnames[i]}%{T1} %{A}"
+            echo -n "%{A:herbstclient focus_monitor \"${monitor}\" && herbstclient use \"${tags[i]:1}\":} %{T2}${tag_icons[i]}%{T1} %{A}"
         done
-        echo -n "$separator"
+        echo -n "${separator}"
         echo -n "%{B-}%{F-} ${windowtitle//%{/% {}"
         echo -n "%{r} $layout $separator $volume $separator "
         echo -n "$conky "
@@ -126,5 +118,6 @@ hc --idle 2> /dev/null | {
     # After the data is gathered and processed, the output of the previous block
     # gets piped to (lemon)bar.
 
-} 2> /dev/null | lemonbar -g ${panel_width}x${panel_height}+${x}+${y} -f "$font" -f "$glyphfont" \
-                          -B "$bgcolor" -F '#efefef' | while read line; do eval "$line"; done
+} 2> /dev/null | lemonbar -g "${panel_width}x${panel_height}+${x}+${y}" \
+                          -f "${TEXTFONT}" -f "${GLYPHFONT}" \
+                          -B "$bgcolor" -F '#efefef' | while read line; do eval "${line}"; done

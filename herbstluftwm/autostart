@@ -9,16 +9,18 @@
 #  ##:::: ##: ########:. ###. ###:: ##:::: ##:
 # ..:::::..::........:::...::...:::..:::::..::
 
+## Load config file:
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
+source "${CFGDIR}/global.conf"
+
+
 # Add up all commands into a chain.
 hc() {
     [ -z "${cmds}" ] && cmds="chain .-. ${@}" || cmds="${cmds} .-. ${@}"
 }
 
 hc emit_hook reload
-
-# Set HLWM configs dir
-CFGDIR="${HOME}/.config/herbstluftwm"
-HELPERS="${CFGDIR}/helpers"
 
 if [[ ${PEKO} = "laptop-home" ]]
 then
@@ -28,7 +30,7 @@ then
     #
     # Set Intel backlight PWM rate to ~500Hz.
     # See helper code for details.
-    ${HELPERS}/pwmfreq fix &
+    "${HLPDIR}/pwmfreq" fix &
     #
     # Add user-fonts to XFLD.
     xset +fp /home/spijet/.fonts
@@ -40,7 +42,7 @@ then
     xset fp rehash
 fi
 
-if which nitrogen >/dev/null 2>&1; then
+if type nitrogen ; then
 	nitrogen --restore
 else
 	~/.fehbg &
@@ -50,11 +52,9 @@ fi
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
-    ${HELPERS}/xkbmon &
-    which conky >/dev/null 2>&1 && ${HELPERS}/hc-conky &
+    "${HLPDIR}/xkbmon" &
+    type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
 fi
-
-
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -70,7 +70,7 @@ hc keybind $Mod-Shift-c close
 
 # Terminal
 # I use Tewi terminal as main one on my work computer.
-if [[ ${PEKO} = "workstation" ]] || [[ ${PEKO} = "laptop-work" ]]
+if [[ "${PEKO}" = "workstation" ]] || [[ "${PEKO}" = "laptop-work" ]]
 then
     hc keybind $Mod-Return spawn termite -c ~/.config/termite/config.tewi
     hc keybind $Mod-Shift-Return spawn termite
@@ -80,11 +80,11 @@ else
 fi
 
 # Media keys
-hc keybind XF86AudioLowerVolume spawn $HELPERS/volume down
-hc keybind XF86AudioRaiseVolume spawn $HELPERS/volume up
-hc keybind XF86AudioMute spawn $HELPERS/volume mute
-hc keybind XF86MonBrightnessDown spawn $HELPERS/backlight down
-hc keybind XF86MonBrightnessUp spawn $HELPERS/backlight up
+hc keybind XF86AudioLowerVolume spawn "${HLPDIR}/volume" down
+hc keybind XF86AudioRaiseVolume spawn "${HLPDIR}/volume" up
+hc keybind XF86AudioMute spawn "${HLPDIR}/volume" mute
+hc keybind XF86MonBrightnessDown spawn "${HLPDIR}/backlight" down
+hc keybind XF86MonBrightnessUp spawn "${HLPDIR}/backlight" up
 # Rofi keys
 hc keybind $Mod-r spawn rofi -show run
 hc keybind $Mod-Tab spawn rofi -show window
@@ -129,11 +129,6 @@ hc keybind $Mod-Control-Down    resize down +$resizestep
 hc keybind $Mod-Control-Up      resize up +$resizestep
 hc keybind $Mod-Control-Right   resize right +$resizestep
 
-# tags
-tag_alias=(        )
-tag_names=( mail web im term files docs misc )
-tag_keys=( {1..9} 0 )
-
 # Remove default tag (merge into first)
 hc rename default mail
 
@@ -160,7 +155,7 @@ hc keybind $Mod-p pseudotile toggle
 
 # layout saving
 SAVESTATE="${CFGDIR}/layouts"
-hc keybind $Mod-Shift-s spawn ${CFGDIR}/savestate.sh "${SAVESTATE}"
+hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" "${savestate}"
 
 
 # mouse
@@ -232,13 +227,13 @@ herbstclient $cmds &
 
 # Find the panel:
 # the panel is universal as for now, WiFi stuff is managed by Conky
-panel="${CFGDIR}/panel.sh"
+PANEL="${CFGDIR}/panel.sh"
 
 [[ -f "${SAVESTATE}" ]] && "${CFGDIR}/loadstate.sh" "${SAVESTATE}"
 
-[[ -x "$panel" ]] || panel="/etc/xdg/herbstluftwm/panel.sh"
+[[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
-    "$panel" $monitor &
-    [[ ${PEKO} = "laptop"* ]] && "${HELPERS}/tray" &
+    "$PANEL" "$monitor" &
+    [[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
 done
