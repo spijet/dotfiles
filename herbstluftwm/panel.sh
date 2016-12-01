@@ -7,6 +7,7 @@ source "${CFGDIR}/global.conf"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 get_volume() { "${CFGDIR}/helpers/volume" get ;}
+uniq_linebuffered() { awk '$0 != l { print ; l=$0 ; fflush(); }' "$@" ;}
 
 monitor="${1:-0}"
 geometry=( $(herbstclient monitor_rect "$monitor") )
@@ -32,7 +33,7 @@ hc pad "$monitor" "$panel_height"
 # Now I feed the panel via herbstclient hooks.
 # This way I only need one process to be piped to
 #  the parser and lemonbar.
-hc --idle 2> /dev/null | {
+hc --idle 2>/dev/null | {
     IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
     visible=true
     conky=""
@@ -113,6 +114,6 @@ hc --idle 2> /dev/null | {
     # After the data is gathered and processed, the output of the previous block
     # gets piped to (lemon)bar.
 
-} 2> /dev/null | lemonbar -g "${panel_width}x${panel_height}+${x}+${y}" \
+} 2> /dev/null | uniq_linebuffered | lemonbar -g "${panel_width}x${panel_height}+${x}+${y}" \
                           -f "${TEXTFONT}" -f "${GLYPHFONT}" \
                           -B "$bgcolor" -F '#efefef' | while read line; do eval "${line}"; done
