@@ -30,8 +30,8 @@ y="${geometry[1]}"
 panel_width="${geometry[2]}"
 panel_height="14"
 
-bgcolor="$(hc get frame_border_normal_color)"
-selbg="$(hc get window_border_active_color)"
+bgcolor="$(herbstclient get frame_border_normal_color)"
+selbg="$(herbstclient get window_border_active_color)"
 selfg='#101010'
 
 # Pad the screen to panel height:
@@ -40,7 +40,7 @@ hc pad "$monitor" "$panel_height"
 # Now I feed the panel via herbstclient hooks.
 # This way I only need one process to be piped to
 #  the parser and lemonbar.
-hc --idle 2>/dev/null | {
+herbstclient --idle 2>/dev/null | {
     IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
     visible=true
     conky=""
@@ -123,4 +123,4 @@ hc --idle 2>/dev/null | {
 
 } 2> /dev/null | uniq_linebuffered | lemonbar -g "${panel_width}x${panel_height}+${x}+${y}" \
                           -f "${TEXTFONT}" -f "${GLYPHFONT}" \
-                          -B "$bgcolor" -F '#efefef' | while read line; do eval "${line}"; done
+                          -B "$bgcolor" -F '#efefef'
