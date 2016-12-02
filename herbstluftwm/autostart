@@ -23,7 +23,7 @@ hc() { cmds="${cmds} .-. ${@}" ;}
 
 hc emit_hook reload
 
-if [[ ${PEKO} = "laptop-home" ]]
+if [[ "${PEKO}" = "laptop-home" ]]
 then
     #
     # Set screen refresh rate.
@@ -45,7 +45,7 @@ fi
 
 ## Set the wallpaper(s):
 if type nitrogen ; then
-	nitrogen --restore
+	nitrogen --restore &
 else
 	~/.fehbg &
 fi
@@ -207,6 +207,7 @@ hc set focus_follows_mouse 1
 hc unrule -F
 hc rule class=Firefox tag=web # Firefox belongs to 'web' tag.
 hc rule class=telegram-desktop tag=im
+hc rule class~'(Mail|Thunderbird)' tag=mail
 hc rule focus=on # normally focus new clients
 #hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals

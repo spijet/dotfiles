@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-hc() {
-    herbstclient "$@"
-}
+hc() { herbstclient "$@" ;}
 
 # loads layouts for each tag coming from file specified by $1
 # the format is the one created by savestate.sh
