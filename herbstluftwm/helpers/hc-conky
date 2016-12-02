@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-CONKY_FILE="/tmp/conky.out"
-[[ -f "${CONKY_FILE}" ]] || echo "" > "${CONKY_FILE}"
+CONKY_FILE="/tmp/conky.fifo"
 until pgrep conky >/dev/null; do
     sleep 2
 done
-while inotifywait -e close "${CONKY_FILE}" >/dev/null 2>&1; do
-    herbstclient emit_hook conky "$(<${CONKY_FILE})"
+while read line < /tmp/conky.fifo; do
+    herbstclient emit_hook conky "$line"
 done

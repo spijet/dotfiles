@@ -10,7 +10,7 @@ pad_percents 2
 uppercase no
 out_to_console no
 out_to_x no
-overwrite_file /tmp/conky.out
+overwrite_file /tmp/conky.fifo
 
 
 TEXT

@@ -1,15 +1,20 @@
 #!/bin/bash
+function fork() {
+	setsid "$@" >& /dev/null &
+	sleep 0.01
+}
+
 for command in trayer trayer-srg
 do
     type "${command}" >/dev/null 2>&1 && TRAYER_COMMAND="$(which ${command})"
 done
 if [[ -x "${TRAYER_COMMAND}" ]]; then
-    # sleep 3
+    sleep 1
     pgrep 'trayer' >/dev/null || \
-        "${TRAYER_COMMAND}" \
+        fork "${TRAYER_COMMAND}" \
             --edge top --align center --widthtype request \
             --heighttype pixel --height 14 --transparent true \
             --alpha 0 --tint 0x101010 --align right \
             --distancefrom right --distance 350
-    pgrep 'nm-applet' >/dev/null || nm-applet
+    pgrep 'nm-applet' >/dev/null || fork nm-applet
 fi
