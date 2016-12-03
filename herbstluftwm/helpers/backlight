@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Read current PWM frequency and set delta and cap
 setmode() {

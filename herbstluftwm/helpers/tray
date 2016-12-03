@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function fork() {
 	setsid "$@" >& /dev/null &
 	sleep 0.01

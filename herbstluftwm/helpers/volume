@@ -1,5 +1,5 @@
-#!/bin/bash
-set -x
+#!/usr/bin/env bash
+# set -x
 
 parse_volume() {
     [ "${CUR_VOLUME}" = "Mute" ] && OUTPUT="$(printf '%b' '\ue04f')" && return 0
