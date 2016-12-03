@@ -26,14 +26,13 @@ fi
 x="${geometry[0]}"
 y="${geometry[1]}"
 panel_width="${geometry[2]}"
-panel_height="14"
 
 bgcolor="$(herbstclient get frame_border_normal_color)"
 selbg="$(herbstclient get window_border_active_color)"
 selfg='#101010'
 
 # Pad the screen to panel height:
-hc pad "$monitor" "$panel_height"
+hc pad "$monitor" "$PANELHEIGHT"
 
 # Now I feed the panel via herbstclient hooks.
 # This way I only need one process to be piped to
@@ -119,6 +118,6 @@ herbstclient --idle 2>/dev/null | {
     # After the data is gathered and processed, the output of the previous block
     # gets piped to (lemon)bar.
 
-} 2> /dev/null | uniq_linebuffered | lemonbar -g "${panel_width}x${panel_height}+${x}+${y}" \
+} 2> /dev/null | uniq_linebuffered | lemonbar -g "${panel_width}x${PANELHEIGHT}+${x}+${y}" \
                           -f "${TEXTFONT}" -f "${GLYPHFONT}" \
                           -B "$bgcolor" -F '#efefef'
