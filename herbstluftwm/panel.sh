@@ -8,13 +8,11 @@ source "${CFGDIR}/global.conf"
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 get_volume() { "${CFGDIR}/helpers/volume" get ;}
 
-## Guess AWK implementation:
+## Select AWK implementation:
 if type mawk >/dev/null 2>&1; then
-    uniq_linebuffered() { mawk -W interactive '$0 != l { print ; l=$0 ; fflush(); }' "$@" ;}
-else
+    uniq_linebuffered() { mawk -W interactive '$0 != l { print ; l=$0 ; fflush(); }' "$@" ;}; else
     uniq_linebuffered() { awk '$0 != l { print ; l=$0 ; fflush(); }' "$@" ;}
 fi
-
 
 monitor="${1:-0}"
 geometry=( $(herbstclient monitor_rect "$monitor") )

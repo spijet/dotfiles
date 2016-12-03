@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Read current PWM frequency and set delta and cap
+# Read current PWM frequency and set delta and cap:
 setmode() {
-    PWMFREQ=$(cat /tmp/pwmfreq)
+    PWMFREQ="$(cat /tmp/pwmfreq)"
     case "${PWMFREQ}" in
         "125")
             BL_DELTA="15"
@@ -23,8 +23,9 @@ up() {
     CUR_BRIGHT=$(</sys/class/backlight/intel_backlight/brightness)
     NEW_BRIGHT=$(( CUR_BRIGHT + BL_DELTA ))
 
-    # Avoid overbrights so there's no need to decrease brightness all the way from 900%
-    [ "${NEW_BRIGHT}" -gt "${BL_CAP}" ] && NEW_BRIGHT="${BL_CAP}"
+    # Avoid overbrights so there's no need
+    # to decrease brightness all the way from 900%.
+    [[ "${NEW_BRIGHT}" -gt "${BL_CAP}" ]] && NEW_BRIGHT="${BL_CAP}"
 
     echo "${NEW_BRIGHT}" | sudo tee /sys/class/backlight/intel_backlight/brightness
 }
@@ -33,11 +34,11 @@ down() {
     CUR_BRIGHT=$(</sys/class/backlight/intel_backlight/brightness)
     NEW_BRIGHT=$(( CUR_BRIGHT - BL_DELTA ))
 
-    # Avoid total darkness
-    [ "${NEW_BRIGHT}" -lt "1" ] && NEW_BRIGHT="1"
+    # Avoid total darkness:
+    [[ "${NEW_BRIGHT}" -lt "1" ]] && NEW_BRIGHT="1"
     # Added this because switching to hi-freq backlight
     # usually results in brightness set to something like 250%
-    [ "${NEW_BRIGHT}" -gt "${BL_CAP}" ] && NEW_BRIGHT="${BL_CAP}"
+    [[ "${NEW_BRIGHT}" -gt "${BL_CAP}" ]] && NEW_BRIGHT="${BL_CAP}"
 
     echo "${NEW_BRIGHT}" | sudo tee /sys/class/backlight/intel_backlight/brightness
 }

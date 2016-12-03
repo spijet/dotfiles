@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # set -x
 
+################################################
+## This script controls the volume.           ##
+## Works with ALSA and PulseAudio.            ##
+## Also outputs current volume to HLWM panel. ##
+################################################
+
 parse_volume() {
     [ "${CUR_VOLUME}" = "Mute" ] && OUTPUT="$(printf '%b' '\ue04f')" && return 0
     (( CUR_VOLUME>=60 )) && OUTPUT=`printf "%b" "\ue05d ${CUR_VOLUME}%"` && return 0
