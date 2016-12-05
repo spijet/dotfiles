@@ -100,7 +100,7 @@ herbstclient --idle 2>/dev/null | {
                 exit
                 ;;
             reload)
-                kill $$
+                kill `jobs -pr` $$
                 exit
                 ;;
             focus_changed|window_title_changed)
@@ -118,6 +118,6 @@ herbstclient --idle 2>/dev/null | {
     # After the data is gathered and processed, the output of the previous block
     # gets piped to (lemon)bar.
 
-} 2> /dev/null | uniq_linebuffered | lemonbar -g "${panel_width}x${PANELHEIGHT}+${x}+${y}" \
+} 2>/dev/null | uniq_linebuffered | lemonbar -g "${panel_width}x${PANELHEIGHT}+${x}+${y}" \
                           -f "${TEXTFONT}" -f "${GLYPHFONT}" \
                           -B "$bgcolor" -F '#efefef'
