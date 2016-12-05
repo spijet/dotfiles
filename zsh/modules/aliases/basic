@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Basic stuff
 alias fping='/usr/sbin/fping'
 alias dmesg='dmesg -HL'

@@ -2,7 +2,7 @@
 
 highlight Bell border: none; background: #222326;
 highlight Boolean color: #aaabad;
-highlight CmdLine color: #EBECEE; background: #222326; 
+highlight CmdLine color: #EBECEE; background: #222326;
 highlight CmdLine>* font-family: "Iosevka"; font-size: 10pt; height: 24px;
 highlight CompDesc width: auto; color: #AAABAD;
 highlight CompItem background: #222326;
@@ -44,7 +44,7 @@ set toolbars=noaddons,nobookmarks,nomenu,nonavigation,tabs
 
 js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
 
-" Russian language keyboard mappings (UTF-8) 
+" Russian language keyboard mappings (UTF-8)
 map ё `
 map й q
 map ц w

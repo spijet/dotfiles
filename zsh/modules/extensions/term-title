@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Set tmux window title:
 # (Unholy OMZ ripoff)
  function title {

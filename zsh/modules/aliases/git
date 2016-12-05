@@ -1,4 +1,5 @@
-if [[ -x "$(which git)" ]]; then
+#!/usr/bin/env zsh
+if type git >/dev/null 2>&1; then
 	alias g='git status -sb'
 	alias gg='git branch -vv'
 	alias gs='git status'

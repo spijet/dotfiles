@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # Launch ncmpcpp on Alt+\
 ncmpcppShow() { ncmpcpp <$TTY; zle redisplay; }
 zle -N ncmpcppShow

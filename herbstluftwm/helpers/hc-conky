@@ -3,6 +3,6 @@ CONKY_FILE="/tmp/conky.fifo"
 until pgrep conky >/dev/null; do
     sleep 2
 done
-while read line < /tmp/conky.fifo; do
+while read line < "${CONKY_FILE}"; do
     herbstclient emit_hook conky "$line"
 done

@@ -36,24 +36,24 @@ zsh-users/zsh-history-substring-search
 EOF
 
 # Load custom keybinds, if any.
-if [[ -d "${ZDOTDIR}/modules/keybinds" ]]; then
-    for file in ${ZDOTDIR}/modules/keybinds/*; do
+if [[ -d "${BASEDIR}/modules/keybinds" ]]; then
+    for file in ${BASEDIR}/modules/keybinds/*; do
         source $file
     done
     unset file
 fi
 
 # Load all the aliases:
-if [[ -d "${ZDOTDIR}/modules/aliases" ]]; then
-    for file in ${ZDOTDIR}/modules/aliases/*; do
+if [[ -d "${BASEDIR}/modules/aliases" ]]; then
+    for file in ${BASEDIR}/modules/aliases/*; do
         source $file
     done
     unset file
 fi
 
 # Load all the extensions:
-if [[ -d "${ZDOTDIR}/modules/extensions" ]]; then
-    for file in ${ZDOTDIR}/modules/extensions/*; do
+if [[ -d "${BASEDIR}/modules/extensions" ]]; then
+    for file in ${BASEDIR}/modules/extensions/*; do
         source $file
     done
     unset file

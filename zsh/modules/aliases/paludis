@@ -1,4 +1,5 @@
-if [[ -x "$(which cave)" ]]; then
+#!/usr/bin/env zsh
+if type cave >/dev/null 2>&1; then
 	#
 	# Paludis Settings
 	#

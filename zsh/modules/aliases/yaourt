@@ -1,4 +1,5 @@
-if [[ -x "$(which yaourt)" ]]; then
+#!/usr/bin/env zsh
+if type yaourt >/dev/null 2>&1; then
 	#
 	# Yaourt aliases for ArchLinux and friends
 	#
