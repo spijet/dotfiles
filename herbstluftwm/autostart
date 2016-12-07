@@ -237,5 +237,5 @@ PANEL="${CFGDIR}/panel.sh"
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$PANEL" "$monitor" &
-    [[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
 done
+[[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
