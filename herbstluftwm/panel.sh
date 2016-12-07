@@ -3,7 +3,7 @@
 ## Load config file:
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
-source "${CFGDIR}/global.conf"
+. "${CFGDIR}/global.conf"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 get_volume() { "${CFGDIR}/helpers/volume" get ;}
@@ -100,7 +100,7 @@ herbstclient --idle 2>/dev/null | {
                 exit
                 ;;
             reload)
-                kill `jobs -pr` $$
+                pkill -P $$
                 exit
                 ;;
             focus_changed|window_title_changed)
