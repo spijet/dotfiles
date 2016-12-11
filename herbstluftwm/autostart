@@ -12,7 +12,7 @@
 ## Load config file:
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
-source "${CFGDIR}/global.conf"
+. "${CFGDIR}/global.conf"
 
 
 ## Add up all commands into a chain:
