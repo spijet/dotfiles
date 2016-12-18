@@ -43,7 +43,7 @@ values."
      helm
      html
      git
-     graphviz
+     ;; graphviz
      javascript
      latex
      markdown
@@ -79,7 +79,7 @@ values."
                      spell-checking-enable-by-default nil)
      syntax-checking
      version-control
-     vimscript
+     ;; vimscript
      yaml
      )
    ;; List of additional packages that will be installed without being

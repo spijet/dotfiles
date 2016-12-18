@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 CONKY_FILE="/tmp/conky.fifo"
+
 until pgrep conky >/dev/null; do
     sleep 2
 done
-while read line < "${CONKY_FILE}"; do
-    herbstclient emit_hook conky "$line"
-done
+
+(while read line < "${CONKY_FILE}"; do herbstclient emit_hook conky "$line"; done) &
+disown

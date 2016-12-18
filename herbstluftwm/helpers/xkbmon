@@ -1,7 +1,5 @@
-#!/usr/bin/env bash
-skb | \
-    while read line
+#!/usr/bin/dash
+skb | while read line
     do
         herbstclient emit_hook layout $line
     done &
-disown
