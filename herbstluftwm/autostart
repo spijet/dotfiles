@@ -225,6 +225,7 @@ hc detect_monitors
 
 # Send the commandchain to hlwm in one command,
 # because we're fast!
+# (No quoting here because args should be separated, IIRC)
 herbstclient $cmds &
 
 # Find the panel:
