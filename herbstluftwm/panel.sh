@@ -51,6 +51,7 @@ herbstclient --idle 2>/dev/null | {
         # and then waits for the next event to happen.
         separator="%{B-}%{F$selbg}|%{F-}"
         # draw tags
+        echo -n "%{T2}"
         for i in "${!tags[@]}" ; do
             case "${tags[i]:0:1}" in
                 '#')
@@ -69,10 +70,10 @@ herbstclient --idle 2>/dev/null | {
                     echo -n "%{B-}%{F#ababab}"
                     ;;
             esac
-            echo -n "%{A:herbstclient focus_monitor \"${monitor}\" && herbstclient use \"${tags[i]:1}\":} %{T2}${tag_icons[i]}%{T1} %{A}"
+            echo -n "%{A:herbstclient chain .-. focus_monitor \"${monitor}\" .-. use \"${tags[i]:1}\":} ${tag_icons[i]} %{A}"
         done
-        echo -n "${separator}"
-        echo -n "%{B-}%{F-} ${windowtitle//%{/% {}"
+        echo -n "%{T1}${separator} "
+        echo -n "${windowtitle//%{/% {}"
         echo -n "%{r} $layout $separator $volume $separator "
         echo -n "$conky "
         echo
