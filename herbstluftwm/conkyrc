@@ -1,7 +1,7 @@
 # Herbstluft-conky for lemonbar
 # conky settings
 background no
-update_interval 3
+update_interval 2
 cpu_avg_samples 2
 total_run_times 0
 override_utf8_locale yes
