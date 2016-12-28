@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/dash
 CONKY_FILE="/tmp/conky.fifo"
 
-until pgrep conky >/dev/null; do
-    sleep 2
-done
+# Wait until Conky is here:
+until pgrep conky >/dev/null; do sleep 2; done
 
+# Start consuming the FIFO and feeding it to HLWM via hooks:
 (while read line < "${CONKY_FILE}"; do herbstclient emit_hook conky "$line"; done) &
 disown
