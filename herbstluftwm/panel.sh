@@ -23,88 +23,75 @@ mkfifo -m600 "$fifo_events"
 # Pad the screen to panel height:
 hc pad "$monitor" "$PANELHEIGHT"
 
+## Read the taglist and create the tag widget contents:
 gentagline () {
+    # Switch the font to glyphs:
     tagline="%{T2}"
+    # Read the tag list:
+    IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
+    ## Tag statuses:
+    #  '#' -- Tag is active and focused on current monitor;
+    #  '+' -- Tag is active on current monitor,
+    #         but another monitor is focused;
+    #  ':' -- Tag is not active, but contains windows;
+    #  '!' -- Tag contains an urgent window.
     for i in "${!tags[@]}" ; do
         case "${tags[i]:0:1}" in
-            '#')
-                tagcolor="%{B$selbg}%{F$selfg}"
-                ;;
-            '+')
-                tagcolor="%{B#9CA668}%{F#141414}"
-                ;;
-            ':')
-                tagcolor="%{B-}%{F#ffffff}"
-                ;;
-            '!')
-                tagcolor="%{B#FF0675}%{F#141414}"
-                ;;
-            *)
-                tagcolor="%{B-}%{F#ababab}"
-                ;;
+            '#' ) tagcolor="%{B$selbg}%{F$selfg}";;
+            '+' ) tagcolor="%{B#9CA668}%{F#141414}";;
+            ':' ) tagcolor="%{B-}%{F#ffffff}";;
+            '!' ) tagcolor="%{B#FF0675}%{F#141414}";;
+            *   ) tagcolor="%{B-}%{F#ababab}";;
         esac
         tagline+="${tagcolor}%{A:herbstclient chain .-. focus_monitor \"${monitor}\" .-. use \"${tags[i]:1}\":} ${tag_icons[i]} %{A}"
     done
+    #  Switch font back to text:
+    tagline+="%{T1}"
 }
 
 parsecmd () {
+    #  The event and its arguments are read into the array cmd, then action is taken
+    #  depending on the event name. "Special" events
+    #  (quit_panel/togglehidepanel/reload) are also handled here.
     cmd="$1"
     case "${cmd[0]}" in
-        tag*)
-            #echo "resetting tags" >&2
-            IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
-            gentagline
-            ;;
-        conky)
-            #echo "Getting Conky input" >&2
-            conky="${cmd[1]}"
-            ;;
-        quit_panel)
-            exit
-            ;;
-        reload)
+        tag*       ) gentagline;;
+        conky      ) conky="${cmd[1]}";;
+        quit_panel ) exit;;
+        reload     )
             pkill -P $$
+            rm "$fifo_events"
             exit
             ;;
-        focus_changed|window_title_changed)
-            windowtitle="${cmd[2]}"
-            ;;
-        layout)
-            layout="${cmd[1]}"
-            ;;
-        volume)
-            volume="$(get_volume)"
+        *changed   ) windowtitle="${cmd[2]}";;
+        layout     ) layout="${cmd[1]}";;
+        volume     ) volume="$(get_volume)";;
     esac
 }
 
-# Now I feed the panel via herbstclient hooks.
-# This way I only need one process to be piped to
-#  the parser and lemonbar.
+## Feed the event loop:
+#  I feed the panel via herbstclient hooks.
+#  I also pipe the event list via awk to get rid of identical events (like
+#  redundant conky updates).
 herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > "$fifo_events" &
 
-## Process stuff:
-IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
+## Pre-fill data:
 gentagline
 conky=""
 layout="$(skb -1)"
 windowtitle="Welcome home."
 volume="$(get_volume)"
-IFS=$'\t'
 separator="%{B-}%{F$selbg}|%{F-}"
-while read -ra cmd; do
-    ### Data handling ###
-    # This part handles the events generated in the event loop, and sets
-    # internal variables based on them. The event and its arguments are
-    # read into the array cmd, then action is taken depending on the event
-    # name.
-    # "Special" events (quit_panel/togglehidepanel/reload) are also handled
-    # here.
+
+## Here comes the event loop:
+while IFS=$'\t' read -ra cmd; do
+    # Parse the event:
     parsecmd "${cmd}"
     # Draw tags and window title:
-    printf "%s" "%{T2}${tagline}%{T1}${separator} ${windowtitle//%{/% {}"
+    printf "%s" "${tagline}${separator} ${windowtitle//%{/% {}"
     # Draw info stuff on the right side of the panel and finish the line:
     printf "%s\n" "%{r} $layout $separator $volume $separator $conky "
 done < "$fifo_events" |\
-lemonbar -g "${panel_width}x${PANELHEIGHT}+${x}+${y}" \
-         -f "${TEXTFONT}" -f "${GLYPHFONT}" \
-         -B "$bgcolor" -F '#efefef'
+    lemonbar -g "${geometry}" \
+             -f "${TEXTFONT}" -f "${GLYPHFONT}" \
+             -B "$bgcolor" -F '#efefef'
