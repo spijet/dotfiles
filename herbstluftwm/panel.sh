@@ -8,19 +8,9 @@ CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 get_volume() { "${CFGDIR}/helpers/volume" get ;}
 
-## Select AWK implementation:
-if type mawk >/dev/null 2>&1; then
-    AWK="mawk -W interactive"; else
-    AWK="awk"; fi
-
 monitor="${1:-0}"
-geometry=( $(herbstclient monitor_rect "$monitor") )
+geometry=$(herbstclient monitor_rect "$monitor" | $AWK "{printf \"%sx%s+%s+%s\"values,\$3,\"${PANELHEIGHT}\",\$1,\$2;}")
 [[ -z "$geometry" ]] && echo "Invalid monitor $monitor" && exit 1
-
-# geometry has the format X Y W H
-x="${geometry[0]}"
-y="${geometry[1]}"
-panel_width="${geometry[2]}"
 
 bgcolor="$(herbstclient get frame_border_normal_color)"
 selbg="$(herbstclient get window_border_active_color)"
