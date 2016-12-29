@@ -65,7 +65,7 @@ parsecmd () {
             ;;
         *changed   ) windowtitle="${cmd[2]}";;
         layout     ) layout="${cmd[1]}";;
-        volume     ) volume="$(get_volume)";;
+        volume     ) volume=$(printf "%b" "${cmd[1]}");;
     esac
 }
 
@@ -80,7 +80,7 @@ gentagline
 conky=""
 layout="$(skb -1)"
 windowtitle="Welcome home."
-volume="$(get_volume)"
+volume=$(printf "%b" "$(get_volume)")
 separator="%{B-}%{F$selbg}|%{F-}"
 
 ## Here comes the event loop:
