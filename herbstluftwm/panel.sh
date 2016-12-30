@@ -17,8 +17,12 @@ selbg="$(herbstclient get window_border_active_color)"
 selfg='#101010'
 
 fifo_events="/tmp/panelevents.${monitor}"
-[ -e "$fifo_events" ] && rm "$fifo_events"
-mkfifo -m600 "$fifo_events"
+if [[ "$2" = "debug" ]]; then
+    [ -e "$fifo_events" ] && rm "$fifo_events"
+    mkfifo -m600 "$fifo_events"
+else
+    [ -p "$fifo_events" ] || notify-send -u critical "Panel error!" "No FIFO found!"
+fi
 
 # Pad the screen to panel height:
 hc pad "$monitor" "$PANELHEIGHT"
@@ -69,11 +73,13 @@ parsecmd () {
     esac
 }
 
+if [ "$2" = "debug" ]; then
 ## Feed the event loop:
 #  I feed the panel via herbstclient hooks.
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
 herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > "$fifo_events" &
+fi
 
 ## Pre-fill data:
 gentagline
