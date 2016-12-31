@@ -232,10 +232,10 @@ PANEL="${CFGDIR}/panel.sh"
 [[ -f "${SAVESTATE}" ]] && "${CFGDIR}/loadstate.sh" "${SAVESTATE}"
 
 ## Prepare panel:
-MONITORS="$(herbstclient list_monitors | cut -d: -f1)"
+read -ra MONITORS <<< "$(herbstclient list_monitors | cut -d: -f1)"
 FIFOS=""
 #  Create event pipes:
-for monitor in $MONITORS ; do
+for monitor in ${MONITORS[@]} ; do
     pkill -cxf 'herbstclient --idle'
     FIFO="/tmp/panelevents.${monitor}"
     [ -e "$FIFO" ] && rm "$FIFO"
@@ -246,7 +246,11 @@ done
 #  (no quoting here since I want to expand one sting to N monitors)
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
-herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' | tee $FIFOS &
+if [ "${#MONITORS[@]}" -gt "1" ]; then
+    herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' | tee $FIFOS &
+else # No need for `tee` for one monitor.
+    herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > $FIFOS &
+fi
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
 for monitor in $MONITORS ; do
