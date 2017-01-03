@@ -1,23 +1,9 @@
 #!/usr/bin/env bash
 
 # Read current PWM frequency and set delta and cap:
-setmode() {
-    PWMFREQ="$(cat /tmp/pwmfreq)"
-    case "${PWMFREQ}" in
-        "125")
-            BL_DELTA="15"
-            BL_CAP="127"
-            ;;
-        "2170")
-            BL_DELTA="150"
-            BL_CAP="2170"
-            ;;
-        *)
-            BL_DELTA="55"
-            BL_CAP="937"
-            ;;
-    esac
-}
+PWMFREQ="$(cat /tmp/pwmfreq)"
+BL_CAP="$PWMFREQ"
+BL_DELTA=$(( BL_CAP / 9 ))
 
 up() {
     CUR_BRIGHT=$(</sys/class/backlight/intel_backlight/brightness)
@@ -43,7 +29,6 @@ down() {
     echo "${NEW_BRIGHT}" | sudo tee /sys/class/backlight/intel_backlight/brightness
 }
 
-setmode
 case $1 in
     down)
         down

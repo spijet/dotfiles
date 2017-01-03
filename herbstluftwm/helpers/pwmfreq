@@ -6,27 +6,36 @@
 # The settings specified are my personal favourites for
 # Lenovo U330p, your mileage may vary.
 #
+# These settings correspond to 1500Hz PWM on this laptop.
+#
 # USE AT YOUR OWN RISK!!
 #
 ############################################################
 
 # Settings here:
 PWM_REGISTER="0xC8254"
-PWMFIX_VALUE="0x7d007d"
+PWMFIX_VALUE="007d"
 
-read() {
+read_freq() {
     PWMDATA=$(sudo intel_reg read ${PWM_REGISTER})
     PWMFREQ="${PWMDATA:67:3}"
     echo "${PWMFREQ}"
 }
 
+read_cycle() {
+    PWMDATA=$(sudo intel_reg read ${PWM_REGISTER})
+    PWMCYCLE="${PWMDATA:56:4}"
+    echo "${PWMCYCLE}"
+}
+
 case $1 in
     read)
-        read
+        read_freq
         ;;
     fix)
-        [[ "${PEKO}" = "laptop-home" ]] && sudo intel_reg write ${PWM_REGISTER} ${PWMFIX_VALUE}
-        read > /tmp/pwmfreq
+        PWMCYCLE=`read_cycle`
+        [[ "${PEKO}" = "laptop-home" ]] && sudo intel_reg write ${PWM_REGISTER} "0x${PWMFIX_VALUE}${PWMCYCLE}"
+        read_freq > /tmp/pwmfreq
         echo "Done."
         ;;
     *)
