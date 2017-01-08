@@ -32,7 +32,8 @@ gentagline () {
     # Switch the font to glyphs:
     tagline="%{T2}"
     # Read the tag list:
-    IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
+    # IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
+    tags=( $(hc tag_status $monitor) )
     ## Tag statuses:
     #  '#' -- Tag is active and focused on current monitor;
     #  '+' -- Tag is active on current monitor,

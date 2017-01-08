@@ -232,7 +232,7 @@ PANEL="${CFGDIR}/panel.sh"
 [[ -f "${SAVESTATE}" ]] && "${CFGDIR}/loadstate.sh" "${SAVESTATE}"
 
 ## Prepare panel:
-read -ra MONITORS <<< "$(herbstclient list_monitors | cut -d: -f1)"
+MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
 FIFOS=""
 #  Create event pipes:
 for monitor in ${MONITORS[@]} ; do
@@ -253,7 +253,7 @@ else # No need for `tee` for one monitor.
 fi
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
-for monitor in $MONITORS ; do
+for monitor in ${MONITORS[@]} ; do
     # start it on each monitor
     "$PANEL" "$monitor" &
 done
