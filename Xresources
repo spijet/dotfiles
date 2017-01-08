@@ -31,7 +31,7 @@ URxvt*font: xft:Iosevka Term:size=11,xft:Dejavu Sans Mono:size=11
 ! Rofi Settings
 !-------------------------------------------------------
 ! Enabled modi
-rofi.modi:                           window,run,ssh
+rofi.modi:                           window,run,drun,ssh
 ! Window opacity
 rofi.opacity:                        100
 ! Window width
@@ -85,7 +85,7 @@ rofi.display-ssh:                    SSH To
 ! The display name of this browser
 rofi.display-run:                    Run
 ! The display name of this browser
-rofi.display-drun:                   (drun)
+rofi.display-drun:                   Run
 ! The display name of this browser
 rofi.display-window:                 Windows
 
