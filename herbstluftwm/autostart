@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
 
-# '##::::'##:'##:::::::'##:::::'##:'##::::'##:
-#  ##:::: ##: ##::::::: ##:'##: ##: ###::'###:
-#  ##:::: ##: ##::::::: ##: ##: ##: ####'####:
-#  #########: ##::::::: ##: ##: ##: ## ### ##:
-#  ##.... ##: ##::::::: ##: ##: ##: ##. #: ##:
-#  ##:::: ##: ##::::::: ##: ##: ##: ##:.:: ##:
-#  ##:::: ##: ########:. ###. ###:: ##:::: ##:
-# ..:::::..::........:::...::...:::..:::::..::
+#:'##::::'##:'##:::::::'##:::::'##:'##::::'##:
+#: ##:::: ##: ##::::::: ##:'##: ##: ###::'###:
+#: ##:::: ##: ##::::::: ##: ##: ##: ####'####:
+#: #########: ##::::::: ##: ##: ##: ## ### ##:
+#: ##.... ##: ##::::::: ##: ##: ##: ##. #: ##:
+#: ##:::: ##: ##::::::: ##: ##: ##: ##:.:: ##:
+#: ##:::: ##: ########:. ###. ###:: ##:::: ##:
+#:..:::::..::........:::...::...:::..:::::..::
 
 ## Load config file:
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
+CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
-
-
-## Add up all commands into a chain:
-#  Pre-fill chain variable:
-cmds="chain"
-#  Add every herbstclient call to the chain:
-hc() { cmds="${cmds} .-. ${@}" ;}
 
 hc emit_hook reload
 
@@ -28,7 +20,7 @@ if [[ "${PEKO}" = "laptop-home" ]]; then
     # Set screen refresh rate.
     xrandr -r 48 &
     #
-    # Set Intel backlight PWM rate to ~500Hz.
+    # Set Intel backlight PWM rate.
     # See helper code for details.
     "${HLPDIR}/pwmfreq" fix &
     #
@@ -55,123 +47,22 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
 fi
 
-# remove all existing keybindings
-hc keyunbind --all
-
-# keybindings
-Mod=Mod4   # Use the super key as the main modifier
-
-# Basic keybinds
-# WM Control
-hc keybind $Mod-Shift-q quit
-hc keybind $Mod-Shift-r reload
-hc keybind $Mod-Shift-c close
-
-# Terminal
-# I use Tewi terminal as main one on my work computer.
-if [[ "${PEKO}" = "workstation" ]] || [[ "${PEKO}" = "laptop-work" ]]
-then
-    hc keybind $Mod-Return spawn termite -c ~/.config/termite/config.tewi
-    hc keybind $Mod-Shift-Return spawn termite
-else
-    hc keybind $Mod-Return spawn urxvtc
-    hc keybind $Mod-Shift-Return spawn urxvtc -fn 'xft:Tewi:pixelsize=11' -fb 'xft:Tewi:pixelsize=11'
-fi
-
-# Media keys
-hc keybind XF86AudioLowerVolume spawn "${HLPDIR}/volume" down
-hc keybind XF86AudioRaiseVolume spawn "${HLPDIR}/volume" up
-hc keybind XF86AudioMute spawn "${HLPDIR}/volume" mute
-hc keybind XF86MonBrightnessDown spawn "${HLPDIR}/backlight" down
-hc keybind XF86MonBrightnessUp spawn "${HLPDIR}/backlight" up
-# Rofi keys
-hc keybind $Mod-r spawn rofi -show run
-hc keybind $Mod-Tab spawn rofi -show window
-hc keybind $Mod-e spawn rofi -show ssh
-
-# basic movement
-# focusing clients
-hc keybind $Mod-Left  focus left
-hc keybind $Mod-Down  focus down
-hc keybind $Mod-Up    focus up
-hc keybind $Mod-Right focus right
-hc keybind $Mod-h     focus left
-hc keybind $Mod-j     focus down
-hc keybind $Mod-k     focus up
-hc keybind $Mod-l     focus right
-
-# moving clients
-hc keybind $Mod-Shift-Left  shift left
-hc keybind $Mod-Shift-Down  shift down
-hc keybind $Mod-Shift-Up    shift up
-hc keybind $Mod-Shift-Right shift right
-hc keybind $Mod-Shift-h     shift left
-hc keybind $Mod-Shift-j     shift down
-hc keybind $Mod-Shift-k     shift up
-hc keybind $Mod-Shift-l     shift right
-
-# splitting frames
-# create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
-# let the current frame explode into subframes
-hc keybind $Mod-Control-space split explode
-
-# resizing frames
-resizestep=0.05
-hc keybind $Mod-Control-h       resize left +$resizestep
-hc keybind $Mod-Control-j       resize down +$resizestep
-hc keybind $Mod-Control-k       resize up +$resizestep
-hc keybind $Mod-Control-l       resize right +$resizestep
-hc keybind $Mod-Control-Left    resize left +$resizestep
-hc keybind $Mod-Control-Down    resize down +$resizestep
-hc keybind $Mod-Control-Up      resize up +$resizestep
-hc keybind $Mod-Control-Right   resize right +$resizestep
-
 # Remove default tag (merge into first)
-hc rename default mail
+hc rename default "${tag_names[0]}"
 
-# Populate tags
+# Populate tag keybinds:
 for i in ${!tag_names[@]} ; do
     hc add "${tag_names[$i]}"
-    key="${tag_keys[$i]}"
-    if ! [ -z "$key" ] ; then
-        hc keybind "$Mod-$key" use_index "$i"
-        hc keybind "$Mod-Shift-$key" move_index "$i"
-    fi
 done
 
-# cycle through tags
-hc keybind $Mod-period use_index +1 --skip-visible
-hc keybind $Mod-comma  use_index -1 --skip-visible
-
-# layouting
-hc keybind $Mod-d remove
-hc keybind $Mod-space cycle_layout 1
-hc keybind $Mod-s floating toggle
-hc keybind $Mod-f fullscreen toggle
-hc keybind $Mod-p pseudotile toggle
-
-# layout saving
-hc keybind $Mod-Shift-s spawn "${CFGDIR}/savestate.sh" "${SAVESTATE}"
-
-
-# mouse
-hc mouseunbind --all
-hc mousebind $Mod-Button1 move
-hc mousebind $Mod-Button2 zoom
-hc mousebind $Mod-Button3 resize
-
-# focus
-hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
+## Load keybinds:
+. "${CFGDIR}/keybinds.conf"
 
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
-hc set frame_border_active_color '#222222'
 hc set frame_border_normal_color '#101010'
+hc set frame_border_active_color '#222222'
 hc set frame_bg_normal_color '#565656'
 hc set frame_bg_active_color '#345F0C'
 hc set frame_border_width 1
@@ -182,7 +73,7 @@ hc set frame_gap 6
 
 hc attr theme.active.color '#9fbc00'
 hc attr theme.normal.color '#454545'
-hc attr theme.urgent.color orange
+hc attr theme.urgent.color '#ff0675'
 hc attr theme.inner_width 1
 hc attr theme.inner_color black
 hc attr theme.border_width 3
@@ -200,22 +91,13 @@ hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
 hc set focus_follows_mouse 1
 
-# rules
-hc unrule -F
-hc rule class=Firefox tag=web # Firefox belongs to 'web' tag.
-hc rule class=telegram-desktop tag=im
-hc rule class~'(Mail|Thunderbird)' tag=mail
-hc rule focus=on # normally focus new clients
-#hc rule focus=off # normally do not focus new clients
-# give focus to most common terminals
-#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on focus=on
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+##  Load HLWM rules:
+. "${CFGDIR}/rules.conf"
 
 # unlock, just to be sure
 hc unlock
 
-herbstclient set tree_style '╾│ ├└╼─┐'
+herbstclient set tree_style "${TREE_STYLE}"
 
 # Do multi monitor setup:
 hc detect_monitors
@@ -225,18 +107,17 @@ hc detect_monitors
 # (No quoting here because args should be separated, IIRC)
 herbstclient $cmds &
 
-# Find the panel:
-# the panel is universal as for now, WiFi stuff is managed by Conky
-PANEL="${CFGDIR}/panel.sh"
-
-[[ -f "${SAVESTATE}" ]] && "${CFGDIR}/loadstate.sh" "${SAVESTATE}"
+#   Load the savestate:
+[[ -f "${SAVESTATE}" ]] && "${HLPDIR}/loadstate" "${SAVESTATE}"
 
 ## Prepare panel:
+#  (no quoting here since I want to expand one sting to N monitors)
 MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
+#  Kill any herbstclient running before us:
+pkill -cxf 'herbstclient --idle'
 FIFOS=""
 #  Create event pipes:
 for monitor in ${MONITORS[@]} ; do
-    pkill -cxf 'herbstclient --idle'
     FIFO="/tmp/panelevents.${monitor}"
     [ -e "$FIFO" ] && rm "$FIFO"
     mkfifo -m600 "$FIFO"

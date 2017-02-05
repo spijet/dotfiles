@@ -6,7 +6,7 @@ CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
 . "${CFGDIR}/global.conf"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
-get_volume() { "${CFGDIR}/helpers/volume" get ;}
+get_volume() { "${HLPDIR}/volume" get ;}
 
 monitor="${1:-0}"
 geometry=$(herbstclient monitor_rect "$monitor" | $AWK "{printf \"%sx%s+%s+%s\"values,\$3,\"${PANELHEIGHT}\",\$1,\$2;}")
