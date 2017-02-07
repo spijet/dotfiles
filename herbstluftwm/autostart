@@ -83,15 +83,17 @@ herbstclient $cmds &
 ## Prepare panel:
 #  (no quoting here since I want to expand one sting to N monitors)
 MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
+#  Create FIFO dir if it doesn't exist:
+[[ -d "${FIFO_DIR}" ]] || mkdir -p "${FIFO_DIR}"
 #  Kill any herbstclient running before us:
 pkill -cxf 'herbstclient --idle'
 FIFOS=""
 #  Create event pipes:
 for monitor in ${MONITORS[@]} ; do
-    FIFO="/tmp/panelevents.${monitor}"
-    [ -e "$FIFO" ] && rm "$FIFO"
-    mkfifo -m600 "$FIFO"
-    FIFOS+="${FIFO} "
+    _FIFO="${PANEL_FIFO}.${monitor}"
+    [ -e "${_FIFO}" ] && rm "${_FIFO}"
+    mkfifo -m600 "${_FIFO}"
+    FIFOS+="${_FIFO} "
 done
 ## Fill them with data from herbstclient:
 #  (no quoting here since I want to expand one sting to N monitors)
