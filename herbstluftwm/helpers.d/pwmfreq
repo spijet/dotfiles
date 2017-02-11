@@ -35,7 +35,7 @@ case $1 in
     fix)
         PWMCYCLE=`read_cycle`
         [[ "${PEKO}" = "laptop-home" ]] && sudo intel_reg write ${PWM_REGISTER} "0x${PWMFIX_VALUE}${PWMCYCLE}"
-        read_freq > /tmp/pwmfreq
+        read_freq >/tmp/pwmfreq 2>/dev/null
         echo "Done."
         ;;
     *)

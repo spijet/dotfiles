@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 ## Load config file:
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-CFGDIR="${XDG_CONFIG_HOME}/herbstluftwm"
+CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
@@ -16,7 +15,7 @@ bgcolor="$(herbstclient get frame_border_normal_color)"
 selbg="$(herbstclient get window_border_active_color)"
 selfg='#101010'
 
-fifo_events="/tmp/panelevents.${monitor}"
+fifo_events="${PANEL_FIFO}.${monitor}"
 if [[ "$2" = "debug" ]]; then
     [ -e "$fifo_events" ] && rm "$fifo_events"
     mkfifo -m600 "$fifo_events"

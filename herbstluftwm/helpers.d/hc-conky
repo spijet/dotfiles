@@ -1,9 +1,15 @@
-#!/usr/bin/dash
-CONKY_FILE="/tmp/conky.fifo"
+#!/usr/bin/env bash
 
-# Wait until Conky is here:
-until pgrep conky >/dev/null; do sleep 2; done
+## Load config file:
+CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
+. "${CFGDIR}/global.conf"
 
-# Start consuming the FIFO and feeding it to HLWM via hooks:
-(while read line < "${CONKY_FILE}"; do herbstclient emit_hook conky "$line"; done) &
+## Load Conky config:
+CONKY_CFG="$(ruby ${CFGDIR}/conkyrc.rb)"
+
+## Kill any other conky instances:
+pkill conky
+
+## Run Conky:
+conky -c - <<< "${CONKY_CFG}" > "${EVENTS_FIFO}.raw" &
 disown

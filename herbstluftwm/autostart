@@ -26,25 +26,15 @@ if [[ "${PEKO}" = "laptop-home" ]]; then
     #
     # Add user-fonts to XFLD.
     xset +fp /home/spijet/.fonts
-    # Also, Tewi. I love Tewi.
-    xset +fp /usr/share/fonts/tewi-font
     # Rehash fontdirs.
     xset fp rehash
 fi
 
 ## Set the wallpaper(s):
-if type nitrogen ; then
+if type nitrogen 2>/dev/null ; then
 	nitrogen --restore &
 else
 	~/.fehbg &
-fi
-
-# New hlwm function that allows making cleaner version of run_once.
-if herbstclient silent new_attr bool my_not_first_autostart ; then
-    compton &
-    kbdd &
-    "${HLPDIR}/xkbmon" &
-    type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
 fi
 
 # Remove default tag (merge into first)
@@ -87,11 +77,16 @@ MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
 [[ -d "${FIFO_DIR}" ]] || mkdir -p "${FIFO_DIR}"
 #  Kill any herbstclient running before us:
 pkill -cxf 'herbstclient --idle'
+#  Create event pipe and start herbstclient idle loop:
+RAW_FIFO="${EVENTS_FIFO}.raw"
+[[ -e "${RAW_FIFO}" ]] && rm "${RAW_FIFO}"
+mkfifo -m600 "${RAW_FIFO}"
+herbstclient --idle > "${RAW_FIFO}" 2>/dev/null &
+#  Create panel pipes:
 FIFOS=""
-#  Create event pipes:
 for monitor in ${MONITORS[@]} ; do
     _FIFO="${PANEL_FIFO}.${monitor}"
-    [ -e "${_FIFO}" ] && rm "${_FIFO}"
+    [[ -e "${_FIFO}" ]] && rm "${_FIFO}"
     mkfifo -m600 "${_FIFO}"
     FIFOS+="${_FIFO} "
 done
@@ -100,9 +95,9 @@ done
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
 if [ "${#MONITORS[@]}" -gt "1" ]; then
-    herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' | tee $FIFOS &
+    $AWK '$0 != l { print ; l=$0 ; fflush(); }' ${RAW_FIFO} | tee $FIFOS &
 else # No need for `tee` for one monitor.
-    herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > $FIFOS &
+    $AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${RAW_FIFO} > $FIFOS &
 fi
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
@@ -110,4 +105,15 @@ for monitor in ${MONITORS[@]} ; do
     # start it on each monitor
     "$PANEL" "$monitor" &
 done
+
+# New hlwm function that allows making cleaner version of run_once.
+if herbstclient silent new_attr bool my_not_first_autostart ; then
+    compton &
+    kbdd &
+fi
 [[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
+type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
+"${HLPDIR}/xkbmon" &
+
+## Fork all running processes away and die peacefully:
+disown
