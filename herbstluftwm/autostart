@@ -110,10 +110,10 @@ done
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
+    "${HLPDIR}/xkbmon" &
 fi
 [[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
 type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
-"${HLPDIR}/xkbmon" &
 
 ## Fork all running processes away and die peacefully:
 disown
