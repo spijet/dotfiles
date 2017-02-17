@@ -3,6 +3,9 @@
 ## Load config file:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
+## Also load color config and current theme opts:
+. "${CFGDIR}/themes.d/current/colors.conf"
+. "${CFGDIR}/themes.d/current/opts.conf"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 get_volume() { "${HLPDIR}/volume" get ;}
@@ -11,16 +14,16 @@ monitor="${1:-0}"
 geometry=$(herbstclient monitor_rect "$monitor" | $AWK "{printf \"%sx%s+%s+%s\"values,\$3,\"${PANELHEIGHT}\",\$1,\$2;}")
 [[ -z "$geometry" ]] && echo "Invalid monitor $monitor" && exit 1
 
-bgcolor="$(herbstclient get frame_border_normal_color)"
-selbg="$(herbstclient get window_border_active_color)"
-selfg='#101010'
+bgcolor="${IN_FRAMEBR}"
+selbg="${AC_WINBR}"
+selfg="${SE_TEXT}"
 
 fifo_events="${PANEL_FIFO}.${monitor}"
 if [[ "$2" = "debug" ]]; then
-    [ -e "$fifo_events" ] && rm "$fifo_events"
+    [[ -e "$fifo_events" ]] && rm "$fifo_events"
     mkfifo -m600 "$fifo_events"
 else
-    [ -p "$fifo_events" ] || notify-send -u critical "Panel error!" "No FIFO found!"
+    [[ -p "$fifo_events" ]] || notify-send -u critical "Panel error!" "No FIFO found!"
 fi
 
 # Pad the screen to panel height:
@@ -42,10 +45,10 @@ gentagline () {
     for i in "${!tags[@]}" ; do
         case "${tags[i]:0:1}" in
             '#' ) tagcolor="%{B$selbg}%{F$selfg}";;
-            '+' ) tagcolor="%{B#9CA668}%{F#141414}";;
-            ':' ) tagcolor="%{B-}%{F#ffffff}";;
-            '!' ) tagcolor="%{B#FF0675}%{F#141414}";;
-            *   ) tagcolor="%{B-}%{F#ababab}";;
+            '+' ) tagcolor="%{B#9CA668}%{F$selfg}";;
+            ':' ) tagcolor="%{B-}%{F${AC_TEXT}}";;
+            '!' ) tagcolor="%{B${UR_WINBR}}%{F$selfg}";;
+            *   ) tagcolor="%{B-}%{F${IN_TEXT}}";;
         esac
         tagline+="${tagcolor}%{A:herbstclient chain .-. focus_monitor \"${monitor}\" .-. use \"${tags[i]:1}\":} ${tag_icons[i]} %{A}"
     done
@@ -87,17 +90,17 @@ conky=""
 layout="$(skb -1)"
 windowtitle="Welcome home."
 volume=$(printf "%b" "$(get_volume)")
-separator="%{B-}%{F$selbg}|%{F-}"
+SEPARATOR="%{B-}%{F$selbg}|%{F-}"
 
 ## Here comes the event loop:
 while IFS=$'\t' read -ra cmd; do
     # Parse the event:
     parsecmd "${cmd}"
     # Draw tags and window title:
-    printf "%s" "${tagline}${separator} ${windowtitle//%{/% {}"
+    printf "%s" "${tagline}${SEPARATOR} ${windowtitle//%{/% {}"
     # Draw info stuff on the right side of the panel and finish the line:
-    printf "%s\n" "%{r} $layout $separator $volume $separator $conky "
+    printf "%s\n" "%{r} $layout $SEPARATOR $volume $SEPARATOR $conky "
 done < "$fifo_events" |\
     lemonbar -g "${geometry}" \
              -f "${TEXTFONT}" -f "${GLYPHFONT}" \
-             -B "$bgcolor" -F '#efefef'
+             -B "$bgcolor" -F "${AC_TEXT}"

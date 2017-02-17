@@ -3,7 +3,7 @@
 !-------------------------------------------------------
 xterm*faceName: xft:Iosevka:size=11
 xterm*faceNameDoublesize: xft:Iosevka:size=11
-URxvt*font: xft:Iosevka Term:size=11,xft:Dejavu Sans Mono:size=11
+URxvt*font: xft:Iosevka:size=10,xft:Dejavu Sans Mono:size=11
 
 !-------------------------------------------------------
 ! Colors

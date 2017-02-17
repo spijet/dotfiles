@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+set -a
 
 ## Load config file:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
+## Also load color config and current theme opts:
+. "${CFGDIR}/themes.d/current/colors.conf"
+. "${CFGDIR}/themes.d/current/opts.conf"
 
 ## Load Conky config:
 CONKY_CFG="$(ruby ${CFGDIR}/conkyrc.rb)"
