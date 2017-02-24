@@ -26,7 +26,7 @@ ${if_mpd_playing}%{F\\#{ENV['AC_WINBR']}}♪%{F-} %{F\\#909090}%{A:mpc toggle:}$
 # Battery
 ${if_existing /sys/class/power_supply/#{BAT}/status}${battery_short #{BAT}}${endif}${if_existing /sys/class/power_supply/#{BAT}/power_now}:${execi 10 bc <<< \"scale=1; $(</sys/class/power_supply/#{BAT}/power_now)/1000000\"}W %{F\\#{ENV['AC_WINBR']}}|%{F-}${endif}\\
 # Time and Date
- ${time %H%{F#{ENV['IN_TEXT']}}:%{F-}%M %{F#{ENV['IN_TEXT']}}%Y%{F#{ENV['MI_TEXT']}}%m%{F#{ENV['MI_TEXT']}}%d} \\
+ ${time %H%{F#{ENV['IN_TEXT']}}:%{F-}%M %{F#{ENV['IN_TEXT']}}%Y%{F#{ENV['MI_TEXT']}}%m%{F#{ENV['AC_TEXT']}}%d} \\
 # Weather script
 %{F\\#{ENV['AC_WINBR']}}|%{F-} ${execi 120 cat /tmp/weatherdata}\\
 ]]

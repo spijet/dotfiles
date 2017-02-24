@@ -45,11 +45,11 @@ for i in ${!tag_names[@]} ; do
     hc add "${tag_names[$i]}"
 done
 
-## Load keybinds:
-. "${CFGDIR}/keybinds.conf"
-
 ## Load theme config:
 . "${CFGDIR}/theme.conf"
+
+## Load keybinds:
+. "${CFGDIR}/keybinds.conf"
 
 ##  Load HLWM rules:
 . "${CFGDIR}/rules.conf"
