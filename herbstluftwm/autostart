@@ -83,28 +83,18 @@ RAW_FIFO="${EVENTS_FIFO}.raw"
 mkfifo -m600 "${RAW_FIFO}"
 herbstclient --idle > "${RAW_FIFO}" 2>/dev/null &
 #  Create panel pipes:
-FIFOS=""
 for monitor in ${MONITORS[@]} ; do
-    _FIFO="${PANEL_FIFO}.${monitor}"
-    [[ -e "${_FIFO}" ]] && rm "${_FIFO}"
-    mkfifo -m600 "${_FIFO}"
-    FIFOS+="${_FIFO} "
+    baropts+=("-m $monitor")
 done
 ## Fill them with data from herbstclient:
-#  (no quoting here since I want to expand one sting to N monitors)
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
-if [ "${#MONITORS[@]}" -gt "1" ]; then
-    $AWK '$0 != l { print ; l=$0 ; fflush(); }' ${RAW_FIFO} | tee $FIFOS &
-else # No need for `tee` for one monitor.
-    $AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${RAW_FIFO} > $FIFOS &
-fi
+[[ -e "${PANEL_FIFO}" ]] && rm "${PANEL_FIFO}"
+mkfifo -m600 "${PANEL_FIFO}"
+$AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${RAW_FIFO} > "${PANEL_FIFO}" &
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
-for monitor in ${MONITORS[@]} ; do
-    # start it on each monitor
-    "$PANEL" "$monitor" &
-done
+"$PANEL" ${baropts[@]} &
 
 # New hlwm function that allows making cleaner version of run_once.
 if herbstclient silent new_attr bool my_not_first_autostart ; then
