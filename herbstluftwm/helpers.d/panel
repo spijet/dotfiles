@@ -6,7 +6,6 @@ CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 ## Also load color config and current theme opts:
 . "${CFGDIR}/themes.d/current/colors.conf"
 . "${CFGDIR}/themes.d/current/opts.conf"
-fifo_events="${PANEL_FIFO}"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 get_volume() { "${HLPDIR}/volume" get ;}
@@ -18,24 +17,29 @@ while getopts "dm:" opt; do
         d) debug=on;;
     esac
 done
+
 [[ -z "$monitors" ]] && echo "No monitors specified." && exit 1
 for monitor in "${monitors[@]}"; do
-    # geometry["$monitor"]=$(herbstclient monitor_rect "$monitor" | $AWK "{printf \"%sx%s+%s+%s\"values,\$3,\"${PANELHEIGHT}\",\$1,\$2;}")
-    # [[ -z "$geometry" ]] && echo "Invalid monitor $monitor" && exit 1
     # Pad the screen to panel height:
     hc pad "$monitor" "$PANELHEIGHT"
 done
-if [[ "$debug" = "on" ]]; then
-    [[ -e "$fifo_events" ]] && rm "$fifo_events"
-    mkfifo -m600 "$fifo_events"
-else
-    [[ -p "$fifo_events" ]] || notify-send -u critical "Panel error!" "No FIFO found!"
-fi
 
+if [[ "$debug" = "on" ]]; then
+    ## Feed the event loop:
+    #  I feed the panel via herbstclient hooks.
+    #  I also pipe the event list via awk to get rid of identical events (like
+    #  redundant conky updates).
+    make_fifo "${PANEL_FIFO}"
+    herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > "${PANEL_FIFO}" &
+    type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
+else
+    [[ -p "${PANEL_FIFO}" ]] || notify-send -u critical "Panel error!" "No FIFO found!"
+fi
 
 bgcolor="${IN_FRAMEBR}"
 selbg="${AC_WINBR}"
 selfg="${SE_TEXT}"
+SEPARATOR="%{B-}%{F$selbg}|%{F-}"
 
 ## Read the taglist and create the tag widget contents:
 gentagline () {
@@ -74,39 +78,31 @@ parsecmd () {
                          gentagline "$monitor"
                      done;;
         conky      ) conky="${cmd[1]}";;
-        battery    ) battery="${cmd[1]}";;
-        quit_panel ) exit;;
-        reload     )
-            pkill -P $$
-            rm "$fifo_events"
-            exit
-            ;;
+        battery    ) battery=" ${SEPARATOR} ${cmd[1]}";;
         *changed   ) windowtitle="${cmd[2]}";;
         layout     ) layout="${cmd[1]}";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
+        reload     ) pkill -P $$
+                     rm "${PANEL_FIFO}"
+                     exit;;
+        quit_panel ) exit;;
     esac
 }
-
-if [ "$2" = "debug" ]; then
-## Feed the event loop:
-#  I feed the panel via herbstclient hooks.
-#  I also pipe the event list via awk to get rid of identical events (like
-#  redundant conky updates).
-herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > "$fifo_events" &
-fi
 
 ## Pre-fill data:
 for monitor in "${monitors[@]}"; do
     gentagline "$monitor"
 done
-conky=""
+conky=$(date "+%H%{F${IN_TEXT}}:%{F-}%M %{F${IN_TEXT}}%Y%{F${MI_TEXT}}%m%{F-}%d")
 layout="$(skb -1)"
 windowtitle="Welcome home."
 volume=$(printf "%b" "$(get_volume)")
-SEPARATOR="%{B-}%{F$selbg}|%{F-}"
+battery=""
 
 ## Here comes the event loop:
 while IFS=$'\t' read -ra cmd; do
+    # Check if the event is the same:
+    [[ "${cmd[@]}" = "${old_cmd[@]}" ]] && continue
     # Parse the event:
     parsecmd "${cmd}"
     BAR_DATA=""
@@ -114,10 +110,17 @@ while IFS=$'\t' read -ra cmd; do
         # Draw tags and window title:
         BAR_DATA+="%{S${monitor}}%{l}${tagline[${monitor}]}${SEPARATOR} ${windowtitle//%{/% {}"
         # Draw info stuff on the right side of the panel and finish the line:
-        BAR_DATA+="%{r} $layout $SEPARATOR $volume $SEPARATOR $battery $SEPARATOR $conky "
+        BAR_DATA+="%{r} $layout $SEPARATOR $volume$battery $SEPARATOR $conky "
     done
+
+    # Prevent lemonbar from re-rendering the same data:
+    [[ "${BAR_DATA[@]:-lalala}" = "${OLD_BAR_DATA[@]}" ]] && continue
     printf "%s\n" "${BAR_DATA}"
-done < "$fifo_events" |\
+
+    # Store 'old' event and bar string, for future use:
+    OLD_BAR_DATA="${BAR_DATA}"
+    old_cmd="${cmd[@]}"
+done < "${PANEL_FIFO}" |\
     lemonbar -g "x${PANELHEIGHT}" -a 20 \
              -f "${TEXTFONT}" -f "${GLYPHFONT}" \
              -B "$bgcolor" -F "${AC_TEXT}"

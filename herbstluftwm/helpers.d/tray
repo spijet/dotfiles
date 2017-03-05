@@ -13,6 +13,13 @@ function fork() {
 	sleep 0.01
 }
 
+## Load config file:
+CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
+. "${CFGDIR}/global.conf"
+## Also load color config and current theme opts:
+. "${CFGDIR}/themes.d/current/colors.conf"
+. "${CFGDIR}/themes.d/current/opts.conf"
+
 ## In some cases trayer-srg's binary is called
 ## "trayer-srg", not "trayer".
 for command in trayer trayer-srg
@@ -23,13 +30,14 @@ done
 ## Run only if found working trayer binary.
 if [[ -x "${TRAYER_COMMAND}" ]]; then
     sleep 1
-    pgrep 'trayer' >/dev/null || \
-        fork "${TRAYER_COMMAND}" \
+    pkill "trayer"
+    fork "${TRAYER_COMMAND}" \
             --edge top --align center --widthtype request \
-            --heighttype pixel --height 14 --transparent true \
-            --alpha 0 --tint 0x101010 --align right \
+            --heighttype pixel --height "${PANELHEIGHT}" --transparent true \
+            --alpha 0 --tint "0x${IN_FRAMEBR//#/}" --align right \
             --distancefrom right --distance 350
-    pgrep 'nm-applet' >/dev/null || fork nm-applet
+    pkill 'nm-applet' >/dev/null
+    fork nm-applet
 else
     notify-send -u critical "Tray error" "Trayer binary not found."
 fi

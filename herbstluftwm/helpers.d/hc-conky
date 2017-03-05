@@ -15,5 +15,4 @@ CONKY_CFG="$(ruby ${CFGDIR}/conkyrc.rb)"
 pkill conky
 
 ## Run Conky:
-conky -c - <<< "${CONKY_CFG}" > "${EVENTS_FIFO}.raw" &
-disown
+setsid conky -c - <<< "${CONKY_CFG}" >/dev/null 2>&1 &

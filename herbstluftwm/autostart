@@ -9,89 +9,72 @@
 #: ##:::: ##: ########:. ###. ###:: ##:::: ##:
 #:..:::::..::........:::...::...:::..:::::..::
 
-## Load config file:
+## Load config file and emit 'reload' hook:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
-
 hc emit_hook reload
 
 ## Laptop additions:
 if [[ "${PEKO}" = "laptop-home" ]]; then
     # Set screen refresh rate.
     xrandr -r 48 &
-    #
     # Set Intel backlight PWM rate.
     # See helper code for details.
     "${HLPDIR}/pwmfreq" fix &
-    #
-    # Add user-fonts to XFLD.
+    # Add user-fonts to XFLD and rehash fontdirs:
     xset +fp /home/spijet/.fonts
-    # Rehash fontdirs.
     xset fp rehash
 fi
 
 ## Set the wallpaper(s):
-if type nitrogen 2>/dev/null ; then
+if type nitrogen 2>/dev/null; then
 	nitrogen --restore &
 else
 	~/.fehbg &
 fi
 
-# Remove default tag (merge into first)
+#   Set up tags:
 hc rename default "${tag_names[0]}"
-
-# Populate tag keybinds:
 for i in ${!tag_names[@]} ; do
     hc add "${tag_names[$i]}"
 done
 
-## Load theme config:
+## Load theme, keybinds and rules:
 . "${CFGDIR}/theme.conf"
-
-## Load keybinds:
 . "${CFGDIR}/keybinds.conf"
-
-##  Load HLWM rules:
 . "${CFGDIR}/rules.conf"
 
 # unlock, just to be sure
 hc unlock
-
 herbstclient set tree_style "${TREE_STYLE}"
 
 # Do multi monitor setup:
 hc detect_monitors
 
-# Send the commandchain to hlwm in one command,
-# because we're fast!
+# Send the commandchain to hlwm in one command and load the savestate:
 # (No quoting here because args should be separated, IIRC)
 herbstclient $cmds &
-
-#   Load the savestate:
 [[ -f "${SAVESTATE}" ]] && "${HLPDIR}/loadstate" "${SAVESTATE}"
 
-## Prepare panel:
-#  (no quoting here since I want to expand one sting to N monitors)
-MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
-#  Create FIFO dir if it doesn't exist:
+## Prepare panel script:
+#  Create FIFO dir and pipes:
 [[ -d "${FIFO_DIR}" ]] || mkdir -p "${FIFO_DIR}"
+make_fifo "${EVENTS_FIFO}" "${PANEL_FIFO}"
 #  Kill any herbstclient running before us:
 pkill -cxf 'herbstclient --idle'
-#  Create event pipe and start herbstclient idle loop:
-RAW_FIFO="${EVENTS_FIFO}.raw"
-[[ -e "${RAW_FIFO}" ]] && rm "${RAW_FIFO}"
-mkfifo -m600 "${RAW_FIFO}"
-herbstclient --idle > "${RAW_FIFO}" 2>/dev/null &
-#  Create panel pipes:
+
+#  Fill the monitor list (for panel script):
+#  (no quoting here since I want to expand one sting to N monitors)
+MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
 for monitor in ${MONITORS[@]} ; do
     baropts+=("-m $monitor")
 done
+
 ## Fill them with data from herbstclient:
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
-[[ -e "${PANEL_FIFO}" ]] && rm "${PANEL_FIFO}"
-mkfifo -m600 "${PANEL_FIFO}"
-$AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${RAW_FIFO} > "${PANEL_FIFO}" &
+herbstclient --idle > "${EVENTS_FIFO}" 2>/dev/null &
+$AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
 "$PANEL" ${baropts[@]} &

@@ -3,7 +3,7 @@
     icon_position = left
 
     # Paths to default icons. Make sure these exist on your system.
-    icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_folders = /usr/share/icons/Paper/16x16/status/:/usr/share/icons/Paper/16x16/devices/
     font = Tewi 9
 
     # allow a small subset of html markup:
