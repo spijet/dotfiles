@@ -18,7 +18,7 @@ while getopts "dm:" opt; do
     esac
 done
 
-[[ -z "$monitors" ]] && echo "No monitors specified." && exit 1
+[[ -z "${monitors[@]}" ]] && echo "No monitors specified." && exit 1
 for monitor in "${monitors[@]}"; do
     # Pad the screen to panel height:
     hc pad "$monitor" "$PANELHEIGHT"
@@ -39,7 +39,6 @@ fi
 bgcolor="${IN_FRAMEBR}"
 selbg="${AC_WINBR}"
 selfg="${SE_TEXT}"
-SEPARATOR="%{B-}%{F$selbg}|%{F-}"
 
 ## Read the taglist and create the tag widget contents:
 gentagline () {
@@ -114,7 +113,7 @@ while IFS=$'\t' read -ra cmd; do
     done
 
     # Prevent lemonbar from re-rendering the same data:
-    [[ "${BAR_DATA[@]:-lalala}" = "${OLD_BAR_DATA[@]}" ]] && continue
+    [[ "${BAR_DATA[@]:-lalala}" = "${OLD_BAR_DATA[@]:-lololo}" ]] && continue
     printf "%s\n" "${BAR_DATA}"
 
     # Store 'old' event and bar string, for future use:

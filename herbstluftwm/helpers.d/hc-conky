@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -a
 
 ## Load config file:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
@@ -9,7 +8,35 @@ CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/themes.d/current/opts.conf"
 
 ## Load Conky config:
-CONKY_CFG="$(ruby ${CFGDIR}/conkyrc.rb)"
+read -r -d '' CONKY_CFG <<EOF
+conky.config = {
+    background = false,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    overwrite_file = "${EVENTS_FIFO}",
+    out_to_stderr = false,
+    out_to_x = false,
+    extra_newline = false,
+    update_interval = 2.0,
+    uppercase = false,
+    pad_percents = 2,
+    short_units = yes
+}
+
+conky.text = [[
+conky	\\
+# MPD Status
+\${if_mpd_playing}%{F\\${AC_WINBR}}♪%{F-} %{F\#909090}%{A:mpc toggle:}\${mpd_artist} - %{F-}\${mpd_title} %{A}%{F\\${AC_WINBR}}|%{F-} \${endif}\\
+# Time and Date
+\${time %H%{F${IN_TEXT}}:%{F-}%M %{F${IN_TEXT}}%Y%{F${MI_TEXT}}%m%{F${AC_TEXT}}%d} \\
+# Weather script
+%{F\\${AC_WINBR}}|%{F-} \${execi 120 cat /tmp/weatherdata}
+# Battery
+# battery	\${if_existing /sys/class/power_supply/${BAT}/status}\${battery_short ${BAT}}\${endif}\${if_existing /sys/class/power_supply/${BAT}/power_now}:\${execi 10 bc <<< "scale=1; \$(</sys/class/power_supply/${BAT}/power_now)/1000000"}W\${endif}
+]]
+EOF
 
 ## Kill any other conky instances:
 pkill conky
