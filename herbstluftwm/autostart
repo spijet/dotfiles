@@ -47,7 +47,6 @@ done
 # unlock, just to be sure
 hc unlock
 herbstclient set tree_style "${TREE_STYLE}"
-
 # Do multi monitor setup:
 hc detect_monitors
 
@@ -74,6 +73,7 @@ done
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
 herbstclient --idle > "${EVENTS_FIFO}" 2>/dev/null &
+$HOME/bin/bapa "${BAT//BAT/}" > "${EVENTS_FIFO}" 2>/dev/null &
 $AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
