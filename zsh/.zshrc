@@ -66,7 +66,7 @@ fi
  fi
 
 # Unclutter PATH
- typeset -U path
+typeset -U path
 
 # Load ZSH completions:
 autoload -U compinit && compinit
