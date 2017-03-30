@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+## Call HLWM hook to kill the panel:
+herbstclient emit_hook quit
+
+## End HLWM session:
+herbstclient quit

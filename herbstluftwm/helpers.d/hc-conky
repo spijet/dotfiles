@@ -43,3 +43,6 @@ pkill conky
 
 ## Run Conky:
 setsid conky -c - <<< "${CONKY_CFG}" >/dev/null 2>&1 &
+
+## Store Conky's pid for future use:
+echo "$!" > /tmp/conky.pid

@@ -81,10 +81,10 @@ parsecmd () {
         *changed   ) windowtitle="${cmd[2]}";;
         layout     ) layout="${cmd[1]}";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
-        reload     ) pkill -P $$
+        quit|reload) pkill -P $$
+                     [[ -f "/tmp/conky.pid" ]] && kill -9 "$(</tmp/conky.pid)"
                      rm "${PANEL_FIFO}"
                      exit;;
-        quit_panel ) exit;;
     esac
 }
 
