@@ -66,6 +66,12 @@ values."
                                  (:from . 30)
                                  (:subject)))
            mu4e-completing-read-function (quote helm--completing-read-default)
+           mu4e-bookmarks
+             (quote
+              (("flag:unread AND NOT flag:trashed AND NOT maildir:/archive" "Unread messages" 117)
+               ("date:today..now" "Today's messages" 116)
+               ("date:7d..now" "Last 7 days" 119)
+               ("mime:image/*" "Messages with images" 112)))
            )
      nginx
      org
