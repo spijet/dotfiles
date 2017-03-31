@@ -28,7 +28,7 @@ conky.config = {
 conky.text = [[
 conky	\\
 # MPD Status
-\${if_mpd_playing}%{F\\${AC_WINBR}}♪%{F-} %{F\#909090}%{A:mpc toggle:}\${mpd_artist} - %{F-}\${mpd_title} %{A}%{F\\${AC_WINBR}}|%{F-} \${endif}\\
+\${if_mpd_playing}%{F\\${AC_WINBR}}♪%{F-} %{F\\${IN_TEXT}}%{A:mpc toggle:}\${mpd_artist} %{F-}\${mpd_title} %{A}%{F\\${AC_WINBR}}|%{F-} \${endif}\\
 # Time and Date
 \${time %H%{F${IN_TEXT}}:%{F-}%M %{F${IN_TEXT}}%Y%{F${MI_TEXT}}%m%{F${AC_TEXT}}%d} \\
 # Weather script
