@@ -82,7 +82,7 @@ parsecmd () {
         layout     ) layout="${cmd[1]}";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
         quit|reload) pkill -P $$
-                     [[ -f "/tmp/conky.pid" ]] && kill -9 "$(</tmp/conky.pid)"
+                     [[ ! -s "/tmp/conky.pid" ]] && pkill -F -9 "/tmp/conky.pid"
                      rm "${PANEL_FIFO}"
                      exit;;
     esac

@@ -4,6 +4,5 @@ CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
 
 skb | while read line; do
-    # herbstclient emit_hook layout $line
-    printf "layout\t%s\n" "${line:0:2}" > "${EVENTS_FIFO}.raw"
+    printf "layout\t%s\n" "${line:0:2}" > "${EVENTS_FIFO}"
 done
