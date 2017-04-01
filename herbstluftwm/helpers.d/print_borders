@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-. "${HOME}/.config/herbstluftwm/colors.conf"
+. "${HOME}/.config/herbstluftwm/themes.d/current/colors.conf"
 color2code () {
     RAWVALUE=$(tr -d '"#' <<< $1)
     DECVAL="$(for HEXVAL in $(grep -o .. <<< $RAWVALUE ) ; do
@@ -8,9 +8,9 @@ color2code () {
     printf "\x1b[38;2;%sm████\x1b[0m" "${DECVAL::-1}"
 }
 echo "Frame borders:"
-echo -e "$(color2code $FBR_INACT)\t$(color2code $FBR_ACTIV)"
-echo -e "$(color2code $FBG_INACT)\t$(color2code $FBG_ACTIV)"
+echo -e "$(color2code $IN_FRAMEBR)\t$(color2code $AC_FRAMEBR)"
+echo -e "$(color2code $IN_FRAMEBG)\t$(color2code $AC_FRAMEBG)"
 echo "Window borders:"
-echo -e "$(color2code $WBO_INACT)\t$(color2code $WBO_ACTIV)\t$(color2code $WBO_URGNT)"
-echo -e "$(color2code $WBR_INACT)\t$(color2code $WBR_ACTIV)\t$(color2code $WBR_URGNT)"
-echo -e "$(color2code $WBI_GLOBL)\t$(color2code $WBI_ACTIV)\t$(color2code $WBI_GLOBL)"
+echo -e "$(color2code $IN_WINBR)\t$(color2code $AC_WINBO)\t$(color2code $UR_WINBR)"
+echo -e "$(color2code $IN_WINBR)\t$(color2code $AC_WINBR)\t$(color2code $UR_WINBR)"
+echo -e "$(color2code $AL_WINBI)\t$(color2code $AC_WINBI)\t$(color2code $AL_WINBI)"
