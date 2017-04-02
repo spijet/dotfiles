@@ -81,8 +81,8 @@ parsecmd () {
         *changed   ) windowtitle="${cmd[2]}";;
         layout     ) layout="${cmd[1]}";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
-        quit|reload) pkill -P $$
-                     [[ ! -s "/tmp/conky.pid" ]] && pkill -F -9 "/tmp/conky.pid"
+        quit|reload) pkill -kill -u `whoami` conky
+                     pkill -P $$
                      rm "${PANEL_FIFO}"
                      exit;;
     esac
