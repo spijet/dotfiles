@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+[[ ! -s "${1}" ]] && exit 1
+LINENUMBER=0
+colors -n 16 "${1}" | \
+while read line; do
+    [[ "${LINENUMBER}" = "0" ]] && echo -e "*background:\t${line}"
+    [[ "${LINENUMBER}" = "8" ]] && echo -e "*foreground:\t${line}"
+    echo -e "*color${LINENUMBER}:\t${line}"
+    ((LINENUMBER++))
+done
