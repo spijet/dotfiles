@@ -1,10 +1,24 @@
 #!/usr/bin/env bash
-[[ ! -s "${1}" ]] && exit 1
+INPUTFILE="${1}"
+IS_TEMP=0
+[[ ! -s "${INPUTFILE}" ]] && exit 1
+if [[ "$(file -b --mime-type ${INPUTFILE})" = "image/png" ]]; then
+    echo "The file specified is in PNG format, proceeding." >&2
+    WORKFILE="${INPUTFILE}"
+else
+    WORKFILE="$(mktemp -p '/tmp' 'colors-XXXX.png')"
+    IS_TEMP=1
+    echo "The file specified is NOT in PNG format, creating tempfile. The tempfile is \"${WORKFILE}\"." >&2
+    convert "${INPUTFILE}" "${WORKFILE}" || exit 1
+fi
+
 LINENUMBER=0
-colors -n 16 "${1}" | \
+colors -n 16 "${WORKFILE}" | \
 while read line; do
     [[ "${LINENUMBER}" = "0" ]] && echo -e "*background:\t${line}"
-    [[ "${LINENUMBER}" = "8" ]] && echo -e "*foreground:\t${line}"
+    [[ "${LINENUMBER}" = "7" ]] && echo -e "*foreground:\t${line}"
     echo -e "*color${LINENUMBER}:\t${line}"
     ((LINENUMBER++))
 done
+
+[[ "${IS_TEMP}" = "1" ]] && rm "${WORKFILE}"
