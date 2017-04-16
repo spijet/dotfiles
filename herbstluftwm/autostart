@@ -83,7 +83,8 @@ $AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton &
     kbdd &
-    "${HLPDIR}/xkbmon" &
+    # I use CapsLock LED as a layout indicator now.
+    # "${HLPDIR}/xkbmon" &
 fi
 [[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
 type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &

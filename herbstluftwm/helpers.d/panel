@@ -79,7 +79,7 @@ parsecmd () {
         conky      ) conky="${cmd[1]}";;
         battery    ) battery=" ${SEPARATOR} ${cmd[1]}";;
         *changed   ) windowtitle="${cmd[2]}";;
-        layout     ) layout="${cmd[1]}";;
+        layout     ) layout="${cmd[1]} $SEPARATOR";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
         quit|reload) pkill -kill -u `whoami` conky
                      pkill -P $$
@@ -93,7 +93,8 @@ for monitor in "${monitors[@]}"; do
     gentagline "$monitor"
 done
 conky=$(date "+%H%{F${IN_TEXT}}:%{F-}%M %{F${IN_TEXT}}%Y%{F${MI_TEXT}}%m%{F-}%d")
-layout="$(skb -1)"
+# layout="$(skb -1)"
+layout=""
 windowtitle="Welcome home."
 volume=$(printf "%b" "$(get_volume)")
 battery=""
@@ -109,7 +110,7 @@ while IFS=$'\t' read -ra cmd; do
         # Draw tags and window title:
         BAR_DATA+="%{S${monitor}}%{l}${tagline[${monitor}]}${SEPARATOR} ${windowtitle//%{/% {}"
         # Draw info stuff on the right side of the panel and finish the line:
-        BAR_DATA+="%{r} $layout $SEPARATOR $volume$battery $SEPARATOR $conky "
+        BAR_DATA+="%{r} $layout $volume$battery $SEPARATOR $conky "
     done
 
     # Prevent lemonbar from re-rendering the same data:
