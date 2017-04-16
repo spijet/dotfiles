@@ -27,15 +27,16 @@ done
 
 ## Run only if found working trayer binary.
 if [[ -x "${TRAYER_COMMAND}" ]]; then
-    sleep 1
     pkill "trayer"
+    sleep 1
     fork "${TRAYER_COMMAND}" \
             --edge top --align center --widthtype request \
             --heighttype pixel --height "${PANELHEIGHT}" --transparent true \
             --alpha 0 --tint "0x${IN_FRAMEBR//#/}" --align right \
             --distancefrom right --distance 350
-    pkill 'nm-applet' >/dev/null
-    fork nm-applet
+    # Trying to switch to NetworkManager-dmenu.
+    # pkill 'nm-applet' >/dev/null
+    # fork nm-applet
 else
     notify-send -u critical "Tray error" "Trayer binary not found."
 fi
