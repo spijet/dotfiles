@@ -59,6 +59,7 @@ gentagline () {
             '+' ) tagcolor="%{B#9CA668}%{F$selfg}";;
             ':' ) tagcolor="%{B-}%{F${AC_TEXT}}";;
             '!' ) tagcolor="%{B${UR_WINBR}}%{F$selfg}";;
+            '-'|'%' ) tagcolor="%{B${IN_TEXT}}%{F$bgcolor}";;
             *   ) tagcolor="%{B-}%{F${IN_TEXT}}";;
         esac
         tagline["${1}"]+="${tagcolor}%{A:herbstclient chain .-. focus_monitor \"${1}\" .-. use \"${tags[i]:1}\":} ${tag_icons[i]} %{A}"
