@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+shopt -s lastpipe
 
 ## Load config file:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
