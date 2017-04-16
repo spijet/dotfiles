@@ -4,8 +4,6 @@
 ## Tray script for places where it's needed ##
 ## Uses magic fork function to kickstart    ##
 ## everything and die in peace.             ##
-## TODO: Make trayer get color and height   ##
-## from panel config.                       ##
 ##############################################
 
 function fork() {
