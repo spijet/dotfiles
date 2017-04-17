@@ -95,3 +95,8 @@ rofi.display-window:                 Windows
 URxvt.scrollBar: false
 URxvt*termName: rxvt-unicode-256color
 URxvt.letterSpace: 0
+URxvt.scrollTtyOutput: false
+URxvt.jumpScroll: true
+URxvt.skipScroll: true
+URxvt.scrollTtyKeypress: true
+URxvt.scrollWithBuffer: true
