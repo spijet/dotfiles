@@ -49,16 +49,19 @@ values."
      markdown
      (mu4e :variables
            mu4e-enable-mode-line t
-           mu4e-get-mail-command "mbsync -a"
-           mu4e-html2text-command "w3m -dump -T text/html"
+           mu4e-get-mail-command "mbsync -qa"
+           mu4e-html2text-command "w3m -I utf8 -O utf8 -T text/html"
            mu4e-maildir "~/.mail"
+           mu4e-attachment-dir "~/Downloads/Attachments"
            mu4e-sent-folder "/sent"
            mu4e-trash-folder "/trash"
-           mu4e-update-interval 120
+           mu4e-update-interval (* 15 60)
            mu4e-use-fancy-chars nil
            mu4e-view-show-addresses t
            mu4e-view-show-images t
            mu4e-enable-notifications t
+           message-kill-buffer-on-exit t
+           mu4e-change-filenames-when-moving t
            mu4e-headers-fields (quote
                                 ((:human-date . 12)
                                  (:flags . 6)
@@ -66,6 +69,7 @@ values."
                                  (:from . 30)
                                  (:subject)))
            mu4e-completing-read-function (quote helm--completing-read-default)
+           mu4e-confirm-quit nil
            mu4e-bookmarks
              (quote
               (("flag:unread AND NOT flag:trashed AND NOT maildir:/archive" "Unread messages" 117)
