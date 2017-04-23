@@ -3,7 +3,7 @@
 !-------------------------------------------------------
 xterm*faceName: xft:Iosevka:size=11
 xterm*faceNameDoublesize: xft:Iosevka:size=11
-URxvt*font: xft:Iosevka:size=11,xft:Dejavu Sans Mono:size=11
+URxvt*font: xft:Iosevka:size=11,xft:DejaVu Sans Mono:size=11
 
 !-------------------------------------------------------
 ! Colors
@@ -37,7 +37,7 @@ rofi.opacity:                        100
 ! Window width
 rofi.width:                          56
 ! Number of lines
-rofi.lines:                          12
+rofi.lines:                          10
 ! Number of columns
 rofi.columns:                        1
 ! Font to use
@@ -95,8 +95,19 @@ rofi.display-window:                 Windows
 URxvt.scrollBar: false
 URxvt*termName: rxvt-unicode-256color
 URxvt.letterSpace: 0
-URxvt.scrollTtyOutput: false
+! do not scroll with output
+URxvt*scrollTtyOutput: false
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer: true
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+! Scrolling can jump and skip screens
 URxvt.jumpScroll: true
 URxvt.skipScroll: true
-URxvt.scrollTtyKeypress: true
-URxvt.scrollWithBuffer: true
+! URxvt URL selector settings:
+URxvt.perl-ext: default,url-select
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true
+! Mark window as urgent on bell
+URxvt.urgentOnBell: true
