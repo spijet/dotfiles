@@ -50,7 +50,8 @@ values."
      (mu4e :variables
            mu4e-enable-mode-line t
            mu4e-get-mail-command "mbsync -qa"
-           mu4e-html2text-command "w3m -I utf8 -O utf8 -T text/html"
+           ;mu4e-html2text-command "w3m -I utf8 -O utf8 -T text/html"
+           mu4e-html2text-command "w3m -dump -O utf8 -T text/html"
            mu4e-maildir "~/.mail"
            mu4e-attachment-dir "~/Downloads/Attachments"
            mu4e-sent-folder "/sent"
