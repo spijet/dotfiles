@@ -351,7 +351,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (setq powerline-default-separator 'alternate)
+  (setq powerline-default-separator 'box)
   (spaceline-compile)
   (push '("PKGBUILD" . shell-script-mode) auto-mode-alist)
 	(setq
