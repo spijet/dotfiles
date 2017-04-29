@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/home/tkachuk'
-let g:netrw_dirhist_2='/home/tkachuk/.config'
-let g:netrw_dirhist_3='/home/tkachuk/.config/Skype'
-let g:netrw_dirhist_4='/home/spijet/.oh-my-zsh'
-let g:netrw_dirhist_5='/home/spijet/.oh-my-zsh/tools'
-let g:netrw_dirhist_6='/home/spijet/.oh-my-zsh'
