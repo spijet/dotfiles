@@ -1,4 +1,15 @@
 !-------------------------------------------------------
+! Xft settings:
+!-------------------------------------------------------
+Xft.dpi: 96
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+!-------------------------------------------------------
 ! Terminal settings
 !-------------------------------------------------------
 xterm*faceName: xft:Iosevka:size=11
@@ -88,13 +99,15 @@ rofi.display-run:                    Run
 rofi.display-drun:                   Run
 ! The display name of this browser
 rofi.display-window:                 Windows
+! Remove extra empty space:
+rofi.padding:                        0
 
 !-----------------------------------------------------------
 !    URxvt settings
 !-----------------------------------------------------------
 URxvt.scrollBar: false
 URxvt*termName: rxvt-unicode-256color
-URxvt.letterSpace: 0
+URxvt.letterSpace: -1
 ! do not scroll with output
 URxvt*scrollTtyOutput: false
 ! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
