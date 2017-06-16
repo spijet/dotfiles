@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+if type emerge >/dev/null 2>&1; then
+	#
+	# Portage aliases for Gentoo
+	#
+	alias ein='sudo emerge -av'
+	alias eins='sudo emerge -a'
+	alias einsd='sudo emerge -av1'
+	alias erem='sudo emerge -ac'
+	alias eupd='sudo emerge -q --sync'
+	alias eupg='sudo emerge -auvDN --with-bdeps=y @world'
+fi

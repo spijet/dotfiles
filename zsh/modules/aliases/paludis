@@ -9,7 +9,6 @@ if type cave >/dev/null 2>&1; then
 	#
 	# Short aliases for various `cave` (sub)commands
 	#
-
 	alias cave='sudo cave'
 	alias cs='cave search --index ${CAVE_SEARCH_INDEX_FILE}'
 	alias cm='cave manage-search-index --create ${CAVE_SEARCH_INDEX_FILE}'
