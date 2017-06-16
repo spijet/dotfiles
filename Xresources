@@ -46,13 +46,13 @@ rofi.modi:                           window,run,drun,ssh
 ! Window opacity
 rofi.opacity:                        100
 ! Window width
-rofi.width:                          56
+rofi.width:                          48
 ! Number of lines
 rofi.lines:                          10
 ! Number of columns
 rofi.columns:                        1
 ! Font to use
-rofi.font:                           Iosevka 11
+rofi.font:                           Iosevka 12
 ! Color scheme for normal row
 rofi.color-normal:                   #101010,gray,#121212,#9fbc00,#101010
 ! Color scheme for urgent row
@@ -64,7 +64,7 @@ rofi.color-window:                   #101010,gray
 ! Border width
 rofi.bw:                             0
 ! Terminal to use
-rofi.terminal:                       termite
+rofi.terminal:                       urxvtc
 ! Ssh command to execute
 rofi.ssh-command:                    {terminal} -e "{ssh-client} {host}"
 ! Run command to execute
@@ -84,11 +84,11 @@ rofi.parse-known-hosts:              true
 ! Set the modi to combine in combi mode
 rofi.combi-modi:                     window,run
 ! Do a more fuzzy matching
-rofi.fuzzy:                          true
+rofi.matching:                       fuzzy
 ! Monitor id to show on
 rofi.m:                              -4
 ! Margin between rows
-rofi.line-margin:                    2
+rofi.line-margin:                    1
 ! Hide scroll-bar
 rofi.hide-scrollbar:                 true
 ! The display name of this browser
