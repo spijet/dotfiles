@@ -3,10 +3,10 @@ if type emerge >/dev/null 2>&1; then
 	#
 	# Portage aliases for Gentoo
 	#
-	alias ein='sudo emerge -av'
-	alias eins='sudo emerge -a'
+	alias ein='sudo emerge -avt'
+	alias eins='sudo emerge -at'
 	alias einsd='sudo emerge -av1'
 	alias erem='sudo emerge -ac'
-	alias eupd='sudo emerge -q --sync'
-	alias eupg='sudo emerge -auvDN --with-bdeps=y @world'
+	alias eupd='sudo emerge --sync'
+	alias eupg='sudo emerge -auvtDN --with-bdeps=y @world'
 fi
