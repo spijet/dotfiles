@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -x
+. "${CFGDIR:-$HOME/.config/herbstluftwm}/themes.d/current/colors.conf"
 
 ################################################
 ## This script controls the volume.           ##
@@ -8,10 +8,10 @@
 ################################################
 
 parse_volume() {
-    [ "${CUR_VOLUME}" = "Mute" ] && OUTPUT='\ue04f' && return 0
+    [ "${CUR_VOLUME}" = "Mute" ] && OUTPUT="%{F${IN_TEXT}}\ue04f%{F-}" && return 0
     (( CUR_VOLUME>=60 )) && OUTPUT="\ue05d ${CUR_VOLUME}%" && return 0
-    (( CUR_VOLUME>=30 && CUR_VOLUME<60 )) && OUTPUT="\ue050 ${CUR_VOLUME}%" && return 0
-    (( CUR_VOLUME<30 )) && OUTPUT="\ue04e ${CUR_VOLUME}%" && return 0
+    (( CUR_VOLUME>=30 && CUR_VOLUME<60 )) && OUTPUT="%{F${MI_TEXT}}\ue050 %{F-}${CUR_VOLUME}%" && return 0
+    (( CUR_VOLUME<30 )) && OUTPUT="%{F${IN_TEXT}}\ue04e %{F-}${CUR_VOLUME}%" && return 0
 }
 
 get_volume() {

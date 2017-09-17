@@ -84,6 +84,7 @@ parsecmd () {
         layout     ) layout="${cmd[1]} $SEPARATOR";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
         quit|reload) pkill -kill -u `whoami` conky
+                     pkill -f 'awk.*events'
                      pkill -P $$
                      rm "${PANEL_FIFO}"
                      exit;;
@@ -110,7 +111,7 @@ while IFS=$'\t' read -ra cmd; do
     BAR_DATA=""
     for monitor in "${monitors[@]}"; do
         # Draw tags and window title:
-        BAR_DATA+="%{S${monitor}}%{l}${tagline[${monitor}]}${SEPARATOR} ${windowtitle//%{/% {}"
+        BAR_DATA+="%{S${monitor}}%{l}${tagline[${monitor}]}${SEPARATOR}      ${SEPARATOR} ${windowtitle//%{/% {}"
         # Draw info stuff on the right side of the panel and finish the line:
         BAR_DATA+="%{r} $layout $volume$battery $SEPARATOR $conky "
     done
@@ -125,4 +126,5 @@ while IFS=$'\t' read -ra cmd; do
 done < "${PANEL_FIFO}" |\
     lemonbar -g "x${PANELHEIGHT}" -a 20 \
              -f "${TEXTFONT}" -f "${GLYPHFONT}" \
-             -B "$bgcolor" -F "${AC_TEXT}"
+             -B "$bgcolor" -F "${AC_TEXT}" |\
+    sh

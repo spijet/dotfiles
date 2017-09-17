@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -x
+exec > ~/.hlwm.log 2>&1
 
 #:'##::::'##:'##:::::::'##:::::'##:'##::::'##:
 #: ##:::: ##: ##::::::: ##:'##: ##: ###::'###:
@@ -27,32 +29,33 @@ if [[ "${PEKO}" = "laptop-home" ]]; then
 fi
 
 ## Set the wallpaper(s):
-if type nitrogen &>/dev/null; then
-	nitrogen --restore &
-else
-	~/.fehbg &
-fi
+type nitrogen &>/dev/null && nitrogen --restore
 
-#   Set up tags:
-hc rename default "${tag_names[0]}"
+##  Set up tags:
+#   First, add all configured tags:
 for i in ${!tag_names[@]} ; do
     hc add "${tag_names[$i]}"
 done
+#   Then switch to the first tag and merge it with 'default' one:
+hc use "${tag_names[0]}"
+hc merge_tag default "${tag_names[0]}"
+#   Commit the changes:
+hcc
 
-## Load theme, keybinds and rules:
-. "${CFGDIR}/theme.conf"
-. "${CFGDIR}/keybinds.conf"
-. "${CFGDIR}/rules.conf"
+##  Load theme, keybinds and rules:
+for CONFIG in "theme.conf" "keybinds.conf" "rules.conf"; do
+    . "${CFGDIR}/${CONFIG}"
+    hcc
+done
 
-# unlock, just to be sure
+# Unlock, just to be sure:
 hc unlock
 herbstclient set tree_style "${TREE_STYLE}"
 # Do multi monitor setup:
 hc detect_monitors
 
 # Send the commandchain to hlwm in one command and load the savestate:
-# (No quoting here because args should be separated, IIRC)
-herbstclient $cmds &
+hcc
 [[ -f "${SAVESTATE}" ]] && "${HLPDIR}/loadstate" "${SAVESTATE}"
 
 ## Prepare panel script:
@@ -61,6 +64,8 @@ herbstclient $cmds &
 make_fifo "${EVENTS_FIFO}" "${PANEL_FIFO}"
 #  Kill any herbstclient running before us:
 pkill -cxf 'herbstclient --idle'
+#  Same for bapa:
+pkill -f 'bapa.*herbstluftwm'
 
 #  Fill the monitor list (for panel script):
 #  (no quoting here since I want to expand one sting to N monitors)
@@ -73,7 +78,7 @@ done
 #  I also pipe the event list via awk to get rid of identical events (like
 #  redundant conky updates).
 herbstclient --idle > "${EVENTS_FIFO}" 2>/dev/null &
-$HOME/bin/bapa "${BAT//BAT/}" > "${EVENTS_FIFO}" 2>/dev/null &
+$HOME/bin/bapa "${BAT#BAT}" > "${EVENTS_FIFO}" 2>/dev/null &
 $AWK '$0 != l { print ; l=$0 ; fflush(); }' ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
@@ -81,12 +86,10 @@ $AWK '$0 != l { print ; l=$0 ; fflush(); }' ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 
 # New hlwm function that allows making cleaner version of run_once.
 if herbstclient silent new_attr bool my_not_first_autostart ; then
-    compton &
-    kbdd &
-    # I use CapsLock LED as a layout indicator now.
-    # "${HLPDIR}/xkbmon" &
+    compton -b
+    kbdd
 fi
-[[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
+"${HLPDIR}/tray" &
 type conky &>/dev/null && "${HLPDIR}/hc-conky" &
 
 ## Fork all running processes away and die peacefully:
