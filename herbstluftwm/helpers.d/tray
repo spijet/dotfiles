@@ -20,8 +20,7 @@ CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 
 ## In some cases trayer-srg's binary is called
 ## "trayer-srg", not "trayer".
-for command in trayer trayer-srg
-do
+for command in trayer trayer-srg ; do
     type "${command}" >/dev/null 2>&1 && TRAYER_COMMAND="$(which ${command})"
 done
 

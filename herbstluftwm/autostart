@@ -74,7 +74,7 @@ done
 #  redundant conky updates).
 herbstclient --idle > "${EVENTS_FIFO}" 2>/dev/null &
 $HOME/bin/bapa "${BAT//BAT/}" > "${EVENTS_FIFO}" 2>/dev/null &
-$AWK '$0 != l { print ; l=$0 ; fflush(); }'  ${EVENTS_FIFO} > "${PANEL_FIFO}" &
+$AWK '$0 != l { print ; l=$0 ; fflush(); }' ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 
 [[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
 "$PANEL" ${baropts[@]} &
