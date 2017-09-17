@@ -33,8 +33,6 @@ conky	\\
 \${time %H%{F${IN_TEXT}}:%{F-}%M %{F${IN_TEXT}}%Y%{F${MI_TEXT}}%m%{F${AC_TEXT}}%d} \\
 # Weather script
 %{F\\${AC_WINBR}}|%{F-} \${execi 120 cat /tmp/weatherdata}
-# Battery
-# battery	\${if_existing /sys/class/power_supply/${BAT}/status}\${battery_short ${BAT}}\${endif}\${if_existing /sys/class/power_supply/${BAT}/power_now}:\${execi 10 bc <<< "scale=1; \$(</sys/class/power_supply/${BAT}/power_now)/1000000"}W\${endif}
 ]]
 EOF
 
@@ -42,7 +40,8 @@ EOF
 pkill conky
 
 ## Run Conky:
-setsid conky -c - <<< "${CONKY_CFG}" >/dev/null 2>&1 &
+conky -qd -c - <<< "${CONKY_CFG}"
+
 
 ## Store Conky's pid for future use:
 echo "$!" > /tmp/conky.pid
