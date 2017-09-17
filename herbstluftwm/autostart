@@ -27,7 +27,7 @@ if [[ "${PEKO}" = "laptop-home" ]]; then
 fi
 
 ## Set the wallpaper(s):
-if type nitrogen 2>/dev/null; then
+if type nitrogen &>/dev/null; then
 	nitrogen --restore &
 else
 	~/.fehbg &
@@ -87,7 +87,7 @@ if herbstclient silent new_attr bool my_not_first_autostart ; then
     # "${HLPDIR}/xkbmon" &
 fi
 [[ "${PEKO}" = "laptop"* ]] && "${HLPDIR}/tray" &
-type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
+type conky &>/dev/null && "${HLPDIR}/hc-conky" &
 
 ## Fork all running processes away and die peacefully:
 disown
