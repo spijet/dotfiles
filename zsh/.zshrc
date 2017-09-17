@@ -3,6 +3,7 @@ HISTSIZE=1000
 SAVEHIST=20000
 HISTFILE="${HOME}/.cache/zsh-history"
 
+setopt AUTO_CD
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
@@ -70,4 +71,9 @@ typeset -U path
 
 # Load ZSH completions:
 autoload -U compinit && compinit
-zstyle ':completion:*' menu select
+# zstyle ':completion:*' menu select
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
