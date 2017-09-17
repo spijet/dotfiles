@@ -37,7 +37,7 @@ conky	\\
 EOF
 
 ## Kill any other conky instances:
-pkill conky
+pkill -u `whoami` conky
 
 ## Run Conky:
 conky -qd -c - <<< "${CONKY_CFG}"

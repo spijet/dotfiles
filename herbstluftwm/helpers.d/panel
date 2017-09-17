@@ -32,7 +32,7 @@ if [[ "$debug" = "on" ]]; then
     #  redundant conky updates).
     make_fifo "${PANEL_FIFO}"
     herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > "${PANEL_FIFO}" &
-    type conky >/dev/null 2>&1 && "${HLPDIR}/hc-conky" &
+    type conky &>/dev/null && "${HLPDIR}/hc-conky" &
 else
     [[ -p "${PANEL_FIFO}" ]] || notify-send -u critical "Panel error!" "No FIFO found!"
 fi
@@ -84,7 +84,7 @@ parsecmd () {
         layout     ) layout="${cmd[1]} $SEPARATOR";;
         volume     ) volume=$(printf "%b" "${cmd[1]}");;
         quit|reload) pkill -kill -u `whoami` conky
-                     pkill -f 'awk.*events'
+                     pkill -u `whoami` -f 'awk.*events'
                      pkill -P $$
                      rm "${PANEL_FIFO}"
                      exit;;
