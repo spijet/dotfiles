@@ -19,7 +19,7 @@ hc emit_hook reload
 ## Laptop additions:
 if [[ "${PEKO}" = "laptop-home" ]]; then
     # Set screen refresh rate.
-    xrandr -r 48 &
+    # xrandr -r 48 &
     # Set Intel backlight PWM rate.
     # See helper code for details.
     "${HLPDIR}/pwmfreq" fix &
@@ -52,7 +52,7 @@ done
 hc unlock
 herbstclient set tree_style "${TREE_STYLE}"
 # Do multi monitor setup:
-hc detect_monitors
+herbstclient detect_monitors
 
 # Send the commandchain to hlwm in one command and load the savestate:
 hcc
