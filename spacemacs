@@ -39,6 +39,8 @@ values."
      auto-completion
      (colors :variables
              colors-enable-rainbow-identifiers 'all)
+     c-c++
+     docker
      emacs-lisp
      helm
      html
@@ -47,43 +49,45 @@ values."
      javascript
 		 jabber
      latex
+     lua
      markdown
-     ;; (mu4e :variables
-     ;;       mu4e-enable-mode-line t
-     ;;       mu4e-get-mail-command "mbsync -qa"
-     ;;       mu4e-html2text-command "w3m -dump -O utf8 -T text/html"
-     ;;       mu4e-maildir "~/.mail"
-     ;;       mu4e-attachment-dir "~/Downloads/Attachments"
-     ;;       mu4e-sent-folder "/sent"
-     ;;       mu4e-trash-folder "/trash"
-     ;;       mu4e-update-interval (* 15 60)
-     ;;       mu4e-use-fancy-chars nil
-     ;;       mu4e-view-show-addresses t
-     ;;       mu4e-view-show-images t
-     ;;       mu4e-enable-notifications t
-     ;;       message-kill-buffer-on-exit t
-     ;;       mu4e-change-filenames-when-moving t
-     ;;       mu4e-headers-fields (quote
-     ;;                            ((:human-date . 12)
-     ;;                             (:flags . 6)
-     ;;                             (:mailing-list . 10)
-     ;;                             (:from . 30)
-     ;;                             (:subject)))
-     ;;       mu4e-completing-read-function (quote helm--completing-read-default)
-     ;;       mu4e-confirm-quit nil
-     ;;       mu4e-bookmarks
-     ;;         (quote
-     ;;          (("flag:unread AND NOT flag:trashed AND NOT maildir:/archive" "Unread messages" 117)
-     ;;           ("date:today..now" "Today's messages" 116)
-     ;;           ("date:7d..now" "Last 7 days" 119)
-     ;;           ("mime:image/*" "Messages with images" 112)))
-     ;;       )
+     (mu4e :variables
+           mu4e-enable-mode-line t
+           mu4e-get-mail-command "mbsync -qa"
+           mu4e-html2text-command "w3m -dump -O utf8 -T text/html"
+           mu4e-maildir "~/.mail"
+           mu4e-attachment-dir "~/Downloads/Attachments"
+           mu4e-sent-folder "/sent"
+           mu4e-trash-folder "/trash"
+           mu4e-update-interval (* 15 60)
+           mu4e-use-fancy-chars nil
+           mu4e-view-show-addresses t
+           mu4e-view-show-images t
+           mu4e-enable-notifications t
+           message-kill-buffer-on-exit t
+           mu4e-change-filenames-when-moving t
+           mu4e-headers-fields (quote
+                                ((:human-date . 12)
+                                 (:flags . 6)
+                                 (:mailing-list . 10)
+                                 (:from . 30)
+                                 (:subject)))
+           mu4e-completing-read-function (quote helm--completing-read-default)
+           mu4e-confirm-quit nil
+           mu4e-bookmarks
+             (quote
+              (("flag:unread AND NOT flag:trashed AND NOT maildir:/archive" "Unread messages" 117)
+               ("date:today..now" "Today's messages" 116)
+               ("date:7d..now" "Last 7 days" 119)
+               ("mime:image/*" "Messages with images" 112)))
+           )
      org
      python
      (ruby :variables
            ruby-enable-enh-ruby-mode t
            ruby-version-manager 'rbenv)
      ;; ruby-on-rails
+     semantic
      (spell-checking :variables
                      spell-checking-enable-by-default nil
                      spell-checking-enable-auto-dictionary t
@@ -354,6 +358,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  (require 'helm-bookmark)
   (setq
    powerline-default-separator 'box
    neo-theme 'nerd)
@@ -361,15 +366,12 @@ layers configuration. You are free to put any user code."
   (add-to-list 'auto-mode-alist '("\\.ebuild\\'" . shell-script-mode))
   (add-to-list 'auto-mode-alist '("PKGBUILD"     . shell-script-mode))
 	(setq
-   whitespace-style '(face tabs newline tab-mark newline-mark)
-   whitespace-display-mappings '(
-                                 (tab-mark 9 [187 9]) ;; 187 right guillemot
-                                 (newline-mark 10 [8267 10])) ;; 8267 backwards pilcrow
    indent-tabs-mode t
    dtrt-indent-verbosity 10
    tab-width 2
    )
   (setq org-agenda-files '("~/work/tasks"
+                           "~/work/tickets"
                            "~/Documents/agenda"
                            ))
   (defvaralias 'c-basic-offset 'tab-width)
@@ -423,10 +425,10 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol t)
  '(package-selected-packages
    (quote
-    (company-auctex auctex-latexmk auctex zenburn-theme yapfify yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twilight-theme twilight-bright-theme toc-org tagedit spaceline smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree move-text monokai-theme mmm-mode minitest markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc jabber info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-popup flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav dumb-jump diff-hl define-word cython-mode company-web company-tern company-statistics company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (dash-functional stickyfunc-enhance srefactor disaster company-c-headers cmake-mode clang-format avy alert powerline enh-ruby-mode flycheck simple-httpd anaconda-mode tern iedit smartparens evil goto-chg company helm helm-core yasnippet markdown-mode projectile org-plus-contrib magit magit-popup git-commit with-editor async hydra haml-mode js2-mode dash s dockerfile-mode docker tablist docker-tramp mu4e-maildirs-extension mu4e-alert ht lua-mode company-auctex auctex-latexmk auctex zenburn-theme yapfify yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package twilight-theme twilight-bright-theme toc-org tagedit spaceline smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree move-text monokai-theme mmm-mode minitest markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc jabber info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-popup flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav dumb-jump diff-hl define-word cython-mode company-web company-tern company-statistics company-anaconda column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background "#141414" :foreground "#f8f8f8")))))
