@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-if type yaourt >/dev/null 2>&1; then
+if type yaourt &>/dev/null ; then
 	#
 	# Yaourt aliases for ArchLinux and friends
 	#
@@ -17,6 +17,5 @@ if type yaourt >/dev/null 2>&1; then
 	alias yarep='yaourt -Si'
 	alias yareps='yaourt -Ss'
 	alias yasu='yaourt --sucre'
-	alias yaupd='yaourt -Sy && sudo abs'
 	alias yaupg='yaourt -Syua'
 fi

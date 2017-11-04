@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-if type cave >/dev/null 2>&1; then
+if type cave &>/dev/null ; then
 	#
 	# Paludis Settings
 	#

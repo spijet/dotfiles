@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-if type git >/dev/null 2>&1; then
+if type git &>/dev/null ; then
 	alias g='git status -sb'
 	alias gg='git branch -vv'
 	alias gs='git status'

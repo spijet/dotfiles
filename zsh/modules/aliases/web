@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+cheat() { curl cheat.sh/$1; }                      # get command cheatsheet
+qrcode() { echo $@ | curl -F-=\<- qrenco.de; }          # print qrcode
+alias weather='curl -s wttr.in/ | head -7' # print weather

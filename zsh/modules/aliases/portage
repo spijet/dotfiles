@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-if type emerge >/dev/null 2>&1; then
+if type emerge &>/dev/null; then
 	#
 	# Portage aliases for Gentoo
 	#
