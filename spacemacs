@@ -80,7 +80,9 @@ values."
      ;;       )
      org
      python
-     ruby
+     (ruby :variables
+           ruby-enable-enh-ruby-mode t
+           ruby-version-manager 'rbenv)
      ;; ruby-on-rails
      (spell-checking :variables
                      spell-checking-enable-by-default nil
