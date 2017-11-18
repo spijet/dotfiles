@@ -10,8 +10,8 @@
 parse_volume() {
     [ "${CUR_VOLUME}" = "Mute" ] && OUTPUT="%{F${IN_TEXT}}\ue04f%{F-}" && return 0
     (( CUR_VOLUME>=60 )) && OUTPUT="\ue05d ${CUR_VOLUME}%" && return 0
-    (( CUR_VOLUME>=30 && CUR_VOLUME<60 )) && OUTPUT="%{F${MI_TEXT}}\ue050 %{F-}${CUR_VOLUME}%" && return 0
-    (( CUR_VOLUME<30 )) && OUTPUT="%{F${IN_TEXT}}\ue04e %{F-}${CUR_VOLUME}%" && return 0
+    (( CUR_VOLUME>=30 && CUR_VOLUME<60 )) && OUTPUT="%{F${MI_TEXT}}\ue050 ${CUR_VOLUME}%%%{F-}" && return 0
+    (( CUR_VOLUME<30 )) && OUTPUT="%{F${IN_TEXT}}\ue04e ${CUR_VOLUME}%%%{F-}" && return 0
 }
 
 get_volume() {
@@ -20,7 +20,7 @@ get_volume() {
     printf "%s" "$OUTPUT"
 }
 
-case $1 in
+case "${1}" in
     down)
         amixer -q set Master 2%- unmute
         ;;
