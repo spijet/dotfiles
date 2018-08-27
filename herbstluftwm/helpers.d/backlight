@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
 
 # Read current PWM frequency and set delta and cap:
-PWMFREQ="$(</tmp/pwmfreq)"
-BL_CAP=$PWMFREQ
+#(separate file is unneded now since I set the PWM register in the module
+# install hook, so it updates max_brightness correctly)
+#FREQ_FILE='/tmp/pwmfreq'
+
+FREQ_FILE='/sys/class/backlight/intel_backlight/max_brightness'
+if [[ -r "${FREQ_FILE}" ]]; then
+	BL_CAP="$(<${FREQ_FILE})"
+else
+	BL_CAP="$(</sys/class/backlight/intel_backlight/max_brightness)"
+fi
 CUR_BRIGHT=$(</sys/class/backlight/intel_backlight/brightness)
 
 up() {
     NEW_BRIGHT=$(( CUR_BRIGHT + BL_DELTA ))
-
-    # Avoid overbrights so there's no need
-    # to decrease brightness all the way from 900%.
-    (( NEW_BRIGHT > BL_CAP )) && NEW_BRIGHT="${BL_CAP}"
 }
 
 down() {
@@ -18,9 +22,6 @@ down() {
 
     # Avoid total darkness:
     (( NEW_BRIGHT < 1 )) && NEW_BRIGHT="1"
-    # Added this because switching to hi-freq backlight
-    # usually results in brightness set to something like 250%
-    (( NEW_BRIGHT > BL_CAP )) && NEW_BRIGHT="${BL_CAP}"
 }
 
 case $2 in
@@ -40,6 +41,9 @@ case $1 in
         up
         ;;
 esac
+# Avoid overbrights:
+(( NEW_BRIGHT > BL_CAP )) && NEW_BRIGHT="${BL_CAP}"
+
 echo "${NEW_BRIGHT}" | sudo tee /sys/class/backlight/intel_backlight/brightness
 
 notify-send -t 500 "Brightness: $(( NEW_BRIGHT * 100 / BL_CAP))%"
