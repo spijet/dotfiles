@@ -11,11 +11,8 @@ setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 
 
-# Set up antibody alias
-antibody() {
-  eval "$(command antibody init -)"
-  antibody "$@"
-}
+# Set up antibody:
+source <(antibody init)
 
 # Set up BASEDIR (in case $ZDOTDIR is unset)
 BASEDIR="${ZDOTDIR:-$HOME/.config/zsh}"
