@@ -18,4 +18,29 @@ if type yaourt &>/dev/null ; then
 	alias yareps='yaourt -Ss'
 	alias yasu='yaourt --sucre'
 	alias yaupg='yaourt -Syua'
+	function up {
+		echo ':: Updating the package list... ::'
+		yaourt -Sy && echo ':: Done ::'
+		echo ':: Upgrading the system (minus the delayed packages) ::'
+		yaourt -Sua
+		echo ':: Checking if there are any delayed packages left ::'
+		NEWPKGS="$(pacman -Qu)"
+		if grep -Fq '[ignored]' <<< "${NEWPKGS}"; then
+			echo ':: Found these packages:'
+			PKGLIST="$(awk '/\[ignored\]/{print $1}' <<< ${NEWPKGS})"
+			echo "${PKGLIST}"
+			read -rq 'response?:: Do you want to upgrade them? [y/N]' 
+			if [[ "$response" =~ ^(y|Y)$ ]]; then
+				echo "${PKGLIST}" > /var/tmp/offline-pkgs
+				xargs -a /var/tmp/offline-pkgs yaourt -Sw
+				sudo touch /system-update
+				echo ':: Done. Updates will be installed at next reboot.'
+			else
+				echo ':: Aborting.'
+			fi
+		else
+			echo ':: No delayed packages found ::'
+		fi
+		echo ':: All Done! ::'
+	}
 fi

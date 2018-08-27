@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # List connections count, sorted
 sortcons() {
-	netstat -nat | tail -n+3 | awk '{print $6}' | sort | uniq -c | sort -rn
+	ss -tun | tail -n+2 | awk '{print $6}' | sort | uniq -c | sort -rn
 }
 
 alias tophist='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
