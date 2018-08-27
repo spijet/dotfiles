@@ -87,7 +87,8 @@ $AWK '$0 != l { print ; l=$0 ; fflush(); }' ${EVENTS_FIFO} > "${PANEL_FIFO}" &
 # New hlwm function that allows making cleaner version of run_once.
 if herbstclient silent new_attr bool my_not_first_autostart ; then
     compton -b
-    kbdd
+    # kbdd
+    /usr/bin/perWindowLayoutD &
     xsettingsd &
 fi
 "${HLPDIR}/tray" &
