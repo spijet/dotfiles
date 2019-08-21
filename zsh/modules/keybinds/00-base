@@ -15,12 +15,14 @@ case $TERM in
 		#bindkey "^[[3^" kill-word # control + delete
   ;;
 
-	xterm-termite|xterm-256color)
+	xterm-termite|xterm-256color|alacritty)
 		bindkey "^[[H" beginning-of-line #Home key
 		bindkey "^[[F" end-of-line #End key
 		bindkey "^[[3~" delete-char #Del key
 		bindkey "^[Oc" forward-word # control + right arrow
 		bindkey "^[Od" backward-word # control + left arrow
+		bindkey "^[[1;5C" forward-word # control + right arrow
+		bindkey "^[[1;5D" backward-word # control + left arrow
 		#bindkey "^H" backward-kill-word # control + backspace
 		#bindkey "^[[3^" kill-word # control + delete
 	;;

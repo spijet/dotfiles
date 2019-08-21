@@ -10,7 +10,6 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 
-
 # Set up antibody:
 source <(antibody init)
 
@@ -36,7 +35,7 @@ EOF
 # Load custom keybinds, if any.
 if [[ -d "${BASEDIR}/modules/keybinds" ]]; then
     for file in ${BASEDIR}/modules/keybinds/*; do
-        source $file
+        source "${file}"
     done
     unset file
 fi
@@ -44,7 +43,7 @@ fi
 # Load all the aliases:
 if [[ -d "${BASEDIR}/modules/aliases" ]]; then
     for file in ${BASEDIR}/modules/aliases/*; do
-        source $file
+        source "${file}"
     done
     unset file
 fi
@@ -52,14 +51,14 @@ fi
 # Load all the extensions:
 if [[ -d "${BASEDIR}/modules/extensions" ]]; then
     for file in ${BASEDIR}/modules/extensions/*; do
-        source $file
+        source "${file}"
     done
     unset file
 fi
 
 # VTE Fixes for Termite:
- if [[ $TERM == xterm-termite ]]; then
-   eval $(dircolors ~/.dircolors)
+ if [[ "${TERM}" =~ 'xterm-termite|alacritty' ]]; then
+   eval "$(dircolors ~/.dircolors)"
    alias ssh="TERM=xterm ssh -C"
  fi
 
@@ -75,6 +74,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
-if type fortune &>/dev/null ; then
+if type fortune &>/dev/null && [[ -o interactive ]]; then
     echo "[3m$(fortune -sa)"
 fi
