@@ -1,0 +1,23 @@
+Net/ThemeName "Vertex-Dark"
+Net/IconThemeName "Vertex-Icons"
+Net/FallbackIconTheme "gnome"
+Gtk/ColorScheme ""
+Gtk/CursorThemeName "Adwaita"
+Net/EnableEventSounds 1
+Net/SoundThemeName "freedesktop"
+Gtk/FontName "Noto Sans UI 9"
+Gtk/DecorationLayout "menu"
+Gtk/ToolbarStyle "both-horiz"
+Gtk/ToolbarIconSize "small"
+Gtk/ButtonImages 0
+Gtk/MenuImages 0
+Gtk/EnableAnimations 1
+Xft/Antialias 1
+Xft/RGBA "rgb"
+Xft/Hinting 1
+Xft/HintStyle "hintslight"
+Gtk/DialogsUseHeader 1
+Gtk/RecentFilesEnabled 1
+Gtk/RecentFilesMaxAge 30
+Gtk/CanChangeAccels 0
+Gtk/ColorPalette "black:white:gray50:red:purple:blue:light blue:green:yellow:orange:lavender:brown:goldenrod4:dodger blue:pink:light green:gray10:gray30:gray75:gray90"

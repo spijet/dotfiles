@@ -1,0 +1,78 @@
+[options]
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = true
+visible_bell = true
+mouse_autohide = true
+allow_bold = true
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = Tewi 9
+scrollback_lines = 5000
+search_wrap = true
+icon_name = terminal
+window_border = false
+
+# "system", "on" or "off"
+cursor_blink = on
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default
+browser = xdg-open
+
+# word characters used for word selection
+# (default if unset: all graphic non-punctuation/space characters)
+word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+# set size hints for the window
+size_hints = false
+
+[hints]
+font = Iosevka Term 11
+foreground      = #d5c4a1
+background      = #282828
+#padding = 2
+#border = #3f3f3f
+#border_width = 0.5
+#roundness = 2.0
+
+[colors]
+# Base16 Gruvbox
+# Scheme: Gordon Chiam (https://github.com/gchiam)
+
+foreground      = #d5c4a1
+foreground_bold = #d5c4a1
+cursor          = #d5c4a1
+background      = #282828
+
+# 16 color space
+color0  = #282828
+color1  = #cc241d
+color2  = #98971a
+color3  = #d79921
+color4  = #458588
+color5  = #b16286
+color6  = #689d6a
+color7  = #d5c4a1
+color8  = #ebdbb2
+color9  = #cc241d
+color10 = #98971a
+color11 = #d79921
+color12 = #458588
+color13 = #b16286
+color14 = #689d6a
+color15 = #fbf1c7
+
+# 256 color space
+color16 = #d65d0e
+color17 = #a89984
+color18 = #504945
+color19 = #7c6f54
+color20 = #bdae93
+color21 = #ebdbb2
+
+# vim: ft=dosini cms=#%s
