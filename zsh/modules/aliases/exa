@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+if type exa &>/dev/null ; then
+    alias ls='exa --group-directories-first --time-style=long-iso -F --color=auto'
+    alias ll='exa --group-directories-first --time-style=long-iso -Fgl --color=auto'
+    alias la='exa --group-directories-first --time-style=long-iso -Fgal --color=auto'
+    alias ltree='exa --group-directories-first -FThl --git --color=auto'
+    alias tree='exa --group-directories-first -FT --color=auto'
+else
+    alias ls='ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+    alias ll='ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+    alias la='ls -la --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+fi
