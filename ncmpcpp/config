@@ -36,3 +36,4 @@ header_visibility = no
 titles_visibility = no
 ignore_leading_the = yes
 mouse_support = no
+media_library_primary_tag = album_artist
