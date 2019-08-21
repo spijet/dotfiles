@@ -1,6 +1,6 @@
 # History settings
-HISTSIZE=1000
-SAVEHIST=20000
+HISTSIZE=20000
+SAVEHIST="${HISTSIZE}"
 HISTFILE="${HOME}/.cache/zsh-history"
 
 setopt AUTO_CD
