@@ -43,8 +43,3 @@ echo "# Installing tmux configs...                                             #
 echo "##########################################################################"
    [ ! -f $HOME/.tmux.conf ] && ln -s $BASEDIR/tmux/tmux.conf $HOME/.tmux.conf
    [ ! -f $HOME/.tmuxline.conf ] && ln -s $BASEDIR/tmux/tmuxline.conf $HOME/.tmuxline.conf
-#
-# echo "Installing vim symlinks and cloning Vundle..."
-#   [ -e $HOME/.vimrc ] && ln -s ./vim/.vimrc $HOME/.vimrc
-#   [ -e $HOME/.vim ] && ln -s ./vim/.vimrc $HOME/.vim
-#   git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/Vundle.vim
