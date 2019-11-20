@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 shopt -s lastpipe
 
+## Write debug log if needed:
+if [[ "${HLWM_DEBUG}" = "true" ]]; then
+    set -x
+    exec > "/tmp/hlwm-$(whoami)-panel.log" 2>&1
+fi
+
 ## Load config file:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
 . "${CFGDIR}/global.conf"
@@ -111,7 +117,7 @@ while IFS=$'\t' read -ra cmd; do
     BAR_DATA=""
     for monitor in "${monitors[@]}"; do
         # Draw tags and window title:
-        BAR_DATA+="%{S${monitor}}%{l}${tagline[${monitor}]}${SEPARATOR}      ${SEPARATOR} ${windowtitle//%{/% {}"
+        BAR_DATA+="%{S${monitor}}%{l}${tagline[${monitor}]}${SEPARATOR}       %{c}${windowtitle//%{/% {}"
         # Draw info stuff on the right side of the panel and finish the line:
         BAR_DATA+="%{r} $layout $volume$battery $SEPARATOR $conky "
     done
@@ -125,6 +131,7 @@ while IFS=$'\t' read -ra cmd; do
     old_cmd="${cmd[@]}"
 done < "${PANEL_FIFO}" |\
     lemonbar -g "x${PANELHEIGHT}" -a 20 \
+             -n "${PANEL_WM_NAME}" \
              -f "${TEXTFONT}" -f "${GLYPHFONT}" \
              -B "$bgcolor" -F "${AC_TEXT}" |\
     sh

@@ -34,4 +34,6 @@ case "${1}" in
         get_volume && exit 0
         ;;
 esac
-herbstclient emit_hook volume "$(get_volume)"
+# if [[ "${XDG_SESSION_DESKTOP:-}" = "herbstluftwm" ]]; then
+# 	herbstclient emit_hook volume "$(get_volume)"
+# fi

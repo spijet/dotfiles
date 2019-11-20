@@ -44,6 +44,6 @@ esac
 # Avoid overbrights:
 (( NEW_BRIGHT > BL_CAP )) && NEW_BRIGHT="${BL_CAP}"
 
-echo "${NEW_BRIGHT}" | sudo tee /sys/class/backlight/intel_backlight/brightness
+echo "${NEW_BRIGHT}" > /sys/class/backlight/intel_backlight/brightness
 
 notify-send -t 500 "Brightness: $(( NEW_BRIGHT * 100 / BL_CAP))%"

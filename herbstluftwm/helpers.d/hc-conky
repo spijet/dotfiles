@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 ## Load config file:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
@@ -40,8 +41,8 @@ EOF
 pkill -u `whoami` conky
 
 ## Run Conky:
-conky -qd -c - <<< "${CONKY_CFG}"
+/usr/bin/conky -dq -c <(echo "${CONKY_CFG}")
 
 
-## Store Conky's pid for future use:
+# ## Store Conky's pid for future use:
 echo "$!" > /tmp/conky.pid

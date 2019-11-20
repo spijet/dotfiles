@@ -15,3 +15,5 @@ while read tag ; do
     echo -n "$tag: "
     hc dump "$tag"
 done > "$1"
+
+notify-send -u low "HLWM" "Desktop states saved!"
