@@ -33,7 +33,7 @@ if [[ "${PEKO}" = "laptop-home" ]]; then
 fi
 
 ## Set the wallpaper(s):
-type nitrogen &>/dev/null && nitrogen --restore
+# type nitrogen &>/dev/null && nitrogen --restore
 
 ##  Set up tags:
 #   First, add all configured tags:
