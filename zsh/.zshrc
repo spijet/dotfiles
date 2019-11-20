@@ -23,6 +23,9 @@ antibody bundle < "${BASEDIR}/plugins.txt"
 PURE_CMD_MAX_EXEC_TIME=1
 antibody bundle sindresorhus/pure
 
+# Punish me for not using proper aliases:
+export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
+
 #
 # Load syntax highlighting and fuzzy search modules,
 # these two guys **MUST** be loaded last.
