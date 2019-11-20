@@ -8,12 +8,15 @@ OUT_OPTS="File
 Clipboard"
 
 ## Get launch options:
-while getopts "fw" opt; do
+while getopts "fjwd:" opt; do
     case $opt in
+        d) DELAY="${OPTARG}";;
         f) OPT="Full Screen"
            OUT="File";;
         w) OPT="Select Window/Area"
            OUT="File";;
+        j) OPT="Select Window/Area"
+           OUT="Clipboard";;
     esac
 done
 
@@ -22,11 +25,12 @@ done
 [[ "${?:-0}" = "0" ]] || exit 0
 case "${OPT}" in
     "Full Screen")
-        DATA="$(base64 < <(maim))";;
+	sleep 1
+        DATA="$(base64 < <(maim -d ${DELAY:-0}))";;
     "Select Window/Area")
-        DATA="$(base64 < <(maim -s))";;
+        DATA="$(base64 < <(maim -s -n 1 -d ${DELAY:-0}))";;
     "Select Window (Shadowed)")
-        DATA="$(base64 < <(maim -st 9999999 | convert - \( +clone -background black -shadow 99x5+0+0 \) +swap -background none -layers merge +repage - ))";;
+        DATA="$(base64 < <(maim -s -n 1 -t 9999999 | convert - \( +clone -background black -shadow 99x5+0+0 \) +swap -background none -layers merge +repage - ))";;
 esac
 
 ## Raise menu if no options given:
