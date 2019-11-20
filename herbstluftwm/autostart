@@ -62,41 +62,16 @@ herbstclient detect_monitors
 hcc
 [[ -f "${SAVESTATE}" ]] && "${HLPDIR}/loadstate" "${SAVESTATE}"
 
-## Prepare panel script:
-#  Create FIFO dir and pipes:
-[[ -d "${FIFO_DIR}" ]] || mkdir -p "${FIFO_DIR}"
-make_fifo "${EVENTS_FIFO}" "${PANEL_FIFO}"
-#  Kill any herbstclient running before us:
-pkill -cxf 'herbstclient --idle'
-#  Same for bapa:
-pkill -f 'bapa.*herbstluftwm'
-
-#  Fill the monitor list (for panel script):
+#  Fill the monitor list (for panel):
 #  (no quoting here since I want to expand one sting to N monitors)
 MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
 for monitor in ${MONITORS[@]} ; do
-    baropts+=("-m $monitor")
+    hc pad "$monitor" "$PANELHEIGHT"
 done
 
-## Fill them with data from herbstclient:
-#  I also pipe the event list via awk to get rid of identical events (like
-#  redundant conky updates).
-herbstclient --idle > "${EVENTS_FIFO}" 2>/dev/null &
-$HOME/bin/bapa "${BAT#BAT}" > "${EVENTS_FIFO}" 2>/dev/null &
-$AWK '$0 != l { print ; l=$0 ; fflush(); }' ${EVENTS_FIFO} > "${PANEL_FIFO}" &
-
-[[ -x "$PANEL" ]] || PANEL="/etc/xdg/herbstluftwm/panel.sh"
-"$PANEL" ${baropts[@]} &
-
-# New hlwm function that allows making cleaner version of run_once.
-if herbstclient silent new_attr bool my_not_first_autostart ; then
-    compton -b
-    # kbdd
-    /usr/bin/perWindowLayoutD &
-    xsettingsd &
-fi
-"${HLPDIR}/tray" &
-type conky &>/dev/null && "${HLPDIR}/hc-conky" &
+# "${HLPDIR}/tray" &
+# type conky &>/dev/null && "${HLPDIR}/hc-conky" &
+pgrep -cxf barabara || "${HOME}/.local/bin/barabara" &
 
 ## Fork all running processes away and die peacefully:
 disown
