@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-set -x
-exec > ~/.hlwm.log 2>&1
-
 #:'##::::'##:'##:::::::'##:::::'##:'##::::'##:
 #: ##:::: ##: ##::::::: ##:'##: ##: ###::'###:
 #: ##:::: ##: ##::::::: ##: ##: ##: ####'####:
@@ -10,6 +7,13 @@ exec > ~/.hlwm.log 2>&1
 #: ##:::: ##: ##::::::: ##: ##: ##: ##:.:: ##:
 #: ##:::: ##: ########:. ###. ###:: ##:::: ##:
 #:..:::::..::........:::...::...:::..:::::..::
+# export HLWM_DEBUG=true
+
+## Write debug log if needed:
+if [[ "${HLWM_DEBUG}" = "true" ]]; then
+    set -x
+    exec > "/tmp/hlwm-$(whoami)-wm.log" 2>&1
+fi
 
 ## Load config file and emit 'reload' hook:
 CFGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm"
