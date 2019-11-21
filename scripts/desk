@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -x
+
+OPTS="Trackball hand:
+Left
+Right"
+
+TRACKBALL='Logitech USB Trackball'
+XINPUT_ARG=('--set-prop' "${TRACKBALL}")
+XINPUT_LHE='libinput Left Handed Enabled'
+XINPUT_BSB='libinput Button Scrolling Button'
+
+## Raise menu if no options given:
+[[ -n "${OPT}" ]] || OPT="$(rofi -p 'Desk settings:' -dmenu <<< ${OPTS})"
+[[ "${?:-0}" = "0" ]] || exit 0
+case "${OPT}" in
+    "Left")
+        xinput "${XINPUT_ARG[@]}" "${XINPUT_LHE}" 1
+        xinput "${XINPUT_ARG[@]}" "${XINPUT_BSB}" 8
+        ;;
+    "Right")
+        xinput "${XINPUT_ARG[@]}" "${XINPUT_LHE}" 0
+        xinput "${XINPUT_ARG[@]}" "${XINPUT_BSB}" 8
+        ;;
+    *)
+        notify-send -a "Desk" "No option selected!";;
+esac

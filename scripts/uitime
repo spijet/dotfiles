@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+## Get mode name:
+MODE="${1:-normal}"
+
+## Determine what themes do we need to set:
+case "${MODE}" in
+	day)
+		GTK_THEME='Vertex'
+		GS_THEME='Vertex'
+		XS='day'
+		XRES='day'
+		;;
+	night)
+		GTK_THEME='Vertex-Dark'
+		GS_THEME='Vertex'
+		XS='night'
+		XRES='night'
+		;;
+	normal)
+		GTK_THEME='Vertex'
+		GS_THEME='Vertex'
+		XS='mid'
+		XRES='night'
+		;;
+esac
+
+case "${XDG_SESSION_DESKTOP:-none}" in
+	gnome)
+		## Change GTK+3 and GNOME Shell themes (if GSD is running):
+		gsettings set org.gnome.desktop.interface gtk-theme "${GTK_THEME}"
+		gsettings set org.gnome.shell.extensions.user-theme name "${GS_THEME}"
+		;;
+	xfce4)
+		## Change XFCE4 themes:
+		xfconf-query -c xsettings -p /Net/ThemeName -s "${GTK_THEME}"
+		xfconf-query -c xfwm4 -p /general/theme -s "${GTK_THEME}"
+		;;
+	*)
+		if pgrep -u "${USER}" xsettingsd &>/dev/null ; then
+			## Swap Xsettingsd config and send a reload signal:
+			ln -sf "${HOME}/.dotfiles/timely-ui/xsettings.${XS}" "${HOME}/.config/xsettingsd"
+			pkill -u "${USER}" -HUP xsettingsd
+		fi
+	;;
+esac
+
+if type termite &>/dev/null; then
+	ln -sf "${HOME}/.dotfiles/timely-ui/termite.${XRES}" "${HOME}/.config/termite/config"
+	ln -sf "${HOME}/.dotfiles/timely-ui/termite_mini.${XRES}" "${HOME}/.config/termite/config.mini"
+	pgrep -u "${USER}" termite &>/dev/null && pkill -usr1 termite
+fi
+
+## Set X resources:
+xrdb -merge "${HOME}/.dotfiles/timely-ui/xresources.${XRES}"
+
+## Notify the user:
+timeout 2 notify-send "UI switched to ${MODE} mode."

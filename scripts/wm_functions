@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+##################################################
+## This script contains definitions of various  ##
+## WM-related stuff. This allows me to use more ##
+## generic code in helper scripts and re-use it ##
+## between different WMs with little change.    ##
+##################################################
+
+WM="${DESKTOP_SESSION}"
+
+send_event() {
+    KEY="${1}"
+    VALUE="${2}"
+
+    case "${WM}" in
+        bspwm)
+            printf "E%s %s" "${KEY}" "${VALUE}" > "${PANEL_FIFO}"
+        ;;
+        herbstluftwm)
+            herbstclient emit_hook "${KEY}" "${VALUE}"
+        ;;
+}
+
+hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
+get_volume() { "${HLPDIR}/volume" get ;}
+
+## Read the taglist and create the tag widget contents (for HLWM):
+gentagline () {
+    # Switch the font to glyphs:
+    tagline["${1}"]="%{T2}"
+    # Read the tag list:
+    # IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
+    tags=( $(hc tag_status "${1}") )
+    ## Tag statuses:
+    #  '#' -- Tag is active and focused on current monitor;
+    #  '+' -- Tag is active on current monitor,
+    #         but another monitor is focused;
+    #  ':' -- Tag is not active, but contains windows;
+    #  '!' -- Tag contains an urgent window.
+    for i in "${!tags[@]}" ; do
+        case "${tags[i]:0:1}" in
+            '#' ) tagcolor="%{B$selbg}%{F$selfg}";;
+            '+' ) tagcolor="%{B#9CA668}%{F$selfg}";;
+            ':' ) tagcolor="%{B-}%{F${AC_TEXT}}";;
+            '!' ) tagcolor="%{B${UR_WINBR}}%{F$selfg}";;
+            '-'|'%' ) tagcolor="%{B${IN_TEXT}}%{F$bgcolor}";;
+            *   ) tagcolor="%{B-}%{F${IN_TEXT}}";;
+        esac
+        tagline["${1}"]+="${tagcolor}%{A:herbstclient chain .-. focus_monitor \"${1}\" .-. use \"${tags[i]:1}\":} ${tag_icons[i]} %{A}"
+    done
+    #  Switch font back to text:
+    tagline["${1}"]+="%{T1}"
+}

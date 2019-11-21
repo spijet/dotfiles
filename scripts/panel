@@ -25,19 +25,19 @@ while getopts "dm:" opt; do
     esac
 done
 
-[[ -z "${monitors[@]}" ]] && echo "No monitors specified." && exit 1
+[[ -z "${monitors[@]}" ]] && echo 'No monitors specified.' && exit 1
 for monitor in "${monitors[@]}"; do
     # Pad the screen to panel height:
-    hc pad "$monitor" "$PANELHEIGHT"
+    hc pad "${monitor}" "${PANELHEIGHT}"
 done
 
-if [[ "$debug" = "on" ]]; then
+if [[ "$debug" = 'on' ]]; then
     ## Feed the event loop:
     #  I feed the panel via herbstclient hooks.
     #  I also pipe the event list via awk to get rid of identical events (like
     #  redundant conky updates).
     make_fifo "${PANEL_FIFO}"
-    herbstclient --idle | $AWK '$0 != l { print ; l=$0 ; fflush(); }' > "${PANEL_FIFO}" &
+    ${AWK} '$0 != l { print ; l=$0 ; fflush(); }' < <(herbstclient --idle) > "${PANEL_FIFO}" &
     type conky &>/dev/null && "${HLPDIR}/hc-conky" &
 else
     [[ -p "${PANEL_FIFO}" ]] || notify-send -u critical "Panel error!" "No FIFO found!"
