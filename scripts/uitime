@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+## Get dotfiles location:
+DOTDIR="${DOTDIR:-"${HOME}/.dotfiles"}"
+
 ## Get mode name:
 MODE="${1:-normal}"
 
@@ -39,20 +42,20 @@ case "${XDG_SESSION_DESKTOP:-none}" in
 	*)
 		if pgrep -u "${USER}" xsettingsd &>/dev/null ; then
 			## Swap Xsettingsd config and send a reload signal:
-			ln -sf "${HOME}/.dotfiles/timely-ui/xsettings.${XS}" "${HOME}/.config/xsettingsd"
+			ln -sf "${DOTDIR}/timely-ui/xsettings.${XS}" "${HOME}/.config/xsettingsd"
 			pkill -u "${USER}" -HUP xsettingsd
 		fi
 	;;
 esac
 
 if type termite &>/dev/null; then
-	ln -sf "${HOME}/.dotfiles/timely-ui/termite.${XRES}" "${HOME}/.config/termite/config"
-	ln -sf "${HOME}/.dotfiles/timely-ui/termite_mini.${XRES}" "${HOME}/.config/termite/config.mini"
+	ln -sf "${DOTDIR}/timely-ui/termite.${XRES}" "${HOME}/.config/termite/config"
+	ln -sf "${DOTDIR}/timely-ui/termite_mini.${XRES}" "${HOME}/.config/termite/config.mini"
 	pgrep -u "${USER}" termite &>/dev/null && pkill -usr1 termite
 fi
 
 ## Set X resources:
-xrdb -merge "${HOME}/.dotfiles/timely-ui/xresources.${XRES}"
+xrdb -merge "${DOTDIR}/timely-ui/xresources.${XRES}"
 
 ## Notify the user:
 timeout 2 notify-send "UI switched to ${MODE} mode."
