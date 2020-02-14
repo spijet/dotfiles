@@ -5,7 +5,7 @@ Gtk/ColorScheme ""
 Gtk/CursorThemeName "Adwaita"
 Net/EnableEventSounds 1
 Net/SoundThemeName "freedesktop"
-Gtk/FontName "Noto Sans UI 9"
+Gtk/FontName "sans-serif 9"
 Gtk/DecorationLayout "menu"
 Gtk/ToolbarStyle "both-horiz"
 Gtk/ToolbarIconSize "small"
