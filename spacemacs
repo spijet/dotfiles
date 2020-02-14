@@ -41,7 +41,7 @@ This function should only modify configuration layer settings."
      ansible
      auto-completion
      (colors :variables
-             colors-enable-rainbow-identifiers 'all)
+             colors-colorize-identifiers 'all)
      confluence
      c-c++
      (dash :variables
