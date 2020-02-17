@@ -33,9 +33,6 @@ if [[ -x "${TRAYER_COMMAND}" ]]; then
             --heighttype pixel --height "${PANELHEIGHT}" --transparent true \
             --alpha 0 --tint "0x${IN_FRAMEBR//#/}" \
             --distancefrom left --distance 174
-    # Trying to switch to NetworkManager-dmenu.
-    # pkill 'nm-applet' >/dev/null
-    # fork nm-applet
 else
     notify-send -u critical "Tray error" "Trayer binary not found."
 fi
