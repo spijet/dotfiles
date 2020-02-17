@@ -32,7 +32,7 @@ if [[ -x "${TRAYER_COMMAND}" ]]; then
             --edge top --align left --widthtype request \
             --heighttype pixel --height "${PANELHEIGHT}" --transparent true \
             --alpha 0 --tint "0x${IN_FRAMEBR//#/}" \
-            --distancefrom left --distance 174
+            --distancefrom left --distance "${TRAY_OFFSET}"
 else
     notify-send -u critical "Tray error" "Trayer binary not found."
 fi
