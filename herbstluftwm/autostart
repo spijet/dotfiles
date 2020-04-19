@@ -61,8 +61,7 @@ for monitor in ${MONITORS[@]} ; do
     hc pad "$monitor" "$PANELHEIGHT"
 done
 
-# "${HLPDIR}/tray" &
-pgrep -cxf barabara || "${HOME}/.local/bin/barabara" &
+pgrep -cf barabara || barabara &
 
 ## Fork all running processes away and die peacefully:
 disown
