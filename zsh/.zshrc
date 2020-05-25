@@ -69,7 +69,17 @@ fi
 typeset -U path
 
 # Load ZSH completions:
-autoload -U compinit && compinit
+autoload -Uz compinit
+setopt extendedglob
+if [[ -n "${ZDOTDIR}"/.zcompdump(#qN.mh+24) ]]; then
+    echo "Cache miss!"
+	  compinit
+    touch "${ZDOTDIR}/.zcompdump"
+else
+    compinit -C
+fi
+unsetopt extendedglob
+
 # zstyle ':completion:*' menu select
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
