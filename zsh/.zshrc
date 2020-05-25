@@ -88,5 +88,5 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
 if type fortune &>/dev/null && [[ -o interactive ]]; then
-    echo "[3m$(fortune -sa)"
+    echo "[3m$(fortune -sa)[0m"
 fi
