@@ -65,5 +65,8 @@ done
 pkill -U "${UID}" -f barabara ; barabara &
 pkill -U "${UID}" -f trayer ; /home/spijet/.dotfiles/scripts/tray &
 
+# Set up wallpapers:
+nitrogen --restore
+
 ## Fork all running processes away and die peacefully:
 disown
