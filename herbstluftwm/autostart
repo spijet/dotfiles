@@ -61,7 +61,9 @@ for monitor in ${MONITORS[@]} ; do
     hc pad "$monitor" "$PANELHEIGHT"
 done
 
-pkill -cf barabara ; barabara &
+# Start up panel and system tray:
+pkill -U "${UID}" -f barabara ; barabara &
+pkill -U "${UID}" -f trayer ; /home/spijet/.dotfiles/scripts/tray &
 
 ## Fork all running processes away and die peacefully:
 disown
