@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+## Get display list:
+int_display="$(xrandr  | awk '$2 == "connected" && $1 ~ "eDP" {print $1}')"
+ext_display="$(xrandr  | awk '$2 == "connected" && $1 !~ "eDP" {print $1}')"
+
+SCREEN_OPTS="Laptop
+Desktop"
+
+OPT="${1^}"
+
+[[ -z "${OPT:-}" ]] && OPT="$(rofi -p 'Screen setup:' -dmenu <<< ${SCREEN_OPTS})"
+
+
+case "${OPT}" in
+    'Laptop')
+        xrandr --output "${ext_display}" --off;;
+    'Desktop')
+        xrandr --output "${ext_display}" --above "${int_display}" --noprimary --auto
+        xrandr --output "${int_display}" --primary;;
+    *)
+        echo 'Oops.' >&2
+        exit 1
+        ;;
+esac
+
+[[ "${XDG_SESSION_DESKTOP}" = herbstluftwm ]] && herbstclient reload
+[[ "${XDG_SESSION_DESKTOP}" = bspwm ]] && ~/.config/bspwm/bspwmrc
