@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 ## Get display list:
-int_display="$(xrandr  | awk '$2 == "connected" && $1 ~ "eDP" {print $1}')"
-ext_display="$(xrandr  | awk '$1 !~ "eDP" {print $1":"$2}')"
+int_display="$(xrandr | awk '$2 == "connected" && $1 ~ "eDP" {print $1}')"
+ext_display="$(xrandr | awk '$2 ~ "(dis)?connected" && $1 !~ "eDP" {print $1":"$2}')"
+ext_display_name="${ext_display%:*}"
+ext_display_status="${ext_display#*:}"
 
 SCREEN_OPTS="Auto
 Laptop
@@ -13,11 +15,11 @@ OPT="${1^:-Auto}"
 [[ -z "${OPT:-}" ]] && OPT="$(rofi -p 'Screen setup:' -dmenu <<< ${SCREEN_OPTS})"
 
 laptop() {
-    xrandr --output "${ext_display}" --off
+    xrandr --output "${ext_display_name}" --off
 }
 
 desktop() {
-    xrandr --output "${ext_display}" --above "${int_display}" --noprimary --auto
+    xrandr --output "${ext_display_name}" --above "${int_display}" --noprimary --auto
     xrandr --output "${int_display}" --primary
 }
 
@@ -26,7 +28,7 @@ case "${OPT}" in
     'Laptop') laptop;;
     'Desktop') desktop;;
     *)
-        if [[ -n "${ext_display:-}" ]]; then
+        if [[ -n "${ext_display_status:-disconnected}" ]]; then
             desktop
         else
             laptop
