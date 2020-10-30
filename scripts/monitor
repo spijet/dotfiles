@@ -2,27 +2,36 @@
 
 ## Get display list:
 int_display="$(xrandr  | awk '$2 == "connected" && $1 ~ "eDP" {print $1}')"
-ext_display="$(xrandr  | awk '$2 == "connected" && $1 !~ "eDP" {print $1}')"
+ext_display="$(xrandr  | awk '$1 !~ "eDP" {print $1":"$2}')"
 
-SCREEN_OPTS="Laptop
+SCREEN_OPTS="Auto
+Laptop
 Desktop"
 
-OPT="${1^}"
+OPT="${1^:-Auto}"
 
 [[ -z "${OPT:-}" ]] && OPT="$(rofi -p 'Screen setup:' -dmenu <<< ${SCREEN_OPTS})"
 
+laptop() {
+    xrandr --output "${ext_display}" --off
+}
+
+desktop() {
+    xrandr --output "${ext_display}" --above "${int_display}" --noprimary --auto
+    xrandr --output "${int_display}" --primary
+}
+
 
 case "${OPT}" in
-    'Laptop')
-        xrandr --output "${ext_display}" --off;;
-    'Desktop')
-        xrandr --output "${ext_display}" --above "${int_display}" --noprimary --auto
-        xrandr --output "${int_display}" --primary;;
+    'Laptop') laptop;;
+    'Desktop') desktop;;
     *)
-        echo 'Oops.' >&2
-        exit 1
-        ;;
+        if [[ -n "${ext_display:-}" ]]; then
+            desktop
+        else
+            laptop
+        fi ;;
 esac
 
-[[ "${XDG_SESSION_DESKTOP}" = herbstluftwm ]] && herbstclient reload
-[[ "${XDG_SESSION_DESKTOP}" = bspwm ]] && ~/.config/bspwm/bspwmrc
+[[ "${XDG_SESSION_DESKTOP}" = herbstluftwm && "${2:-}" = "" ]] && herbstclient reload
+[[ "${XDG_SESSION_DESKTOP}" = bspwm && "${2:-}" = "" ]] && ~/.config/bspwm/bspwmrc

@@ -48,6 +48,7 @@ done
 hc unlock
 herbstclient set tree_style "${TREE_STYLE}"
 # Do multi monitor setup:
+/home/spijet/.dotfiles/scripts/monitor auto pre
 herbstclient detect_monitors
 
 # Send the commandchain to hlwm in one command and load the savestate:
