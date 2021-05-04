@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 if type hashcolor &>/dev/null ; then
     alias ssh='cssh'
 fi
