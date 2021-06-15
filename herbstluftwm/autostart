@@ -45,15 +45,11 @@ for CONFIG in "theme.conf" "keybinds.conf" "rules.conf"; do
 done
 
 # Unlock, just to be sure:
-hc unlock
+hc unlock && hcc
 herbstclient set tree_style "${TREE_STYLE}"
 # Do multi monitor setup:
 /home/spijet/.dotfiles/scripts/monitor auto pre
 herbstclient detect_monitors
-
-# Send the commandchain to hlwm in one command and load the savestate:
-hcc
-[[ -f "${SAVESTATE}" ]] && "${HLPDIR}/loadstate" "${SAVESTATE}"
 
 #  Fill the monitor list (for panel):
 #  (no quoting here since I want to expand one sting to N monitors)
@@ -61,6 +57,10 @@ MONITORS=( $(herbstclient list_monitors | cut -d: -f1) )
 for monitor in ${MONITORS[@]} ; do
     hc pad "$monitor" "$PANELHEIGHT"
 done
+
+# Send the commandchain to hlwm in one command and load the savestate:
+hcc
+[[ -f "${SAVESTATE}" ]] && "${HLPDIR}/loadstate" "${SAVESTATE}"
 
 # Start up panel and system tray:
 pkill -U "${UID}" -f barabara ; barabara &
