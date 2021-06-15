@@ -8,3 +8,4 @@ unset GREP_OPTIONS
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
+alias nosleep='systemd-inhibit --what=handle-lid-switch sleep 1d'
