@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+
+function heic2xxx() {
+    set -x
+    local _icc_args="" _icc_path="" _format_args=""
+    if [[ "${1}" =~ --format= ]]; then
+        _format_args=('-format' "${1##*=}")
+        shift
+    fi
+    if [[ "${1}" =~ --quality= ]]; then
+        _format_args+=('-quality' "${1##*=}")
+        shift
+    fi
+    if [[ "$(uname)" == Darwin ]]; then
+        _icc_path="/System/Library/ColorSync/Profiles/Display P3.icc"
+    else
+        _icc_path="/usr/share/color/icc/DisplayP3.icc"
+    fi
+    if [[ -f "${_icc_path}" ]]; then
+        _icc_args=('-profile' "${_icc_path}")
+    fi
+    mogrify "${_format_args[@]}" -colorspace sRGB "${_icc_args[@]}" -verbose "$@"
+    set +x
+}
+
+function heic2png() {
+    heic2xxx --format=png "$@"
+}
+
+function heic2jpg() {
+    heic2xxx --format=jpg "$@"
+}

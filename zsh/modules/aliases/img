@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-
-function heic2png() {
-    mogrify -format png -colorspace sRGB -verbose "${@}"
-}
