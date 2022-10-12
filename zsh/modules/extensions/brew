@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+if type brew &>/dev/null; then
+    BREW_PREFIX="$(brew --prefix)/share"
+    FPATH="${BREW_PREFIX}/zsh-completions:${BREW_PREFIX}/zsh/site-functions:${FPATH}"
+fi
