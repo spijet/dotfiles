@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+if type lesspipe.sh &>/dev/null ; then
+    export \
+        LESSOPEN="| $(which lesspipe.sh) %s" \
+        LESS_ADVANCED_PREPROCESSOR=1 \
+        LESS=" -RS "
+elif type src-hilite-lesspipe.sh &>/dev/null ; then
+    export \
+        LESSOPEN="| $(which src-hilite-lesspipe.sh) %s" \
+        LESS_ADVANCED_PREPROCESSOR=1 \
+        LESS=" -RS "
+else
+    # Specify some sane defaults for less just in case:
+    export LESS=" -RS "
+fi
