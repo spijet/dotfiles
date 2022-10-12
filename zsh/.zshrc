@@ -10,18 +10,18 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 
-# Set up antibody:
-source <(antibody init)
+# Set up antidote:
+source <(antidote init)
 
 # Set up BASEDIR (in case $ZDOTDIR is unset)
 BASEDIR="${ZDOTDIR:-$HOME/.config/zsh}"
 
 # Load plugins as a bundle.
-antibody bundle < "${BASEDIR}/plugins.txt"
+antidote bundle < "${BASEDIR}/plugins.txt"
 
 # Load Pure prompt theme
 PURE_CMD_MAX_EXEC_TIME=1
-antibody bundle sindresorhus/pure
+antidote bundle sindresorhus/pure
 
 # Punish me for not using proper aliases:
 export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
@@ -30,7 +30,7 @@ export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
 # Load syntax highlighting and fuzzy search modules,
 # these two guys **MUST** be loaded last.
 #
-antibody bundle <<EOF
+antidote bundle <<EOF
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 EOF
