@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 if type eza &>/dev/null ; then
-    alias ls='eza --group-directories-first --time-style=long-iso -F --color=auto'
-    alias ll='eza --group-directories-first --time-style=long-iso -Fgl --color=auto'
-    alias la='eza --group-directories-first --time-style=long-iso -Fgal --color=auto'
-    alias ltree='eza --group-directories-first -FThl --git --color=auto'
-    alias tree='eza --group-directories-first -FT --color=auto'
+    alias ls='eza --group-directories-first --time-style=long-iso --classify=always --color=auto'
+    alias ll='eza --group-directories-first --time-style=long-iso --classify=always -lg --color=auto'
+    alias la='eza --group-directories-first --time-style=long-iso --classify=always -lga --color=auto'
+    alias ltree='eza --group-directories-first --classify=always -Thl --git --color=auto'
+    alias tree='eza --group-directories-first --classify=always -T --color=auto'
 elif type exa &>/dev/null ; then
     alias ls='exa --group-directories-first --time-style=long-iso -F --color=auto'
     alias ll='exa --group-directories-first --time-style=long-iso -Fgl --color=auto'
