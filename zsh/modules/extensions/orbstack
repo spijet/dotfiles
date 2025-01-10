@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+if type orbctl &>/dev/null; then
+    source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+fi
