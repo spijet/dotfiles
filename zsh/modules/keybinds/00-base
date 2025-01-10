@@ -23,6 +23,8 @@ case $TERM in
 		bindkey "^[Od" backward-word # control + left arrow
 		bindkey "^[[1;5C" forward-word # control + right arrow
 		bindkey "^[[1;5D" backward-word # control + left arrow
+		bindkey "^[[1;3C" forward-word # alt + right arrow
+		bindkey "^[[1;3D" backward-word # alt + left arrow
 		#bindkey "^H" backward-kill-word # control + backspace
 		#bindkey "^[[3^" kill-word # control + delete
 	;;
