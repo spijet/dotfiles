@@ -58,7 +58,7 @@ This function should only modify configuration layer settings."
                  js2-basic-offset 2
                  js-indent-level 2)
 		 ;; jabber
-     ;; latex
+     latex
      lsp
      markdown
      ;; neotree
