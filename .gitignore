@@ -1,5 +1,7 @@
 zsh/modules/aliases/local
 zsh/.zcompdump
+zsh/.zcompcache
+zsh/.zsh_sessions
 zsh/zsh-plugins.zsh
 spacemacs.d/account-config.el
 spacemacs.d/mu4e-config.el
