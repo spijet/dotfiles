@@ -19,9 +19,7 @@ BASEDIR="${ZDOTDIR:-$HOME/.config/zsh}"
 [[ -f "${BASEDIR}/.zstyles" ]] && source "${BASEDIR}/.zstyles"
 
 # Set up Antidote:
-# (add a hack for Debian-like systems)
-[[ -e /usr/share/zsh-antidote/antidote.zsh ]] && source /usr/share/zsh-antidote/antidote.zsh
-source <(antidote init)
+source "${BASEDIR}/antidote/antidote.zsh"
 
 # Punish me for not using proper aliases:
 export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
