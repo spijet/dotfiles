@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# Set Antidote config options:
+zstyle ':antidote:bundle' file "${BASEDIR}/zsh-plugins.lst"
+zstyle ':antidote:static' file "${BASEDIR}/zsh-plugins.zsh"
+zstyle ':antidote:bundle' 'use-friendly-names' 'on'

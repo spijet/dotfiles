@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # History settings
 HISTSIZE=20000
 SAVEHIST="${HISTSIZE}"
@@ -10,36 +12,25 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 
-# Set up Antidote/Antibody:
-if type antidote &>/dev/null; then
-    ZPM=antidote
-else
-    ZPM=antibody
-fi
-
-source <("${ZPM}" init)
-
 # Set up BASEDIR (in case $ZDOTDIR is unset)
 BASEDIR="${ZDOTDIR:-$HOME/.config/zsh}"
 
-# Load plugins as a bundle.
-"${ZPM}" bundle < "${BASEDIR}/plugins.txt"
+# Load ZSH styles:
+[[ -f "${BASEDIR}/.zstyles" ]] && source "${BASEDIR}/.zstyles"
 
-# Load Pure prompt theme
-PURE_CMD_MAX_EXEC_TIME=1
-"${ZPM}" bundle sindresorhus/pure
+# Set up Antidote:
+# (add a hack for Debian-like systems)
+[[ -e /usr/share/zsh-antidote/antidote.zsh ]] && source /usr/share/zsh-antidote/antidote.zsh
+source <(antidote init)
 
 # Punish me for not using proper aliases:
 export ZSH_PLUGINS_ALIAS_TIPS_FORCE=1
+# Print prompt timer if command runs for more than 1 second:
+export PURE_CMD_MAX_EXEC_TIME=1
 
-#
-# Load syntax highlighting and fuzzy search modules,
-# these two guys **MUST** be loaded last.
-#
-"${ZPM}" bundle <<EOF
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-history-substring-search
-EOF
+# Load all plugins from list:
+antidote load
+autoload -Uz promptinit && promptinit && prompt pure
 
 # Load custom keybinds, if any.
 if [[ -d "${BASEDIR}/modules/keybinds" ]]; then
