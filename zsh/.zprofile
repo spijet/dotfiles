@@ -2,5 +2,5 @@
 
 [[ -f "${HOME}/.profile" ]] && source "${HOME}/.profile"
 
-# Unclutter PATH
-typeset -U path
+# Unclutter PATH and FPATH:
+typeset -gU path fpath
