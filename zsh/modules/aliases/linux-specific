@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+if is_linux; then
+    # Basic stuff
+    [[ -f /usr/bin/fping ]] && alias fping='/usr/sbin/fping'
+    alias dmesg='dmesg -HL'
+    alias nosleep='systemd-inhibit --what=handle-lid-switch sleep 1d'
+fi

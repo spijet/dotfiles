@@ -1,11 +1,8 @@
 #!/usr/bin/env zsh
 # Basic stuff
-alias fping='/usr/sbin/fping'
-alias dmesg='dmesg -HL'
 alias nano='nano -w'
 alias grep="grep --color=tty -d skip $GREP_OPTIONS"
 unset GREP_OPTIONS
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
-alias nosleep='systemd-inhibit --what=handle-lid-switch sleep 1d'
