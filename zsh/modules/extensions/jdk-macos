@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
 if type /usr/libexec/java_home &>/dev/null && [[ -d "$(/usr/libexec/java_home)" ]]; then
-   jdk() {
-       local version="${1}"
-       export JAVA_HOME="$(/usr/libexec/java_home -v"${version}")";
-       java -version
-   }
+    jdk() {
+        local version="${1}"
+        export JAVA_HOME="$(/usr/libexec/java_home -v"${version}")";
+        java -version
+    }
 fi

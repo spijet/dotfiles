@@ -1,42 +1,42 @@
 #!/usr/bin/env zsh
 if type yay &>/dev/null ; then
-	#
-	# Yay aliases for ArchLinux and friends
-	#
-	alias yi='yay -S'
-	alias yis='yay -U'
-	alias yid='yay -S --asdeps'
-	alias yl='yay -Qi'
-	alias yls='yay -Qe'
-	alias ym='yay -Syy'
-	alias yc='yay -Qdt'
-	alias yr='yay -R'
-	alias yrm='yay -Rns'
-	alias yrp='yay -Si'
-	alias yup='yay -Syu'
-	function up {
-		echo ':: Updating the package list...'
-		yay -Sy && echo ':: Done!'
-		echo ':: Upgrading the system (minus the delayed packages)...'
-		yay -Su
-		echo ':: Checking if there are any delayed packages left...'
-		NEWPKGS="$(pacman -Qu)"
-		if grep -Fq '[ignored]' <<< "${NEWPKGS}"; then
-			echo ':: Found these packages:'
-			PKGLIST="$(awk '/\[ignored\]/{print $1}' <<< ${NEWPKGS})"
-			echo "${PKGLIST}"
-			read -rq 'response?:: Do you want to upgrade them? [y/N]'
-			if [[ "$response" =~ ^(y|Y)$ ]]; then
-				echo "${PKGLIST}" > /var/tmp/offline-pkgs
-				xargs -a /var/tmp/offline-pkgs yay -Sw
-				sudo touch /system-update
-				echo ':: Done. Updates will be installed at next reboot.'
-			else
-				echo ':: Aborting.'
-			fi
-		else
-			echo ':: No delayed packages found!'
-		fi
-		echo ':: All Done!'
-	}
+    #
+    # Yay aliases for ArchLinux and friends
+    #
+    alias yi='yay -S'
+    alias yis='yay -U'
+    alias yid='yay -S --asdeps'
+    alias yl='yay -Qi'
+    alias yls='yay -Qe'
+    alias ym='yay -Syy'
+    alias yc='yay -Qdt'
+    alias yr='yay -R'
+    alias yrm='yay -Rns'
+    alias yrp='yay -Si'
+    alias yup='yay -Syu'
+    function up {
+        echo ':: Updating the package list...'
+        yay -Sy && echo ':: Done!'
+        echo ':: Upgrading the system (minus the delayed packages)...'
+        yay -Su
+        echo ':: Checking if there are any delayed packages left...'
+        NEWPKGS="$(pacman -Qu)"
+        if grep -Fq '[ignored]' <<< "${NEWPKGS}"; then
+            echo ':: Found these packages:'
+            PKGLIST="$(awk '/\[ignored\]/{print $1}' <<< ${NEWPKGS})"
+            echo "${PKGLIST}"
+            read -rq 'response?:: Do you want to upgrade them? [y/N]'
+            if [[ "$response" =~ ^(y|Y)$ ]]; then
+                echo "${PKGLIST}" > /var/tmp/offline-pkgs
+                xargs -a /var/tmp/offline-pkgs yay -Sw
+                sudo touch /system-update
+                echo ':: Done. Updates will be installed at next reboot.'
+            else
+                echo ':: Aborting.'
+            fi
+        else
+            echo ':: No delayed packages found!'
+        fi
+        echo ':: All Done!'
+    }
 fi

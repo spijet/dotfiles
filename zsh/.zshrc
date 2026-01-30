@@ -64,8 +64,8 @@ fi
 
 # VTE Fixes for Termite:
  if [[ "${TERM}" =~ 'xterm-termite|alacritty' ]]; then
-   eval "$(dircolors ~/.dircolors)"
-   alias ssh="TERM=xterm ssh -C"
+     eval "$(dircolors ~/.dircolors)"
+     alias ssh="TERM=xterm ssh -C"
  fi
 
 # Unclutter PATH
@@ -76,10 +76,10 @@ autoload -Uz compinit
 setopt extendedglob
 if [[ -n "${ZDOTDIR}"/.zcompdump(#qN.mh+24) ]]; then
     echo "Cache miss!"
-	  compinit
+        compinit
     touch "${ZDOTDIR}/.zcompdump"
 else
-    compinit -C
+        compinit -C
 fi
 unsetopt extendedglob
 

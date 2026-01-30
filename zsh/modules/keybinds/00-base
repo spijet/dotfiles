@@ -3,52 +3,52 @@
 zmodload zsh/terminfo
 
 case $TERM in
-	rxvt*|xterm)
-		bindkey "^[[7~" beginning-of-line #Home key
-		bindkey "^[[8~" end-of-line #End key
-		bindkey "^[[3~" delete-char #Del key
-		bindkey "^[[A" history-beginning-search-backward #Up Arrow
-		bindkey "^[[B" history-beginning-search-forward #Down Arrow
-		bindkey "^[Oc" forward-word # control + right arrow
-		bindkey "^[Od" backward-word # control + left arrow
-		#bindkey "^H" backward-kill-word # control + backspace
-		#bindkey "^[[3^" kill-word # control + delete
-  ;;
+    rxvt*|xterm)
+        bindkey "^[[7~" beginning-of-line #Home key
+        bindkey "^[[8~" end-of-line #End key
+        bindkey "^[[3~" delete-char #Del key
+        bindkey "^[[A" history-beginning-search-backward #Up Arrow
+        bindkey "^[[B" history-beginning-search-forward #Down Arrow
+        bindkey "^[Oc" forward-word # control + right arrow
+        bindkey "^[Od" backward-word # control + left arrow
+        #bindkey "^H" backward-kill-word # control + backspace
+        #bindkey "^[[3^" kill-word # control + delete
+    ;;
 
-	xterm-termite|xterm-256color|alacritty)
-		bindkey "^[[H" beginning-of-line #Home key
-		bindkey "^[[F" end-of-line #End key
-		bindkey "^[[3~" delete-char #Del key
-		bindkey "^[Oc" forward-word # control + right arrow
-		bindkey "^[Od" backward-word # control + left arrow
-		bindkey "^[[1;5C" forward-word # control + right arrow
-		bindkey "^[[1;5D" backward-word # control + left arrow
-		bindkey "^[[1;3C" forward-word # alt + right arrow
-		bindkey "^[[1;3D" backward-word # alt + left arrow
-		#bindkey "^H" backward-kill-word # control + backspace
-		#bindkey "^[[3^" kill-word # control + delete
-	;;
+    xterm-termite|xterm-256color|alacritty)
+        bindkey "^[[H" beginning-of-line #Home key
+        bindkey "^[[F" end-of-line #End key
+        bindkey "^[[3~" delete-char #Del key
+        bindkey "^[Oc" forward-word # control + right arrow
+        bindkey "^[Od" backward-word # control + left arrow
+        bindkey "^[[1;5C" forward-word # control + right arrow
+        bindkey "^[[1;5D" backward-word # control + left arrow
+        bindkey "^[[1;3C" forward-word # alt + right arrow
+        bindkey "^[[1;3D" backward-word # alt + left arrow
+        #bindkey "^H" backward-kill-word # control + backspace
+        #bindkey "^[[3^" kill-word # control + delete
+    ;;
 
-	linux)
-		bindkey "^[[1~" beginning-of-line #Home key
-		bindkey "^[[4~" end-of-line #End key
-		bindkey "^[[3~" delete-char #Del key
-		bindkey "^[[A" history-beginning-search-backward
-		bindkey "^[[B" history-beginning-search-forward
-		bindkey "^H" backward-delete-char
-	;;
+    linux)
+        bindkey "^[[1~" beginning-of-line #Home key
+        bindkey "^[[4~" end-of-line #End key
+        bindkey "^[[3~" delete-char #Del key
+        bindkey "^[[A" history-beginning-search-backward
+        bindkey "^[[B" history-beginning-search-forward
+        bindkey "^H" backward-delete-char
+    ;;
 
-	screen|screen-*)
-		bindkey "^[[1~" beginning-of-line #Home key
-		bindkey "^[[4~" end-of-line #End key
-		bindkey "^[[3~" delete-char #Del key
-		bindkey "^[Oc" forward-word # control + right arrow
-		bindkey "^[Od" backward-word # control + left arrow
-		bindkey "^H" backward-kill-word # control + backspace
-		bindkey "^[[3^" kill-word # control + delete
+    screen|screen-*)
+        bindkey "^[[1~" beginning-of-line #Home key
+        bindkey "^[[4~" end-of-line #End key
+        bindkey "^[[3~" delete-char #Del key
+        bindkey "^[Oc" forward-word # control + right arrow
+        bindkey "^[Od" backward-word # control + left arrow
+        bindkey "^H" backward-kill-word # control + backspace
+        bindkey "^[[3^" kill-word # control + delete
     bindkey "^[OB" history-substring-search-down
     bindkey "^[OA" history-substring-search-up
-	;;
+    ;;
 esac
 
 bindkey "^[[A" history-substring-search-up
