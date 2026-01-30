@@ -49,7 +49,7 @@ fi
 # Load all the aliases:
 if [[ -d "${BASEDIR}/modules/aliases" ]]; then
     for file in ${BASEDIR}/modules/aliases/*; do
-        source "${file}"
+     [[ -f "${file}" ]] && [[ -x "${file}" ]] && source "${file}"
     done
     unset file
 fi
@@ -57,7 +57,7 @@ fi
 # Load all the extensions:
 if [[ -d "${BASEDIR}/modules/extensions" ]]; then
     for file in ${BASEDIR}/modules/extensions/*; do
-        source "${file}"
+     [[ -f "${file}" ]] && [[ -x "${file}" ]] && source "${file}"
     done
     unset file
 fi
