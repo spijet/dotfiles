@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+# Enable programmable sdb completion features.
+if [ -f ~/.sdb/.sdb-completion.bash ]; then
+    source_bash ~/.sdb/.sdb-completion.bash
+fi
