@@ -1,13 +1,15 @@
 ##### directories ######
-ncmpcpp_directory = ~/.ncmpcpp
-lyrics_directory = ~/.config/mpd/lyrics
+ncmpcpp_directory = ~/.config/ncmpcpp
+#lyrics_directory = ~/.config/mpd/lyrics
 #
 ##### connection settings #####
 #mpd_host = ~/.config/mpd/socket
-mpd_music_dir = ~/Music
+#mpd_music_dir = ~/Music
+mpd_connection_timeout = 60
 #
 ##### music visualizer #####
-visualizer_fifo_path = /tmp/mpd.fifo
+#visualizer_fifo_path = /tmp/mpd.fifo
+visualizer_fifo_path = 127.0.0.1:5555
 visualizer_output_name = Visualizer feed
 visualizer_in_stereo = no
 visualizer_sync_interval = 10
