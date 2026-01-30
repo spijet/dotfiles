@@ -11,7 +11,7 @@ function heic2xxx() {
         _format_args+=('-quality' "${1##*=}")
         shift
     fi
-    if [[ "$(uname)" == Darwin ]]; then
+    if is_macos; then
         _icc_path="/System/Library/ColorSync/Profiles/Display P3.icc"
     else
         _icc_path="/usr/share/color/icc/DisplayP3.icc"
