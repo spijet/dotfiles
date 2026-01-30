@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+function source_bash {
+    emulate -L ksh # or 'sh' for stricter POSIX
+    builtin source "$@"
+}

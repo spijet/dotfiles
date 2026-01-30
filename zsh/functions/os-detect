@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+is_linux() {
+    [[ "$(uname)" = 'Linux' ]]
+}
+
+is_macos() {
+    [[ "$(uname)" = 'Darwin' ]]
+}

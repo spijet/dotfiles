@@ -30,10 +30,18 @@ export PURE_CMD_MAX_EXEC_TIME=1
 antidote load
 autoload -Uz promptinit && promptinit && prompt pure
 
+# Load custom functions, if any.
+if [[ -d "${BASEDIR}/functions" ]]; then
+    for file in ${BASEDIR}/functions/*; do
+        [[ -f "${file}" ]] && [[ -x "${file}" ]] && source "${file}"
+    done
+    unset file
+fi
+
 # Load custom keybinds, if any.
 if [[ -d "${BASEDIR}/modules/keybinds" ]]; then
     for file in ${BASEDIR}/modules/keybinds/*; do
-        source "${file}"
+        [[ -f "${file}" ]] && [[ -x "${file}" ]] && source "${file}"
     done
     unset file
 fi
